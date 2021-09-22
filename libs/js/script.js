@@ -41,10 +41,11 @@
           
         },
         success: function(result) {					
-            let menu = [];
+            let menu = ['<option value="">(Selected a Department)</option>'];
             let menuItem = '';                                             
             result['data'].forEach(element => {
-                menuItem =  `<a value="${element['id']}" class="dropdown-item">${element['name']}</a>`;
+                menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
+               
                 menu.push(menuItem);
              })
              $('#departmentMenu').html(menu);
@@ -53,7 +54,7 @@
             console.log('Open all countries on load call failed ' + errorThrown);
         }
     }); 
-    
+    //Get locations and add to dropdown menu in desktop  
     $.ajax({
         url: "libs/php/getAllLocations.php",
         type: 'POST',
@@ -62,10 +63,10 @@
           
         },
         success: function(result) {					
-            let menu = [];
+            let menu = ['<option value="">(Selected a Location)</option>'];
             let menuItem = '';                                             
             result['data'].forEach(element => {
-                menuItem =  `<a value="${element['id']}" class="dropdown-item">${element['name']}</a>`;
+                menuItem = `<option value=${element['id']}>${element['name']}</option>`;
                 menu.push(menuItem);
              })
              $('#locationMenu').html(menu);
@@ -74,3 +75,12 @@
             console.log('Open all countries on load call failed ' + errorThrown);
         }
     }); 	
+
+//Select Menu function for location in desktop
+    $('#departmentMenu').change(function(){
+        alert('I am a lert dept : ' + $("#departmentMenu").val());
+    });  
+//Select Menu function for location in desktop
+    $('#locationMenu').change(function(){
+        alert('I am a lert dept : ' + $("#locationMenu").val());
+    });
