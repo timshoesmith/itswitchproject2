@@ -160,18 +160,40 @@
         $(document).ready(function() {
             $("#search").keyup(function() {
                 var searchText = $(this).val();
-                if(searchText!='') {
-                    $.ajax({
-                        url:'libs/php/action.php',
-                        method: 'post',
-                        data: {query:searchText},
-                        success: function(response) {
-                            $('#show-list').html(response);
+                if(searchText!='') {              
+
+                $.ajax({
+                    url: "libs/php/searchPersonnel.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        searchCharacters:  searchText
+                    },
+                    success: function(result) {	
+                           console.log(result['data']);
+                           console.log(searchText);
+                            let row = '';
+                            let results = [];
+                           if( result['data'].length > 0) {
+                               result['data'].forEach(row => {
+                                row = "<a href='#' class='list-group-item list-group-item-action border-1'>" + row['lastName'] + "</a>"
+                                results.push(row);
+                            })
                         }
-                    });
+                        else {
+                            row = "<p class='list-group-item border-1'>No Record</p>";
+                            results.push(row);
+                        }     
+
+                        $('#show-list').html(results);
+                
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Get pesonel by department ID call failed ' + errorThrown);
                 }
-                else {
-                    $("show-list").html('');
+                
+            }); 
+
                 }
             });
             $(document).on('click', 'a', function() {

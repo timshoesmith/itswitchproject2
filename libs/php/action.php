@@ -17,7 +17,7 @@ if(isset($_POST['query'])) {
     else {
         echo "<p class='list-group-item border-1'>No REcord</p>";
     }
-}
+};
 
 
 
