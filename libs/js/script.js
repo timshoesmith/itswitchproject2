@@ -13,12 +13,16 @@
                     let row = "";
                 
                     result['data'].forEach(element => {
-                    row =   `<tr><td>${element['firstName']}</td>
+                    row =   `<tr>
+                                <td>${element['id']}</td>
+                                <td>${element['firstName']}</td>
                                 <td>${element['lastName']}</td>
                                 <td>${element['jobTitle']}</td>
                                 <td>${element['email']}</td>
                                 <td>${element['department']}</td>
-                                <td>${element['location']}</tr>`
+                                <td>${element['location']}</td>
+                                <td><button>Edit</button></td>
+                                </tr>`
                                 contacts.push(row);
                     
                     })
@@ -159,48 +163,50 @@
 //Search By Name
         $(document).ready(function() {
             $("#search").keyup(function() {
-                var searchText = $(this).val();
-                if(searchText!='') {              
-
-                $.ajax({
-                    url: "libs/php/searchPersonnel.php",
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        searchCharacters:  searchText
-                    },
-                    success: function(result) {	
-                           console.log(result['data']);
-                           console.log(searchText);
-                            let row = '';
-                            let results = [];
-                           if( result['data'].length > 0) {
-                               result['data'].forEach(row => {
-                                row = "<a href='#' class='list-group-item list-group-item-action border-1'>" + row['lastName'] + "</a>"
-                                results.push(row);
-                            })
+                var searchCharacters = $(this).val();
+                if(searchCharacters!='') {
+                    console.log(searchCharacters)
+                   
+                   
+                   
+                   
+                    $.ajax({
+                        url:'libs/php/searchPersonnel.php',
+                        method: 'post',
+                        data: {
+                            searchCharacters: searchCharacters
+                        },
+                        success: function(result) {
+                            let contacts = [];
+                            let row = "";
+                
+                        result['data'].forEach(element => {
+                        row =   `<tr>
+                                    <td>${element['id']}</td>
+                                    <td>${element['firstName']}</td>
+                                    <td>${element['lastName']}</td>
+                                    <td>${element['jobTitle']}</td>
+                                    <td>${element['email']}</td>
+                                    <td>${element['department']}</td>
+                                    <td>${element['location']}</td>
+                                    <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
+                                    </tr>`
+                                    contacts.push(row);
+                        
+                        });
+                    $('#allContacts').html(contacts);
+                          
                         }
-                        else {
-                            row = "<p class='list-group-item border-1'>No Record</p>";
-                            results.push(row);
-                        }     
-
-                        $('#show-list').html(results);
-                
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('Get pesonel by department ID call failed ' + errorThrown);
+                    });
                 }
-                
-            }); 
-
-                }
+               
             });
-            $(document).on('click', 'a', function() {
-                $("#search").val($(this).text());
-                $('#show-list').html('');
-            })
+          
         });
+
+        function getPersonelRecord(id) {
+            alert(id);
+        }
 
 
 

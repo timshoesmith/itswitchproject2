@@ -37,7 +37,7 @@
     
     
     $theRequest = $_REQUEST['searchCharacters'] . "%";
-	$query = $conn->prepare("SELECT lastName FROM personnel WHERE lastName LIKE  ?" );
+	$query = $conn->prepare("SELECT id, firstName, lastName, email FROM personnel WHERE lastName LIKE  ?" );
 
 	$query->bind_param("s", $theRequest);
 
