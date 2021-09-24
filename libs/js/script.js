@@ -86,49 +86,7 @@ function setUp() {
 //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
-                let row = "Im a row";
-                let departmentName = "";
-                let locationID = 1;
-                let locationName = "";
-
-
-                        // //Get departments id  
-                        // $.ajax({
-                        //     url: "libs/php/getDepartmentByID.php",
-                        //     type: 'POST',
-                        //     dataType: 'json',
-                        //     data: {
-                        //     id : $("#departmentMenu").val()
-                        //     },
-                        //     success: function(result) {	
-                        //         departmentName = result['data'][0]['name'];
-                        //         locationID = result['data'][0]['locationID'];
-                        //             //Get location id  
-                        // // $.ajax({
-                        // //     url: "libs/php/getLocationByID.php",
-                        // //     type: 'POST',
-                        // //     dataType: 'json',
-                        // //     data: {
-                        // //     id : locationID
-                        // //     },
-                        // //     success: function(result) {	
-                            
-                        // //         locationName = result['data'][0]['name'];
-                        // //         console.log(locationName)
-                                            
-                            
-                        // //     },
-                        // //     error: function(jqXHR, textStatus, errorThrown) {
-                        // //         console.log('Open Location by ID on load call failed ' + errorThrown);
-                        // //     }
-                        // // }); 	
-                            
-                        //     },
-                        //     error: function(jqXHR, textStatus, errorThrown) {
-                        //         console.log('Open Department by ID on load call failed ' + errorThrown);
-                        //     }
-                        // }); 
-                        
+                let row = "Im a row";                      
                         //Get personel by dept id dropdown menu in desktop  
                     $.ajax({
                         url: "libs/php/getPersonelByDept.php",
@@ -160,10 +118,41 @@ function setUp() {
                     
                 }); 
         });  
-//Select Menu function for location in desktop
+//Select Menu function for location in desktop   
         $('#locationMenu').change(function(){
-            alert('I am a lert dept : ' + $("#locationMenu").val());     
-        });
+            let contacts = [];
+            let row = "Im a row";                      
+                    //Get personel by location id dropdown menu in desktop  
+                $.ajax({
+                    url: "libs/php/getPersonelByLocation.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: $("#locationMenu").val()
+                    },
+                    success: function(result) {	      
+                result['data'].forEach(element => {
+                            row =                                   
+                            `<tr>
+                            <td>${element['id']}</td>
+                            <td>${element['firstName']}</td>
+                            <td>${element['lastName']}</td>
+                            <td>${element['jobTitle']}</td>
+                            <td>${element['email']}</td>
+                            <td>${element['department']}</td>
+                            <td>${element['location']}<td>
+                            <button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
+                            </tr>`;
+                            contacts.push(row);                                                          
+                    })
+                    $('#allContacts').html(contacts);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Get pesonel by location ID call failed ' + errorThrown);
+                }
+                
+            }); 
+    });  
 //Search By Name
         $(document).ready(function() {
             //set up database
@@ -215,7 +204,6 @@ function setUp() {
                     id: id
                 },
                 success: function(result) {
-                    console.log(result)
                     $('#modalTitle').html('Employee Details');
                     $('#modalDetails').html(
                          `<tr><th>Info</th><th>Info</th></tr>
@@ -290,8 +278,7 @@ function setUp() {
             data: {
             
             },
-            success: function(result) {	
-                console.log(result)				
+            success: function(result) {			
                 let locations = [];
                 let row = '';                                             
                 result['data'].forEach(element => {
