@@ -1,3 +1,6 @@
+
+//Function sets up all database
+function setUp() {
 //Get All Contacts
         $.ajax({
             url: "libs/php/getAll.php",
@@ -80,7 +83,16 @@
                 console.log('Open all countries on load call failed ' + errorThrown);
             }
         }); 	
-//Select Menu function for department in desktop
+
+    }
+
+
+
+
+
+
+
+        //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
                 let row = "Im a row";
@@ -173,6 +185,9 @@
 
 //Search By Name
         $(document).ready(function() {
+
+            //set up database
+            setUp();
             $("#search").keyup(function() {
                 var searchCharacters = $(this).val();
                 if(searchCharacters!='') {
@@ -188,6 +203,7 @@
                             searchCharacters: searchCharacters
                         },
                         success: function(result) {
+                          
                             let contacts = [];
                             let row = "";
                 
@@ -205,10 +221,15 @@
                                     contacts.push(row);
                         
                         });
-                    $('#allContacts').html(contacts);
-                          
-                        }
+                                 $('#allContacts').html(contacts);
+                            }
+                        
                     });
+                
+            }
+            //go back to full database
+            else {                 
+                setUp();
                 }
                
             });
@@ -268,6 +289,21 @@
             });
             $("#personDetailsModal").modal('show');
         }
+        //pulls up full database when modal is closed and resets the value
+        $('#personDetailsModal').on('hidden.bs.modal', function () {          
+            $('#search').val('Search By Name...');
+           
+            var plcehldr = "enter text...";    
+            $( "#search" ).focusin(function() {
+              $(this).removeAttr("value");
+            });
+            
+            $( "#search" ).focusout(function() {
+               $(this).attr("value",plcehldr);
+            });
+           
+            setUp();
+          });
 
 
 
