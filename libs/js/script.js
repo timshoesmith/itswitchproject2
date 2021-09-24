@@ -21,7 +21,7 @@
                                 <td>${element['email']}</td>
                                 <td>${element['department']}</td>
                                 <td>${element['location']}</td>
-                                <td><button>Edit</button></td>
+                                <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                                 </tr>`
                                 contacts.push(row);
                     
@@ -138,12 +138,23 @@
                                             
                     result['data'].forEach(element => {
 
-                                row =   `<tr><td>${element['firstName']}</td>
+                                row =   
+                                
+                                `<tr>
+                                <td>${element['id']}</td>
+                                <td>${element['firstName']}</td>
                                 <td>${element['lastName']}</td>
                                 <td>${element['jobTitle']}</td>
                                 <td>${element['email']}</td>
                                 <td>${departmentName}</td>
-                                <td>${locationName}</tr>`;
+                                <td>${locationName}
+                                <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
+                                </tr>`;
+
+
+
+
+
                                 contacts.push(row);                           
                                 
                         })
@@ -205,7 +216,57 @@
         });
 
         function getPersonelRecord(id) {
-            alert(id);
+            $.ajax({
+                url:'libs/php/searchPersonnel.php',
+                method: 'post',
+                data: {
+                    searchCharacters: searchCharacters
+                },
+                success: function(result) {
+                    let contacts = [];
+                    let row = "";
+        
+                result['data'].forEach(element => {
+                row =   `<tr>
+                            <td>${element['id']}</td>
+                            <td>${element['firstName']}</td>
+                            <td>${element['lastName']}</td>
+                            <td>${element['jobTitle']}</td>
+                            <td>${element['email']}</td>
+                            <td>${element['department']}</td>
+                            <td>${element['location']}</td>
+                            <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
+                            </tr>`
+                            contacts.push(row);
+                
+                });
+            $('#allContacts').html(contacts);
+                  
+                }
+            });
+        }
+
+//function opens the modal and populates the persons data
+        function getPersonelRecord(id) {
+            $.ajax({
+                url:'libs/php/getPersonByID.php',
+                method: 'post',
+                data: {
+                    id: id
+                },
+                success: function(result) {
+                   $('#modalID').html(result['data'][0]['id']);
+                   $('#modalFirstName').html(result['data'][0]['firstName']);
+                   $('#modalLastName').html(result['data'][0]['lastName']);
+                   $('#modalJobTitle').html(result['data'][0]['jobTitle']);
+                   $('#modalEmail').html(result['data'][0]['email']);
+                   $('#modalDepartment').html(result['data'][0]['department']);
+                   $('#modalLocation').html(result['data'][0]['location']);
+                 
+                  
+                }
+            });
+            $("#personDetailsModal").modal('show');
         }
 
 

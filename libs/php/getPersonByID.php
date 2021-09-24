@@ -36,39 +36,47 @@
 
 	$query = 'SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) ORDER BY p.lastName, p.firstName, d.name, l.name';
 
+	$query = $conn->prepare('SELECT id, lastName, firstName, email  FROM personnel WHERE id =  ?');
+
+	$query->bind_param("i", $_REQUEST['id']);
+
+	$query->execute();
 	
 	
-	if (!$result) {
+	if (false === $query) {
 
 		$output['status']['code'] = "400";
 		$output['status']['name'] = "executed";
 		$output['status']['description'] = "query failed";	
 		$output['data'] = [];
 
-		mysqli_close($conn);
-
 		echo json_encode($output); 
-
+	
+		mysqli_close($conn);
 		exit;
 
 	}
-   
-   	$data = [];
 
-	while ($row = mysqli_fetch_assoc($result)) {
+		$result = $query->get_result();
 
-		array_push($data, $row);
+		$data = [];
 
-	}
+		while ($row = mysqli_fetch_assoc($result)) {
 
-	$output['status']['code'] = "200";
-	$output['status']['name'] = "ok";
-	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-	$output['data'] = $data;
-	
-	mysqli_close($conn);
+			array_push($data, $row);
 
-	echo json_encode($output); 
+		}
+
+		$output['status']['code'] = "200";
+		$output['status']['name'] = "ok";
+		$output['status']['description'] = "success";
+		$output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+		$output['data'] = $data;
+
+		header('Content-Type: application/json; charset=UTF-8');
+		
+		echo json_encode($output); 
+
+		mysqli_close($conn);
 
 ?>
