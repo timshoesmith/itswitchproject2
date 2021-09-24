@@ -1,6 +1,9 @@
 
 //Function sets up all database
 function setUp() {
+
+//Set place holder in search field
+    $('#search').val('Search By Name...');
 //Get All Contacts
         $.ajax({
             url: "libs/php/getAll.php",
@@ -83,16 +86,9 @@ function setUp() {
                 console.log('Open all countries on load call failed ' + errorThrown);
             }
         }); 	
-
     }
 
-
-
-
-
-
-
-        //Select Menu function for department in desktop
+//Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
                 let row = "Im a row";
@@ -191,11 +187,7 @@ function setUp() {
             $("#search").keyup(function() {
                 var searchCharacters = $(this).val();
                 if(searchCharacters!='') {
-                    console.log(searchCharacters)
-                   
-                   
-                   
-                   
+                    console.log(searchCharacters)                  
                     $.ajax({
                         url:'libs/php/searchPersonnel.php',
                         method: 'post',
@@ -222,50 +214,16 @@ function setUp() {
                         
                         });
                                  $('#allContacts').html(contacts);
-                            }
-                        
-                    });
-                
+                            }                       
+                    });              
             }
             //go back to full database
             else {                 
                 setUp();
-                }
-               
-            });
-          
+                }             
+            });        
         });
-
-        function getPersonelRecord(id) {
-            $.ajax({
-                url:'libs/php/searchPersonnel.php',
-                method: 'post',
-                data: {
-                    searchCharacters: searchCharacters
-                },
-                success: function(result) {
-                    let contacts = [];
-                    let row = "";
-        
-                result['data'].forEach(element => {
-                row =   `<tr>
-                            <td>${element['id']}</td>
-                            <td>${element['firstName']}</td>
-                            <td>${element['lastName']}</td>
-                            <td>${element['jobTitle']}</td>
-                            <td>${element['email']}</td>
-                            <td>${element['department']}</td>
-                            <td>${element['location']}</td>
-                            <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
-                            </tr>`
-                            contacts.push(row);
-                
-                });
-            $('#allContacts').html(contacts);
-                  
-                }
-            });
-        }
+   
 
 //function opens the modal and populates the persons data
         function getPersonelRecord(id) {
@@ -276,37 +234,85 @@ function setUp() {
                     id: id
                 },
                 success: function(result) {
-                   $('#modalID').html(result['data'][0]['id']);
-                   $('#modalFirstName').html(result['data'][0]['firstName']);
-                   $('#modalLastName').html(result['data'][0]['lastName']);
-                   $('#modalJobTitle').html(result['data'][0]['jobTitle']);
-                   $('#modalEmail').html(result['data'][0]['email']);
-                   $('#modalDepartment').html(result['data'][0]['department']);
-                   $('#modalLocation').html(result['data'][0]['location']);
-                 
-                  
+                    $('#modalTitle').html('Employee Details');
+                    $('#modalDetails').html(
+                         `<tr><th>Info</th><th>Info</th></tr>
+                    <tr><td>ID</td><td>${result['data'][0]['id']}</td></tr>
+                    <tr><td>FirstName</td><td>${result['data'][0]['firstName']}</td></tr>
+                    <tr><td>lastName</td><td>${result['data'][0]['lastName']}</td></tr>
+                    <tr><td>email</td><td>${result['data'][0]['email']}</td></tr>
+                    <tr><td>Department</td><td>${result['data'][0]['department']}</td></tr>
+                    <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
                 }
             });
-            $("#personDetailsModal").modal('show');
+            // $('#addButton').css('display', 'none');
+            $("#detailsModal").modal('show');
         }
-        //pulls up full database when modal is closed and resets the value
-        $('#personDetailsModal').on('hidden.bs.modal', function () {          
-            $('#search').val('Search By Name...');
-           
-            var plcehldr = "enter text...";    
-            $( "#search" ).focusin(function() {
-              $(this).removeAttr("value");
+//function opens the modal and lists departments
+
+
+
+
+          //Get departments and display in modal in desktop
+          function showAllDepartments() {
+        $.ajax({
+            url: "libs/php/getAllDepartments.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            success: function(result) {					
+                let departments = [];
+                let row = "";
+    
+            result['data'].forEach(element => {
+                row =   `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`
+                departments.push(row);
             });
+                    $('#modalDetails').html(departments);
+                    $("#detailsModal").modal('show');
+                   
+
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Open all departments failed on load call failed ' + errorThrown);
+            }
+        }); 
+       
+    }
+//Get locations and show in modal in desktop  
+        function showAllLocations() { 
+        $.ajax({
+            url: "libs/php/getAllLocations.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
             
-            $( "#search" ).focusout(function() {
-               $(this).attr("value",plcehldr);
-            });
-           
+            },
+            success: function(result) {	
+                console.log(result)				
+                let locations = [];
+                let row = '';                                             
+                result['data'].forEach(element => {
+                    row = `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`;
+                    locations.push(row);
+                })
+                $('#modalDetails').html(locations);
+                $("#detailsModal").modal('show');
+
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Open all locations failed on load call failed ' + errorThrown);
+            }
+        }); 
+    }	
+
+//pulls up full database when modal is closed and resets the value
+        $('#detailsModal').on('hidden.bs.modal', function () {
             setUp();
-          });
-
-
-
+        });
 
 
 
