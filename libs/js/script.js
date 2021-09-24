@@ -1,7 +1,5 @@
-
 //Function sets up all database
 function setUp() {
-
 //Set place holder in search field
     $('#search').val('Search By Name...');
 //Get All Contacts
@@ -39,9 +37,7 @@ function setUp() {
                 console.log('Open all countries on load call failed ' + errorThrown);
             }
         }); 	
-
 //Get departments and add to dropdown menu in desktop
-
         $.ajax({
             url: "libs/php/getAllDepartments.php",
             type: 'POST',
@@ -87,7 +83,6 @@ function setUp() {
             }
         }); 	
     }
-
 //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
@@ -97,42 +92,42 @@ function setUp() {
                 let locationName = "";
 
 
-                        //Get departments id  
-                        $.ajax({
-                            url: "libs/php/getDepartmentByID.php",
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {
-                            id : $("#departmentMenu").val()
-                            },
-                            success: function(result) {	
-                                departmentName = result['data'][0]['name'];
-                                locationID = result['data'][0]['locationID'];
-                                    //Get location id  
-                        $.ajax({
-                            url: "libs/php/getLocationByID.php",
-                            type: 'POST',
-                            dataType: 'json',
-                            data: {
-                            id : locationID
-                            },
-                            success: function(result) {	
+                        // //Get departments id  
+                        // $.ajax({
+                        //     url: "libs/php/getDepartmentByID.php",
+                        //     type: 'POST',
+                        //     dataType: 'json',
+                        //     data: {
+                        //     id : $("#departmentMenu").val()
+                        //     },
+                        //     success: function(result) {	
+                        //         departmentName = result['data'][0]['name'];
+                        //         locationID = result['data'][0]['locationID'];
+                        //             //Get location id  
+                        // // $.ajax({
+                        // //     url: "libs/php/getLocationByID.php",
+                        // //     type: 'POST',
+                        // //     dataType: 'json',
+                        // //     data: {
+                        // //     id : locationID
+                        // //     },
+                        // //     success: function(result) {	
                             
-                                locationName = result['data'][0]['name'];
-                                console.log(locationName)
+                        // //         locationName = result['data'][0]['name'];
+                        // //         console.log(locationName)
                                             
                             
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log('Open Location by ID on load call failed ' + errorThrown);
-                            }
-                        }); 	
+                        // //     },
+                        // //     error: function(jqXHR, textStatus, errorThrown) {
+                        // //         console.log('Open Location by ID on load call failed ' + errorThrown);
+                        // //     }
+                        // // }); 	
                             
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                                console.log('Open Department by ID on load call failed ' + errorThrown);
-                            }
-                        }); 
+                        //     },
+                        //     error: function(jqXHR, textStatus, errorThrown) {
+                        //         console.log('Open Department by ID on load call failed ' + errorThrown);
+                        //     }
+                        // }); 
                         
                         //Get personel by dept id dropdown menu in desktop  
                     $.ajax({
@@ -142,29 +137,20 @@ function setUp() {
                         data: {
                             id: $("#departmentMenu").val()
                         },
-                        success: function(result) {	
-                                            
+                        success: function(result) {	      
                     result['data'].forEach(element => {
-
-                                row =   
-                                
+                                row =                                   
                                 `<tr>
                                 <td>${element['id']}</td>
                                 <td>${element['firstName']}</td>
                                 <td>${element['lastName']}</td>
                                 <td>${element['jobTitle']}</td>
                                 <td>${element['email']}</td>
-                                <td>${departmentName}</td>
-                                <td>${locationName}
-                                <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
+                                <td>${element['department']}</td>
+                                <td>${element['location']}<td>
+                                <button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                                 </tr>`;
-
-
-
-
-
-                                contacts.push(row);                           
-                                
+                                contacts.push(row);                                                          
                         })
                         $('#allContacts').html(contacts);
                     },
@@ -178,16 +164,13 @@ function setUp() {
         $('#locationMenu').change(function(){
             alert('I am a lert dept : ' + $("#locationMenu").val());     
         });
-
 //Search By Name
         $(document).ready(function() {
-
             //set up database
             setUp();
             $("#search").keyup(function() {
                 var searchCharacters = $(this).val();
-                if(searchCharacters!='') {
-                    console.log(searchCharacters)                  
+                if(searchCharacters!='') {                
                     $.ajax({
                         url:'libs/php/searchPersonnel.php',
                         method: 'post',
@@ -223,8 +206,6 @@ function setUp() {
                 }             
             });        
         });
-   
-
 //function opens the modal and populates the persons data
         function getPersonelRecord(id) {
             $.ajax({
@@ -234,6 +215,7 @@ function setUp() {
                     id: id
                 },
                 success: function(result) {
+                    console.log(result)
                     $('#modalTitle').html('Employee Details');
                     $('#modalDetails').html(
                          `<tr><th>Info</th><th>Info</th></tr>
@@ -244,25 +226,23 @@ function setUp() {
                     <tr><td>Department</td><td>${result['data'][0]['department']}</td></tr>
                     <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
                 }
-            });
-            // $('#addButton').css('display', 'none');
-            $("#detailsModal").modal('show');
-            //Add on clicks to buttons          
-            $("#addButton").prop("onclick", null).off("click");
-            $("#addButton").click(function(){
-                alert("add Button Person");
-            });
-              $("#updateButton").prop("onclick", null).off("click");
-              $("#updateButton").click(function(){
-            alert("update Button Person");
-              });
-            $("#deleteButton").prop("onclick", null).off("click");
-            $("#deleteButton").click(function(){
-                alert("delete Button Person");
-              });
-        }
-
-       
+                    });
+                    // $('#addButton').css('display', 'none');
+                    $("#detailsModal").modal('show');
+                    //Add on clicks to buttons          
+                    $("#addButton").prop("onclick", null).off("click");
+                    $("#addButton").click(function(){
+                        alert("add Button Person");
+                    });
+                    $("#updateButton").prop("onclick", null).off("click");
+                    $("#updateButton").click(function(){
+                    alert("update Button Person");
+                    });
+                    $("#deleteButton").prop("onclick", null).off("click");
+                    $("#deleteButton").click(function(){
+                        alert("delete Button Person");
+                    });
+                }
 //Get departments and display in modal in desktop
           function showAllDepartments() {
         $.ajax({
