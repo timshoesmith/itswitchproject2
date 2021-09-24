@@ -247,13 +247,23 @@ function setUp() {
             });
             // $('#addButton').css('display', 'none');
             $("#detailsModal").modal('show');
+            //Add on clicks to buttons          
+            $("#addButton").prop("onclick", null).off("click");
+            $("#addButton").click(function(){
+                alert("add Button Person");
+            });
+              $("#updateButton").prop("onclick", null).off("click");
+              $("#updateButton").click(function(){
+            alert("update Button Person");
+              });
+            $("#deleteButton").prop("onclick", null).off("click");
+            $("#deleteButton").click(function(){
+                alert("delete Button Person");
+              });
         }
-//function opens the modal and lists departments
 
-
-
-
-          //Get departments and display in modal in desktop
+       
+//Get departments and display in modal in desktop
           function showAllDepartments() {
         $.ajax({
             url: "libs/php/getAllDepartments.php",
@@ -271,16 +281,26 @@ function setUp() {
             });
                     $('#modalDetails').html(departments);
                     $("#detailsModal").modal('show');
-                   
-
-
+                    //Add on clicks to buttons          
+                    $("#addButton").prop("onclick", null).off("click");
+                    $("#addButton").click(function(){
+                        alert("add Button Department");
+                    });
+                    $("#updateButton").prop("onclick", null).off("click");
+                    $("#updateButton").click(function(){
+                    alert("update Button Department");
+                    });
+                    $("#deleteButton").prop("onclick", null).off("click");
+                    $("#deleteButton").click(function(){
+                        alert("delete Button Department");
+                    });
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all departments failed on load call failed ' + errorThrown);
             }
-        }); 
-       
+        });       
     }
+  
 //Get locations and show in modal in desktop  
         function showAllLocations() { 
         $.ajax({
@@ -300,7 +320,19 @@ function setUp() {
                 })
                 $('#modalDetails').html(locations);
                 $("#detailsModal").modal('show');
-
+                //Add on clicks to buttons          
+                $("#addButton").prop("onclick", null).off("click");
+                $("#addButton").click(function(){
+                    alert("add Button Location");
+                });
+                $("#updateButton").prop("onclick", null).off("click");
+                $("#updateButton").click(function(){
+                    alert("update Button Location");
+                });
+                $("#deleteButton").prop("onclick", null).off("click");
+                $("#deleteButton").click(function(){
+                    alert("delete Button Location");
+                });
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
