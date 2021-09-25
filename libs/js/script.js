@@ -283,7 +283,7 @@ function setUp() {
                 let locations = [];
                 let row = '';                                             
                 result['data'].forEach(element => {
-                    row = `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`;
+                    row = `<tr onClick="showLocation(this)"><td>${element['id']}</td><td>${element['name']}</td></tr>`;
                     locations.push(row);
                 })
                 $('#modalTitle').html('Locations');
@@ -309,6 +309,43 @@ function setUp() {
             }
         }); 
     }	
+
+
+        function showLocation(x) {
+            
+            // showAllLocations(x.rowIndex);
+
+            $.ajax({
+                url: "libs/php/getLocationByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: x.rowIndex
+                },
+                success: function(result) {			
+                   console.log(result['data']);
+                   $('#updateModalTitle').html('Update Location');
+                   let form =
+                   `<form>
+                       <label for="fname">Location Index:</label><br>
+                       <input type="text" id="fname" name="fname" value="${result['data'][0]['id']}"><br>
+                       <label for="lname">Last name:</label><br>
+                       <input type="text" id="lname" name="lname" value="${result['data'][0]['name']}">
+                   </form>`
+                   $('#updateModalBody').html(form);
+                   $("#updateModal").modal('show');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Open all locations failed on load call failed ' + errorThrown);
+                }
+            }); 
+
+
+
+
+
+
+        }
 
 //pulls up full database when modal is closed and resets the value
         $('#detailsModal').on('hidden.bs.modal', function () {
