@@ -268,8 +268,7 @@ function setUp() {
                 console.log('Open all departments failed on load call failed ' + errorThrown);
             }
         });       
-    }
-  
+    } 
 //Get locations and show in modal in desktop  
         function showAllLocations() { 
         $.ajax({
@@ -310,11 +309,8 @@ function setUp() {
         }); 
     }	
 
-
+//Show single location fo update
         function showLocation(x) {
-            
-            // showAllLocations(x.rowIndex);
-
             $.ajax({
                 url: "libs/php/getLocationByID.php",
                 type: 'POST',
@@ -326,12 +322,10 @@ function setUp() {
                    console.log(result['data']);
                    $('#updateModalTitle').html('Update Location');
                    let form =
-                   `<form>
-                       <label for="fname">Location Index:</label><br>
-                       <input type="text" id="fname" name="fname" value="${result['data'][0]['id']}"><br>
-                       <label for="lname">Last name:</label><br>
-                       <input type="text" id="lname" name="lname" value="${result['data'][0]['name']}">
-                   </form>`
+                   `<h2>ID<h2>
+                       <input type="text" id="locationID" name="locationID" value="${result['data'][0]['id']}"><br>
+                    <hs>Name<h2>
+                       <input type="text" id="locationName" name="LocationName" value="${result['data'][0]['name']}">`
                    $('#updateModalBody').html(form);
                    $("#updateModal").modal('show');
                 },
