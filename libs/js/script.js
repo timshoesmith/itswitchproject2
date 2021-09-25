@@ -247,6 +247,7 @@ function setUp() {
                 row =   `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`
                 departments.push(row);
             });
+                    $('#modalTitle').html('Departments');
                     $('#modalDetails').html(departments);
                     $("#detailsModal").modal('show');
                     //Add on clicks to buttons          
@@ -285,6 +286,7 @@ function setUp() {
                     row = `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`;
                     locations.push(row);
                 })
+                $('#modalTitle').html('Locations');
                 $('#modalDetails').html(locations);
                 $("#detailsModal").modal('show');
                 //Add on clicks to buttons          
@@ -294,7 +296,7 @@ function setUp() {
                 });
                 $("#updateButton").prop("onclick", null).off("click");
                 $("#updateButton").click(function(){
-                    alert("update Button Location");
+                    $("#locationUpdateModal").modal('show');
                 });
                 $("#deleteButton").prop("onclick", null).off("click");
                 $("#deleteButton").click(function(){
