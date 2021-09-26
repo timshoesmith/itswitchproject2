@@ -17,7 +17,7 @@ function setUp() {
                     let row = "";
                 
                     result['data'].forEach(element => {
-                    row =   `<tr>
+                    row =   `<tr onClick=getPersonelRecord(${element['id']})>
                                 <td>${element['id']}</td>
                                 <td>${element['firstName']}</td>
                                 <td>${element['lastName']}</td>
@@ -25,7 +25,6 @@ function setUp() {
                                 <td>${element['email']}</td>
                                 <td>${element['department']}</td>
                                 <td>${element['location']}</td>
-                                <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                                 </tr>`
                                 contacts.push(row);
                     
@@ -101,7 +100,7 @@ function setUp() {
                         success: function(result) {	      
                     result['data'].forEach(element => {
                                 row =                                   
-                                `<tr>
+                                `<tr onClick=getPersonelRecord(${element['id']})>
                                 <td>${element['id']}</td>
                                 <td>${element['firstName']}</td>
                                 <td>${element['lastName']}</td>
@@ -109,7 +108,6 @@ function setUp() {
                                 <td>${element['email']}</td>
                                 <td>${element['department']}</td>
                                 <td>${element['location']}<td>
-                                <button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                                 </tr>`;
                                 contacts.push(row);                                                          
                         })
@@ -136,7 +134,7 @@ function setUp() {
                     success: function(result) {	      
                 result['data'].forEach(element => {
                             row =                                   
-                            `<tr>
+                            `<tr onClick=getPersonelRecord(${element['id']})>
                             <td>${element['id']}</td>
                             <td>${element['firstName']}</td>
                             <td>${element['lastName']}</td>
@@ -144,7 +142,6 @@ function setUp() {
                             <td>${element['email']}</td>
                             <td>${element['department']}</td>
                             <td>${element['location']}<td>
-                            <button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                             </tr>`;
                             contacts.push(row);                                                          
                     })
@@ -175,7 +172,7 @@ function setUp() {
                             let row = "";
                 
                         result['data'].forEach(element => {
-                        row =   `<tr>
+                        row =   `<tr onClick=getPersonelRecord(${element['id']})>
                                     <td>${element['id']}</td>
                                     <td>${element['firstName']}</td>
                                     <td>${element['lastName']}</td>
@@ -183,7 +180,6 @@ function setUp() {
                                     <td>${element['email']}</td>
                                     <td>${element['department']}</td>
                                     <td>${element['location']}</td>
-                                    <td><button onClick=getPersonelRecord(${element['id']})>Edit</button></td>
                                     </tr>`
                                     contacts.push(row);
                         
