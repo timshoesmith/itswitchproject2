@@ -203,7 +203,7 @@ function setUp() {
 //PERSONNEL CODE START///////////////////////////////////////////////////
 
 
-        //function opens the modal and populates the persons data
+    //function opens the modal and populates the persons data
         function getPersonelRecord(id) {
             $.ajax({
                 url:'libs/php/getPersonByID.php',
@@ -224,6 +224,8 @@ function setUp() {
                 }
                     });
                     $('#updateButton').show();
+                    $('#addButton').show();
+                    $('#deleteButton').show();
                     $('#detailsModalInstructions').hide();
                     $("#detailsModal").modal('show');
                     //Add on clicks to buttons          
@@ -233,7 +235,7 @@ function setUp() {
                     });
                     $("#updateButton").prop("onclick", null).off("click");
                     $("#updateButton").click(function(){
-                    alert("update Button Person");
+                    editPersonelRecord(id)
                     });
                     $("#deleteButton").prop("onclick", null).off("click");
                     $("#deleteButton").click(function(){
@@ -241,7 +243,90 @@ function setUp() {
                     });
                }
 
-//PERSONNEL CODE ENDS///////////////////////////////////////////////////
+//function opens the modal with input data fields ready for edit
+function editPersonelRecord(id) {
+    $.ajax({
+        url:'libs/php/getPersonByID.php',
+        method: 'post',
+        data: {
+            id: id
+        },
+        success: function(result) {
+            $('#detailsModal').hide();
+            $('#updateModalTitle').html('Edit Employee Details');
+            $('#updateModalDetails').html(
+                 `<tr><th>Info</th><th>Info</th></tr>
+            <tr><td>ID</td><td>${result['data'][0]['id']}</td></tr>
+            <tr><td>FirstName</td><td><input type="text" id="updatePersonnelFirstName" value="${result['data'][0]['firstName']}"</td></tr>
+            <tr><td>lastName</td><td><input type="text" id="updatePersonnelLastName" value="${result['data'][0]['lastName']}"></td></tr>
+            <tr><td>email</td><td><input type="text" id="updatePersonnelEmail" value="${result['data'][0]['email']}"></td></tr>
+            <tr><td>Department</td><td><input type="text" id="updatePersonnelDepartment" value="${result['data'][0]['department']}"></td></tr>
+            <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
+            }
+            });
+          
+            let modalFooter =        
+                `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                              
+             $('#updateModalFooter').html(modalFooter);         
+             $("#updateModal").modal('show');
+             $("#saveUpdateModal").click(function(){
+                updatePersonnel(id, $("#updatePersonnelFirstName").val());
+                $('#updateModal').modal('hide');
+                $('#detailsModal').show();
+                getPersonelRecord(id);                      
+        });
+            
+           
+           
+       }
+
+
+//update Personnel function
+function updatePersonnel(id,firstName) {
+    console.log
+    $.ajax({
+        url: "libs/php/updatePersonnel.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            firstName: firstName
+        },
+        success: function(result) {			                  
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Update locations failed on load call failed ' + errorThrown);
+        }
+    }); 
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               //PERSONNEL CODE ENDS///////////////////////////////////////////////////
 //DEPARTMENT CODE START///////////////////////////////////////////////////
 //Get departments and display in modal in desktop
     function showAllDepartments() {
