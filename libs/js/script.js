@@ -363,6 +363,7 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
             });
             $('#detailsModalInstructions').show();
                     $('#detailsModalInstructions').html('Click Department to edit');
+                    $('#deleteButton').hide();
                     $('#updateButton').hide();
                     $('#modalTitle').html('Departments');
                     $('#modalDetails').html(departments);
@@ -370,7 +371,7 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
                     //Add on clicks to buttons          
                     $("#addButton").prop("onclick", null).off("click");
                     $("#addButton").click(function(){
-                        alert("add Button Department");
+                        showAddDepartmentModal();
                     });
                     $("#updateButton").prop("onclick", null).off("click");
                     $("#updateButton").click(function(){
@@ -405,13 +406,19 @@ function showDepartment(x) {
                 $('#updateModalDetails').html(form);
                             
             let modalFooter = 
-                `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                `<button type="button" class="btn btn-outline-warning" id="deleteDepartmentButton">Delete</button>
+                <button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
                  $('#updateModalFooter').html(modalFooter);                  
             
             $("#updateModal").modal('show');
             $("#saveUpdateModal").click(function(){
                 updateDepartment(result['data'][0]['id'], $("#updateDepartmentName").val());
+                $('#updateModal').modal('hide');
+                showAllDepartments();                      
+            });
+            $("#deleteDepartmentButton").click(function(){
+                deleteDepartment(result['data'][0]['id']);
                 $('#updateModal').modal('hide');
                 showAllDepartments();                      
             });
@@ -439,6 +446,95 @@ function updateDepartment(id,department) {
         }
     }); 
 };
+
+
+
+
+
+
+
+
+
+
+// Add Department code////////////////////////////
+function addDepartment(newDepartment) { 
+    console.log(newDepartment)
+        $.ajax({
+            url: "libs/php/addDepartment.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                newDepartment: newDepartment
+            },
+            success: function(result) {			                 
+             console.log(result)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('add department failed on load call failed ' + errorThrown);
+            }
+        }); 
+}
+
+function showAddDepartmentModal() {
+    $('#updateModalTitle').html('Update Department');
+                let form =
+                    `
+                    <td><input type="text" id="addDepartmentName"></td>`                  
+                    $('#updateModalDetails').html(form);
+                                
+                let modalFooter = 
+                    `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                     $('#updateModalFooter').html(modalFooter);                  
+                
+                $("#updateModal").modal('show');
+                $("#saveUpdateModal").click(function(){
+                    addDepartment( $("#addDepartmentName").val());
+                    $('#updateModal').modal('hide');
+                    showAllDepartments();                      
+                });
+        
+            }
+        
+//Delete department code
+
+function deleteDepartment(id) {
+    $.ajax({
+        url: "libs/php/deleteDepartmentByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+            id: id
+        },
+        success: function(result) {	
+          
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Delete department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //DEPARTMENT CODE END///////////////////////////////////////////////////
@@ -587,7 +683,7 @@ function showAddLocationModal() {
         
             }
         
- //Delete location code
+//Delete location code
 
 function deleteLocation(id) {
     $.ajax({
@@ -607,22 +703,6 @@ function deleteLocation(id) {
 } 
          
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //LOCATION CODE END////////////////////////////////////////////////////////
 
 
@@ -631,17 +711,3 @@ function deleteLocation(id) {
         $('#detailsModal').on('hidden.bs.modal', function () {
             setUp();
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
