@@ -183,7 +183,12 @@ function setUp() {
                         
                         });
                                  $('#allContacts').html(contacts);
-                            }                       
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.log('search personel  call failed ' + errorThrown);
+                            } 
+                            
+                            
                     });              
             }
             //go back to full database
@@ -214,28 +219,54 @@ function setUp() {
                     <tr><td>Job Title</td><td>${result['data'][0]['jobTitle']}</td></tr>
                     <tr><td>email</td><td>${result['data'][0]['email']}</td></tr>
                     <tr><td>Department</td><td>${result['data'][0]['department']}</td></tr>
-                    <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
-                }
-                    });
+                    <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);
+                    
                     $('#updateButton').show();
-                    $('#addButton').show();
+                    $('#addButton').hide();
                     $('#deleteButton').show();
                     $('#detailsModalInstructions').hide();
                     $("#detailsModal").modal('show');
                     //Add on clicks to buttons          
-                    $("#addButton").prop("onclick", null).off("click");
-                    $("#addButton").click(function(){
-                        alert("add Button Person");
-                    });
+                   
                     $("#updateButton").prop("onclick", null).off("click");
                     $("#updateButton").click(function(){
                     editPersonelRecord(id)
                     });
                     $("#deleteButton").prop("onclick", null).off("click");
                     $("#deleteButton").click(function(){
-                        alert("delete Button Person");
+                        deletePersonel(id);
+                        $("#detailsModal").modal('hide');
                     });
-               }
+                        $('#updateButton').show();
+                        $('#addButton').show();
+                        $('#deleteButton').show();
+                        $('#detailsModalInstructions').hide();
+                        $("#detailsModal").modal('show');
+                        //Add on clicks to buttons          
+                        $("#addButton").prop("onclick", null).off("click");
+                        $("#addButton").click(function(){
+                            alert("add Button Person");
+                        });
+                        $("#updateButton").prop("onclick", null).off("click");
+                        $("#updateButton").click(function(){
+                        editPersonelRecord(id)
+                        });
+                        $("#deleteButton").prop("onclick", null).off("click");
+                        $("#deleteButton").click(function(){
+                            deletePersonel(id);                          
+                        });
+                },
+
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('get personel failed on load call failed ' + errorThrown);
+                }
+
+
+
+                
+                   
+                    });
+        }
 
 //<select id="departmentMenu" class="form-control" data-role="select-dropdown"></select>
 
@@ -286,7 +317,11 @@ function editPersonelRecord(id) {
             <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);  
             
             addDropDownToPersonnelUpdate(result['data'][0]['department'])           
-        }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('edit personel failed on load call failed ' + errorThrown);
+            }
+
             });
           
             let modalFooter =        
@@ -306,15 +341,15 @@ function editPersonelRecord(id) {
                 $('#updateModal').modal('hide');
                 $('#detailsModal').show();
                 getPersonelRecord(id);                      
-        });
+                });
             
             $("#closeUpdateModal").click(function(){          
                 $('#updateModal').modal('hide');
                 $('#detailsModal').show();
                 getPersonelRecord(id);                      
-        });
+                });
            
-       }
+            }
 
 
 //update Personnel function
@@ -343,7 +378,94 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 
 
 
-               //PERSONNEL CODE ENDS///////////////////////////////////////////////////
+
+//ADD Personel///////////////////////////////////////////////////////////
+
+//Add Personel Code/////////////////////////////
+function addPersonel(newFirstName, newLastName, newJobTitle, newEmail) { 
+    console.log(newFirstName)
+        $.ajax({
+            url: "libs/php/addPersonel.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                newFirstName: newFirstName,
+                newLastName: newLastName,
+                newJobTitle: newJobTitle,
+                newEmail: newEmail
+            },
+            success: function(result) {			                 
+             console.log(result)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Add personel failed on load call failed ' + errorThrown);
+            }
+        }); 
+}
+
+function showAddPersonelModal() {
+    $('#updateModalTitle').html('Add Personel');
+                let form =
+                   `<tr><th>Info</th><th>Info</th></tr>
+                    <tr><td>ID</td><td></td></tr>
+                    <tr><td>FirstName</td><td><input type="text" id="addPersonelFirstName"></td></tr>
+                    <tr><td>FirstName</td><td><input type="text" id="addPersonelLastName"></td></tr>
+                    <tr><td>FirstName</td><td><input type="text" id="addPersonelJobTitle"></td></tr>
+                    <tr><td>FirstName</td><td><input type="text" id="addPersonelEmail"></td></tr>`                  
+                    $('#updateModalDetails').html(form);
+                                
+                let modalFooter = 
+                    `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                     $('#updateModalFooter').html(modalFooter);                  
+                
+                $("#updateModal").modal('show');
+                $("#saveUpdateModal").click(function(){
+                    addPersonel( $("#addPersonelFirstName").val(), $("#addPersonelLastName").val(), $("#addPersonelJobTitle").val(), $("#addPersonelEmail").val());
+                    $('#updateModal').modal('hide');
+                    setUp();                      
+                });
+        
+            }
+        
+//Delete Personel code
+
+function deletePersonel(id) {
+    $.ajax({
+        url: "libs/php/deletePersonelByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+            id: id
+        },
+        success: function(result) {	
+          
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //PERSONNEL CODE ENDS///////////////////////////////////////////////////
 //DEPARTMENT CODE START///////////////////////////////////////////////////
 //Get departments and display in modal in desktop
     function showAllDepartments() {
@@ -446,15 +568,6 @@ function updateDepartment(id,department) {
         }
     }); 
 };
-
-
-
-
-
-
-
-
-
 
 // Add Department code////////////////////////////
 function addDepartment(newDepartment) { 
