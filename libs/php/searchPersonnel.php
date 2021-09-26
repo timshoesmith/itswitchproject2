@@ -37,7 +37,13 @@
     
     
     $theRequest = $_REQUEST['searchCharacters'] . "%";
-	$query = $conn->prepare("SELECT id, firstName, lastName, email FROM personnel WHERE lastName LIKE  ?" );
+	
+	
+	$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE p.lastName LIKE  ? ORDER BY p.lastName, p.firstName, d.name, l.name');
+	
+	
+	//$query = $conn->prepare("SELECT id, firstName, lastName, email FROM personnel WHERE lastName LIKE  ?" );
+	//$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l WHERE (l.id = d.locationID) WHERE lastName LIKE  ? ORDER BY p.lastName, p.firstName, d.name, l.name');
 
 	$query->bind_param("s", $theRequest);
 
