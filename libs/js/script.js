@@ -83,6 +83,9 @@ function setUp() {
             }
         }); 	
     }
+
+
+
 //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
@@ -244,6 +247,43 @@ function setUp() {
                     });
                }
 
+
+
+
+
+//<select id="departmentMenu" class="form-control" data-role="select-dropdown"></select>
+
+function addDropDownToPersonnelUpdate(department) {
+                $.ajax({
+                    url: "libs/php/getAllDepartments.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                    
+                    },
+                    success: function(result) {					
+                        let menu = ['<option value="">' + department + '</option>'];
+                        let menuItem = '';                                             
+                        result['data'].forEach(element => {
+                            menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
+                        
+                            menu.push(menuItem);
+                        })
+                        $('#updateDeptDropDown').html(menu);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('Open all countries on load call failed ' + errorThrown);
+                    }
+                }); 
+};
+
+
+
+
+
+
+
+               
 //function opens the modal with input data fields ready for edit
 function editPersonelRecord(id) {
     $.ajax({
@@ -253,6 +293,9 @@ function editPersonelRecord(id) {
             id: id
         },
         success: function(result) {
+
+
+          
             $('#detailsModal').hide();
             $('#updateModalTitle').html('Edit Employee Details');
             $('#updateModalDetails').html(
@@ -262,9 +305,20 @@ function editPersonelRecord(id) {
             <tr><td>lastName</td><td><input type="text" id="updatePersonnelLastName" value="${result['data'][0]['lastName']}"></td></tr>
             <tr><td>Job Title</td><td><input type="text" id="updatePersonnelJobTitle" value="${result['data'][0]['jobTitle']}"></td></tr>
             <tr><td>email</td><td><input type="text" id="updatePersonnelEmail" value="${result['data'][0]['email']}"></td></tr>
-            <tr><td>Department</td><td><input type="text" id="updatePersonnelDepartment" value="${result['data'][0]['department']}"></td></tr>
-            <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
-            }
+            
+            
+            
+            <tr><td>Department</td><td><div class="form-group"> <select id="updateDeptDropDown" class="form-control" data-role="select-dropdown"></select></div></td><tr>
+            
+            
+            
+            
+            
+            <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);  
+            
+            addDropDownToPersonnelUpdate(result['data'][0]['department'])
+            
+        }
             });
           
             let modalFooter =        
@@ -398,7 +452,8 @@ function showDepartment(x) {
             id: x
         },
         success: function(result) {	
-            console.log(result)		                 
+            console.log(result)	
+            $('#updateModalTitle').show();	                 
            $('#updateModalTitle').html('Update Department');
             let form =
                 `<td>${result['data'][0]['id']}</td>
@@ -462,6 +517,7 @@ function updateDepartment(id,department) {
                     locations.push(row);
                 });
                 $('#updateButton').hide();
+                $('#detailsModalInstructions').show();
                 $('#detailsModalInstructions').html('Click Location to edit');
                 $('#modalTitle').html('Locations');
                 $('#modalDetails').html(locations);
