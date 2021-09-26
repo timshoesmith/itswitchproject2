@@ -277,13 +277,7 @@ function addDropDownToPersonnelUpdate(department) {
                 }); 
 };
 
-
-
-
-
-
-
-               
+             
 //function opens the modal with input data fields ready for edit
 function editPersonelRecord(id) {
     $.ajax({
@@ -292,10 +286,7 @@ function editPersonelRecord(id) {
         data: {
             id: id
         },
-        success: function(result) {
-
-
-          
+        success: function(result) {         
             $('#detailsModal').hide();
             $('#updateModalTitle').html('Edit Employee Details');
             $('#updateModalDetails').html(
@@ -304,20 +295,11 @@ function editPersonelRecord(id) {
             <tr><td>FirstName</td><td><input type="text" id="updatePersonnelFirstName" value="${result['data'][0]['firstName']}"</td></tr>
             <tr><td>lastName</td><td><input type="text" id="updatePersonnelLastName" value="${result['data'][0]['lastName']}"></td></tr>
             <tr><td>Job Title</td><td><input type="text" id="updatePersonnelJobTitle" value="${result['data'][0]['jobTitle']}"></td></tr>
-            <tr><td>email</td><td><input type="text" id="updatePersonnelEmail" value="${result['data'][0]['email']}"></td></tr>
-            
-            
-            
-            <tr><td>Department</td><td><div class="form-group"> <select id="updateDeptDropDown" class="form-control" data-role="select-dropdown"></select></div></td><tr>
-            
-            
-            
-            
-            
+            <tr><td>email</td><td><input type="text" id="updatePersonnelEmail" value="${result['data'][0]['email']}"></td></tr>           
+            <tr><td>Department</td><td><div class="form-group"> <select id="updateDeptDropDown" class="form-control" data-role="select-dropdown"></select></div></td><tr>           
             <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);  
             
-            addDropDownToPersonnelUpdate(result['data'][0]['department'])
-            
+            addDropDownToPersonnelUpdate(result['data'][0]['department'])           
         }
             });
           
@@ -331,11 +313,9 @@ function editPersonelRecord(id) {
                         $("#updatePersonnelFirstName").val(),
                         $("#updatePersonnelLastName").val(),
                         $("#updatePersonnelJobTitle").val(),
-                        $("#updatePersonnelEmail").val()
+                        $("#updatePersonnelEmail").val(),
+                        $("#updateDeptDropDown option:selected").val()
                         );
-                
-                
-                
                 
                 $('#updateModal').modal('hide');
                 $('#detailsModal').show();
@@ -352,7 +332,7 @@ function editPersonelRecord(id) {
 
 
 //update Personnel function
-function updatePersonnel(id, firstName, lastName, jobTitle, email) {
+function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID) {
     console.log
     $.ajax({
         url: "libs/php/updatePersonnel.php",
@@ -363,7 +343,8 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email) {
             firstName: firstName,
             lastName: lastName,
             jobTitle: jobTitle,
-            email: email
+            email: email,
+            departmentID: departmentID
 
         },
         success: function(result) {			                  
@@ -373,29 +354,6 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email) {
         }
     }); 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
