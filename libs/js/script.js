@@ -230,9 +230,12 @@ function setUp() {
                     $("#deleteButton").click(function(){
                         alert("delete Button Person");
                     });
-                }
+               }
+
+
+//DEPARTMENT CODE START///////////////////////////////////////////////////
 //Get departments and display in modal in desktop
-          function showAllDepartments() {
+    function showAllDepartments() {
         $.ajax({
             url: "libs/php/getAllDepartments.php",
             type: 'POST',
@@ -244,7 +247,7 @@ function setUp() {
                 let row = "";
     
             result['data'].forEach(element => {
-                row =   `<tr><td>${element['id']}</td><td>${element['name']}</td></tr>`
+                row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`
                 departments.push(row);
             });
                     $('#modalTitle').html('Departments');
@@ -269,7 +272,86 @@ function setUp() {
             }
         });       
     } 
-//Get locations and show in modal in desktop  
+
+//Show single department to update
+function showDepartment(x) {
+    $.ajax({
+        url: "libs/php/getDepartmentByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+            id: x
+        },
+        success: function(result) {	
+            console.log(result)		                 
+           $('#updateModalTitle').html('Update Department');
+            let form =
+                `<td>${result['data'][0]['id']}</td>
+                <td><input type="text" id="updateDepartmentName" value="${result['data'][0]['name']}"></td>`                  
+                $('#updateModalDetails').html(form);
+                            
+            let modalFooter = 
+                `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                 $('#updateModalFooter').html(modalFooter);                  
+            
+            $("#updateModal").modal('show');
+            $("#saveUpdateModal").click(function(){
+                updateDepartment(result['data'][0]['id'], $("#updateDepartmentName").val());
+                $('#updateModal').modal('hide');
+                showAllDepartments();                      
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+//update department function
+function updateDepartment(id,department) {
+    console.log
+    $.ajax({
+        url: "libs/php/updateDepartment.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            department: department
+        },
+        success: function(result) {			                  
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Update locations failed on load call failed ' + errorThrown);
+        }
+    }); 
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//DEPARTMENT CODE END///////////////////////////////////////////////////
+//LOCATION CODE START///////////////////////////////////////////////////
+
+    //Get locations and show in modal in desktop  
         function showAllLocations() { 
         $.ajax({
             url: "libs/php/getAllLocations.php",
@@ -282,7 +364,7 @@ function setUp() {
                 let locations = [];
                 let row = '';                                             
                 result['data'].forEach(element => {
-                    row = `<tr onClick="showLocation(this)"><td>${element['id']}</td><td>${element['name']}</td></tr>`;
+                    row = `<tr onClick="showLocation(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`;
                     locations.push(row);
                 })
                 $('#modalTitle').html('Locations');
@@ -293,10 +375,10 @@ function setUp() {
                 $("#addButton").click(function(){
                     alert("add Button Location");
                 });
-                $("#updateButton").prop("onclick", null).off("click");
-                $("#updateButton").click(function(){
-                    $("#locationUpdateModal").modal('show');
-                });
+                // $("#updateButton").prop("onclick", null).off("click");
+                // $("#updateButton").click(function(){
+                //     $("#locationUpdateModal").modal('show');
+                // });
                 $("#deleteButton").prop("onclick", null).off("click");
                 $("#deleteButton").click(function(){
                     alert("delete Button Location");
@@ -309,37 +391,62 @@ function setUp() {
         }); 
     }	
 
-//Show single location fo update
+//Show single location to update
         function showLocation(x) {
             $.ajax({
                 url: "libs/php/getLocationByID.php",
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    id: x.rowIndex
+                    id: x
                 },
-                success: function(result) {			
-                   console.log(result['data']);
+                success: function(result) {			                 
                    $('#updateModalTitle').html('Update Location');
-                   let form =
-                   `<h2>ID<h2>
-                       <input type="text" id="locationID" name="locationID" value="${result['data'][0]['id']}"><br>
-                    <hs>Name<h2>
-                       <input type="text" id="locationName" name="LocationName" value="${result['data'][0]['name']}">`
-                   $('#updateModalBody').html(form);
-                   $("#updateModal").modal('show');
+                    let form =
+                        `<td>${result['data'][0]['id']}</td>
+                        <td><input type="text" id="updateLocationName" value="${result['data'][0]['name']}"></td>`                  
+                        $('#updateModalDetails').html(form);
+                                    
+                    let modalFooter = 
+                        `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                         $('#updateModalFooter').html(modalFooter);                  
+                    
+                    $("#updateModal").modal('show');
+                    $("#saveUpdateModal").click(function(){
+                        updateLocation(result['data'][0]['id'], $("#updateLocationName").val());
+                        $('#updateModal').modal('hide');
+                        showAllLocations();                      
+                    });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all locations failed on load call failed ' + errorThrown);
                 }
             }); 
-
-
-
-
-
-
         }
+//update location function
+            function updateLocation(id,location) {
+                console.log
+                $.ajax({
+                    url: "libs/php/updateLocation.php",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        location: location
+                    },
+                    success: function(result) {			                  
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log('Update locations failed on load call failed ' + errorThrown);
+                    }
+                }); 
+            };
+        
+
+//LOCATION CODE END////////////////////////////////////////////////////////
+
+
 
 //pulls up full database when modal is closed and resets the value
         $('#detailsModal').on('hidden.bs.modal', function () {
