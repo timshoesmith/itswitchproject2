@@ -375,6 +375,7 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
                 row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`
                 departments.push(row);
             });
+            $('#detailsModalInstructions').show();
                     $('#detailsModalInstructions').html('Click Department to edit');
                     $('#updateButton').hide();
                     $('#modalTitle').html('Departments');
@@ -398,7 +399,7 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
                 console.log('Open all departments failed on load call failed ' + errorThrown);
             }
         });       
-    } 
+    }; 
 
 //Show single department to update
 function showDepartment(x) {
@@ -410,7 +411,6 @@ function showDepartment(x) {
             id: x
         },
         success: function(result) {	
-            console.log(result)	
             $('#updateModalTitle').show();	                 
            $('#updateModalTitle').html('Update Department');
             let form =
