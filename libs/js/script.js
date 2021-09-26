@@ -218,6 +218,7 @@ function setUp() {
                     <tr><td>ID</td><td>${result['data'][0]['id']}</td></tr>
                     <tr><td>FirstName</td><td>${result['data'][0]['firstName']}</td></tr>
                     <tr><td>lastName</td><td>${result['data'][0]['lastName']}</td></tr>
+                    <tr><td>Job Title</td><td>${result['data'][0]['jobTitle']}</td></tr>
                     <tr><td>email</td><td>${result['data'][0]['email']}</td></tr>
                     <tr><td>Department</td><td>${result['data'][0]['department']}</td></tr>
                     <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
@@ -259,6 +260,7 @@ function editPersonelRecord(id) {
             <tr><td>ID</td><td>${result['data'][0]['id']}</td></tr>
             <tr><td>FirstName</td><td><input type="text" id="updatePersonnelFirstName" value="${result['data'][0]['firstName']}"</td></tr>
             <tr><td>lastName</td><td><input type="text" id="updatePersonnelLastName" value="${result['data'][0]['lastName']}"></td></tr>
+            <tr><td>Job Title</td><td><input type="text" id="updatePersonnelJobTitle" value="${result['data'][0]['jobTitle']}"></td></tr>
             <tr><td>email</td><td><input type="text" id="updatePersonnelEmail" value="${result['data'][0]['email']}"></td></tr>
             <tr><td>Department</td><td><input type="text" id="updatePersonnelDepartment" value="${result['data'][0]['department']}"></td></tr>
             <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
@@ -267,23 +269,36 @@ function editPersonelRecord(id) {
           
             let modalFooter =        
                 `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                              
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeUpdateModal">Close</button>`;                              
              $('#updateModalFooter').html(modalFooter);         
              $("#updateModal").modal('show');
              $("#saveUpdateModal").click(function(){
-                updatePersonnel(id, $("#updatePersonnelFirstName").val());
+                updatePersonnel(id, 
+                        $("#updatePersonnelFirstName").val(),
+                        $("#updatePersonnelLastName").val(),
+                        $("#updatePersonnelJobTitle").val(),
+                        $("#updatePersonnelEmail").val()
+                        );
+                
+                
+                
+                
                 $('#updateModal').modal('hide');
                 $('#detailsModal').show();
                 getPersonelRecord(id);                      
         });
             
-           
+            $("#closeUpdateModal").click(function(){          
+                $('#updateModal').modal('hide');
+                $('#detailsModal').show();
+                getPersonelRecord(id);                      
+        });
            
        }
 
 
 //update Personnel function
-function updatePersonnel(id,firstName) {
+function updatePersonnel(id, firstName, lastName, jobTitle, email) {
     console.log
     $.ajax({
         url: "libs/php/updatePersonnel.php",
@@ -291,7 +306,11 @@ function updatePersonnel(id,firstName) {
         dataType: 'json',
         data: {
             id: id,
-            firstName: firstName
+            firstName: firstName,
+            lastName: lastName,
+            jobTitle: jobTitle,
+            email: email
+
         },
         success: function(result) {			                  
         },
