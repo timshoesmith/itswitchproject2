@@ -195,7 +195,15 @@ function setUp() {
                 }             
             });        
         });
-//function opens the modal and populates the persons data
+
+
+
+
+
+//PERSONNEL CODE START///////////////////////////////////////////////////
+
+
+        //function opens the modal and populates the persons data
         function getPersonelRecord(id) {
             $.ajax({
                 url:'libs/php/getPersonByID.php',
@@ -215,7 +223,8 @@ function setUp() {
                     <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);                    
                 }
                     });
-                    // $('#addButton').css('display', 'none');
+                    $('#updateButton').show();
+                    $('#detailsModalInstructions').hide();
                     $("#detailsModal").modal('show');
                     //Add on clicks to buttons          
                     $("#addButton").prop("onclick", null).off("click");
@@ -232,7 +241,7 @@ function setUp() {
                     });
                }
 
-
+//PERSONNEL CODE ENDS///////////////////////////////////////////////////
 //DEPARTMENT CODE START///////////////////////////////////////////////////
 //Get departments and display in modal in desktop
     function showAllDepartments() {
@@ -250,6 +259,8 @@ function setUp() {
                 row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`
                 departments.push(row);
             });
+                    $('#detailsModalInstructions').html('Click Department to edit');
+                    $('#updateButton').hide();
                     $('#modalTitle').html('Departments');
                     $('#modalDetails').html(departments);
                     $("#detailsModal").modal('show');
@@ -327,27 +338,6 @@ function updateDepartment(id,department) {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //DEPARTMENT CODE END///////////////////////////////////////////////////
 //LOCATION CODE START///////////////////////////////////////////////////
 
@@ -366,7 +356,9 @@ function updateDepartment(id,department) {
                 result['data'].forEach(element => {
                     row = `<tr onClick="showLocation(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`;
                     locations.push(row);
-                })
+                });
+                $('#updateButton').hide();
+                $('#detailsModalInstructions').html('Click Location to edit');
                 $('#modalTitle').html('Locations');
                 $('#modalDetails').html(locations);
                 $("#detailsModal").modal('show');
@@ -443,7 +435,6 @@ function updateDepartment(id,department) {
                 }); 
             };
         
-
 //LOCATION CODE END////////////////////////////////////////////////////////
 
 
