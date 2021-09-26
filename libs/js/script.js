@@ -83,8 +83,6 @@ function setUp() {
         }); 	
     }
 
-
-
 //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
@@ -195,10 +193,6 @@ function setUp() {
             });        
         });
 
-
-
-
-
 //PERSONNEL CODE START///////////////////////////////////////////////////
 
 
@@ -242,10 +236,6 @@ function setUp() {
                         alert("delete Button Person");
                     });
                }
-
-
-
-
 
 //<select id="departmentMenu" class="form-control" data-role="select-dropdown"></select>
 
@@ -471,7 +461,8 @@ function updateDepartment(id,department) {
                     locations.push(row);
                 });
                 $('#updateButton').hide();
-                $('#detailsModalInstructions').show();
+                $('#deleteButton').hide();
+                $('#detailsModalInstructions').show();              
                 $('#detailsModalInstructions').html('Click Location to edit');
                 $('#modalTitle').html('Locations');
                 $('#modalDetails').html(locations);
@@ -479,16 +470,13 @@ function updateDepartment(id,department) {
                 //Add on clicks to buttons          
                 $("#addButton").prop("onclick", null).off("click");
                 $("#addButton").click(function(){
-                    alert("add Button Location");
+                    showAddLocationModal();
                 });
                 // $("#updateButton").prop("onclick", null).off("click");
                 // $("#updateButton").click(function(){
                 //     $("#locationUpdateModal").modal('show');
                 // });
-                $("#deleteButton").prop("onclick", null).off("click");
-                $("#deleteButton").click(function(){
-                    alert("delete Button Location");
-                });
+               
 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -514,16 +502,24 @@ function updateDepartment(id,department) {
                         $('#updateModalDetails').html(form);
                                     
                     let modalFooter = 
-                        `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                        `<button type="button" class="btn btn-outline-warning" id="deleteLocationButton">Delete</button>
+                         <button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                         
                          $('#updateModalFooter').html(modalFooter);                  
                     
-                    $("#updateModal").modal('show');
-                    $("#saveUpdateModal").click(function(){
+                        $("#updateModal").modal('show');
+                        $("#saveUpdateModal").click(function(){
                         updateLocation(result['data'][0]['id'], $("#updateLocationName").val());
                         $('#updateModal').modal('hide');
                         showAllLocations();                      
-                    });
+                         });
+                       
+                        $("#deleteLocationButton").click(function(){
+                            deleteLocation(result['data'][0]['id']);  
+                            $('#updateModal').modal('hide');
+                            showAllLocations();                                  
+                        });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all locations failed on load call failed ' + errorThrown);
@@ -548,7 +544,85 @@ function updateDepartment(id,department) {
                     }
                 }); 
             };
+
+//Location UPDATE Code////////////////////////////////
+
+//Add Location Code/////////////////////////////
+function addLocation(newLocation) { 
+    console.log(newLocation)
+        $.ajax({
+            url: "libs/php/addLocation.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                newLocation: newLocation
+            },
+            success: function(result) {			                 
+             console.log(result)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Open all locations failed on load call failed ' + errorThrown);
+            }
+        }); 
+}
+
+function showAddLocationModal() {
+    $('#updateModalTitle').html('Update Location');
+                let form =
+                    `
+                    <td><input type="text" id="addLocationName"></td>`                  
+                    $('#updateModalDetails').html(form);
+                                
+                let modalFooter = 
+                    `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
+                     $('#updateModalFooter').html(modalFooter);                  
+                
+                $("#updateModal").modal('show');
+                $("#saveUpdateModal").click(function(){
+                    addLocation( $("#addLocationName").val());
+                    $('#updateModal').modal('hide');
+                    showAllLocations();                      
+                });
         
+            }
+        
+ //Delete location code
+
+function deleteLocation(id) {
+    $.ajax({
+        url: "libs/php/deleteLocationByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+            id: id
+        },
+        success: function(result) {	
+          
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+} 
+         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //LOCATION CODE END////////////////////////////////////////////////////////
 
 
