@@ -39,9 +39,9 @@
 	//$query = $conn->prepare('INSERT INTO personnel (newFirstName, newLastName, newJobTitle, newEmail) VALUES (?, ?, ?, ?)');
 	
 	
-	$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email) VALUES (?, ?, ?, ?)');
+	$query = $conn->prepare('INSERT INTO personnel (firstName, lastName, jobTitle, email, departmentID) VALUES (?, ?, ?, ?, ?)');
 	
-	$query->bind_param("ssss", $_REQUEST['newFirstName'], $_REQUEST['newLastName'], $_REQUEST['newJobTitle'], $_REQUEST['newEmail']);
+	$query->bind_param("ssssi", $_REQUEST['newFirstName'], $_REQUEST['newLastName'], $_REQUEST['newJobTitle'], $_REQUEST['newEmail'], $_REQUEST['newDepartment']);
 	
 	
 	

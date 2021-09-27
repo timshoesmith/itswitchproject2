@@ -316,7 +316,7 @@ function editPersonelRecord(id) {
             <tr><td>Department</td><td><div class="form-group"> <select id="updateDeptDropDown" class="form-control" data-role="select-dropdown"></select></div></td><tr>           
             <tr><td>Location</td><td>${result['data'][0]['location']}</td></tr>`);  
             
-            addDropDownToPersonnelUpdate(result['data'][0]['department'])           
+            addDropDownToPersonnelUpdate(result['data'][0]['department']);           
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('edit personel failed on load call failed ' + errorThrown);
@@ -329,6 +329,7 @@ function editPersonelRecord(id) {
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeUpdateModal">Close</button>`;                              
              $('#updateModalFooter').html(modalFooter);         
              $("#updateModal").modal('show');
+             console.log( $("#updateDeptDropDown option:selected").val())
              $("#saveUpdateModal").click(function(){
                 updatePersonnel(id, 
                         $("#updatePersonnelFirstName").val(),
@@ -382,8 +383,9 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 //ADD Personel///////////////////////////////////////////////////////////
 
 //Add Personel Code/////////////////////////////
-function addPersonel(newFirstName, newLastName, newJobTitle, newEmail) { 
+function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepartment) { 
     console.log(newFirstName)
+    console.log(newDepartment)
         $.ajax({
             url: "libs/php/addPersonel.php",
             type: 'POST',
@@ -392,7 +394,8 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail) {
                 newFirstName: newFirstName,
                 newLastName: newLastName,
                 newJobTitle: newJobTitle,
-                newEmail: newEmail
+                newEmail: newEmail,
+                newDepartment: newDepartment
             },
             success: function(result) {			                 
              console.log(result)
@@ -408,20 +411,21 @@ function showAddPersonelModal() {
                 let form =
                    `<tr><th>Info</th><th>Info</th></tr>
                     <tr><td>ID</td><td></td></tr>
-                    <tr><td>FirstName</td><td><input type="text" id="addPersonelFirstName"></td></tr>
-                    <tr><td>FirstName</td><td><input type="text" id="addPersonelLastName"></td></tr>
-                    <tr><td>FirstName</td><td><input type="text" id="addPersonelJobTitle"></td></tr>
-                    <tr><td>FirstName</td><td><input type="text" id="addPersonelEmail"></td></tr>`                  
+                    <tr><td>First Name</td><td><input type="text" id="addPersonelFirstName"></td></tr>
+                    <tr><td>Last Name</td><td><input type="text" id="addPersonelLastName"></td></tr>
+                    <tr><td>Job Title</td><td><input type="text" id="addPersonelJobTitle"></td></tr>
+                    <tr><td>Email</td><td><input type="text" id="addPersonelEmail"></td></tr>
+                    <tr><td>Department</td><td><div class="form-group"> <select id="updateDeptDropDown" class="form-control" data-role="select-dropdown"></select></div></td><tr>`                  
                     $('#updateModalDetails').html(form);
-                                
+                    addDropDownToPersonnelUpdate("Select Department");          
                 let modalFooter = 
                     `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
                      $('#updateModalFooter').html(modalFooter);                  
-                
+                console.log($("#updateDeptDropDown option:selected").val());
                 $("#updateModal").modal('show');
                 $("#saveUpdateModal").click(function(){
-                    addPersonel( $("#addPersonelFirstName").val(), $("#addPersonelLastName").val(), $("#addPersonelJobTitle").val(), $("#addPersonelEmail").val());
+                    addPersonel( $("#addPersonelFirstName").val(), $("#addPersonelLastName").val(), $("#addPersonelJobTitle").val(), $("#addPersonelEmail").val(),  $("#updateDeptDropDown option:selected").val());
                     $('#updateModal').modal('hide');
                     setUp();                      
                 });
