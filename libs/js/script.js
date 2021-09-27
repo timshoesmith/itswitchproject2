@@ -83,6 +83,8 @@ function setUp() {
         }); 	
     }
 
+
+
 //Select Menu function for department in desktop
         $('#departmentMenu').change(function(){
                 let contacts = [];
@@ -232,29 +234,47 @@ function setUp() {
                     $("#updateButton").click(function(){
                     editPersonelRecord(id)
                     });
+                    //delete button and confirmation modal
                     $("#deleteButton").prop("onclick", null).off("click");
                     $("#deleteButton").click(function(){
-                        deletePersonel(id);
-                        $("#detailsModal").modal('hide');
+                        $('#titleConfirmationModal').html("Delete Personel");
+                        $('#bodyConfirmationModal').html("Are you Sure You Want to Delete");
+                        $('#confirmationActionButton').html("Delete");
+                        $("#confirmationModal").modal('show'); 
+                        
+                        $("#confirmationActionButton").prop("onclick", null).off("click");
+                        $("#confirmationActionButton").click(function(){
+                            deletePersonel(id);
+                            $("#confirmationModal").modal('hide');
+                            $("#detailsModal").modal('hide');
+                        });
+                        
+                        // deletePersonel(id);
+                        // $("#detailsModal").modal('hide');
                     });
-                        $('#updateButton').show();
-                        $('#addButton').show();
-                        $('#deleteButton').show();
-                        $('#detailsModalInstructions').hide();
-                        $("#detailsModal").modal('show');
-                        //Add on clicks to buttons          
-                        $("#addButton").prop("onclick", null).off("click");
-                        $("#addButton").click(function(){
-                            alert("add Button Person");
-                        });
-                        $("#updateButton").prop("onclick", null).off("click");
-                        $("#updateButton").click(function(){
-                        editPersonelRecord(id)
-                        });
-                        $("#deleteButton").prop("onclick", null).off("click");
-                        $("#deleteButton").click(function(){
-                            deletePersonel(id);                          
-                        });
+                        // $('#updateButton').show();
+                        // $('#addButton').show();
+                        // $('#deleteButton').show();
+                        // $('#detailsModalInstructions').hide();
+                        // $("#detailsModal").modal('show');
+                        // //Add on clicks to buttons          
+                        // $("#addButton").prop("onclick", null).off("click");
+                        // $("#addButton").click(function(){
+                        //     alert("add Button Person");
+                        // });
+                        // $("#updateButton").prop("onclick", null).off("click");
+                        // $("#updateButton").click(function(){
+                        // editPersonelRecord(id)
+                        // });
+                        // $("#deleteButton").prop("onclick", null).off("click");
+                        // $("#deleteButton").click(function(){
+                          
+
+                        //         //deletePersonel(id);
+                               
+                                
+                                                      
+                        // });
                 },
 
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -491,6 +511,8 @@ function deletePersonel(id) {
                     $('#detailsModalInstructions').html('Click Department to edit');
                     $('#deleteButton').hide();
                     $('#updateButton').hide();
+                    $('#addButton').show();
+
                     $('#modalTitle').html('Departments');
                     $('#modalDetails').html(departments);
                     $("#detailsModal").modal('show');
@@ -499,14 +521,14 @@ function deletePersonel(id) {
                     $("#addButton").click(function(){
                         showAddDepartmentModal();
                     });
-                    $("#updateButton").prop("onclick", null).off("click");
-                    $("#updateButton").click(function(){
-                    alert("update Button Department");
-                    });
-                    $("#deleteButton").prop("onclick", null).off("click");
-                    $("#deleteButton").click(function(){
-                        alert("delete Button Department");
-                    });
+                    // $("#updateButton").prop("onclick", null).off("click");
+                    // $("#updateButton").click(function(){
+                    // alert("update Button Department");
+                    // });
+                    // $("#deleteButton").prop("onclick", null).off("click");
+                    // $("#deleteButton").click(function(){
+                    //     alert("delete Button Department");
+                    // });
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all departments failed on load call failed ' + errorThrown);
@@ -543,10 +565,47 @@ function showDepartment(x) {
                 $('#updateModal').modal('hide');
                 showAllDepartments();                      
             });
+            
+            
+            
+            
+            
+            
+            
             $("#deleteDepartmentButton").click(function(){
-                deleteDepartment(result['data'][0]['id']);
-                $('#updateModal').modal('hide');
-                showAllDepartments();                      
+                
+                
+                
+                //delete button and confirmation modal
+                $("#deleteDepartmentButton").prop("onclick", null).off("click");
+                $("#deleteDepartmentButton").click(function(){
+                    $('#titleConfirmationModal').html("Delete Department");
+                    $('#bodyConfirmationModal').html("Are you Sure You Want to Delete");
+                    $('#confirmationActionButton').html("Delete");
+                    $("#confirmationModal").modal('show'); 
+                    
+                    $("#confirmationActionButton").prop("onclick", null).off("click");
+                    $("#confirmationActionButton").click(function(){
+                        deleteDepartment(result['data'][0]['id']);
+                        $("#confirmationModal").modal('hide');
+                        $('#updateModal').modal('hide');
+                        showAllDepartments(); 
+                    });
+                    
+                    // deletePersonel(id);
+                    // $("#detailsModal").modal('hide');
+                });
+                
+                
+                
+                
+                
+                
+                
+                
+                // deleteDepartment(result['data'][0]['id']);
+                // $('#updateModal').modal('hide');
+                // showAllDepartments();                      
             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -728,11 +787,42 @@ function deleteDepartment(id) {
                         showAllLocations();                      
                          });
                        
-                        $("#deleteLocationButton").click(function(){
-                            deleteLocation(result['data'][0]['id']);  
-                            $('#updateModal').modal('hide');
-                            showAllLocations();                                  
-                        });
+
+
+                    //delete button and confirmation modal
+                    $("#deleteLocationButton").prop("onclick", null).off("click");
+                    $("#deleteLocationButton").click(function(){
+                    $('#titleConfirmationModal').html("Delete Department");
+                    $('#bodyConfirmationModal').html("Are you Sure You Want to Delete");
+                    $('#confirmationActionButton').html("Delete");
+                    $("#confirmationModal").modal('show'); 
+                    
+                    $("#confirmationActionButton").prop("onclick", null).off("click");
+                    $("#confirmationActionButton").click(function(){
+                        deleteLocation(result['data'][0]['id']);
+                        $("#confirmationModal").modal('hide');
+                        $('#updateModal').modal('hide');
+                        showAllDepartments(); 
+                    });
+                    
+                    // deletePersonel(id);
+                    // $("#detailsModal").modal('hide');
+                });
+
+
+
+
+
+
+
+
+
+
+                        // $("#deleteLocationButton").click(function(){
+                        //     deleteLocation(result['data'][0]['id']);  
+                        //     $('#updateModal').modal('hide');
+                        //     showAllLocations();                                  
+                        // });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all locations failed on load call failed ' + errorThrown);
