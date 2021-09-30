@@ -470,21 +470,22 @@ function deletePersonel(id) {
             result['data'].forEach(element => {
                 row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`
                 departments.push(row);
-            });
-            $('#detailsModalInstructions').show();
+            });               
                     $('#detailsModalInstructions').html('Click Department to edit');
+                    $('#detailsModalInstructions').show();
                     $('#deleteButton').hide();
                     $('#updateButton').hide();
                     $('#addButton').show();
 
                     $('#modalTitle').html('Departments');
                     $('#modalDetails').html(departments);
-                    $("#detailsModal").modal('show');
+                   
                     //Add on clicks to buttons          
                     $("#addButton").prop("onclick", null).off("click");
                     $("#addButton").click(function(){
                         showAddDepartmentModal();
                     });
+                    $("#detailsModal").modal('show');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all departments failed on load call failed ' + errorThrown);
@@ -492,7 +493,7 @@ function deletePersonel(id) {
         });       
     }; 
 
-//Show single department to update
+//Show single department to update and delete
 function showDepartment(x) {
     $.ajax({
         url: "libs/php/getDepartmentByID.php",
@@ -521,9 +522,7 @@ function showDepartment(x) {
                 $('#updateModal').modal('hide');
                 showAllDepartments();                      
             });
-            
-         
-            
+                       
             $("#deleteDepartmentButton").click(function(){
                 
                 
@@ -538,10 +537,42 @@ function showDepartment(x) {
                     
                     $("#confirmationActionButton").prop("onclick", null).off("click");
                     $("#confirmationActionButton").click(function(){
-                        deleteDepartment(result['data'][0]['id']);
-                        $("#confirmationModal").modal('hide');
-                        $('#updateModal').modal('hide');
-                        showAllDepartments(); 
+
+                        $.ajax({
+                            url: "libs/php/getDepartmentIDs.php",
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                            
+                            },
+                            success: function(result) {					
+                                let noDuplications = true
+                                                                    
+                                if (result.status.name == "ok") {
+                                    result['data'].forEach(person => {
+                                     if    (person['departmentID'] == x) {
+                                       noDuplications = false;
+                                     }
+
+                                    });
+                                    if (noDuplications == true) {
+                                        deleteDepartment(x);
+                                        $("#confirmationModal").modal('hide');
+                                        $('#updateModal').modal('hide');
+                                        showAllDepartments();
+                                    }
+                                    else {
+                                        $('#bodyConfirmationModal').html("This Department is in use");
+                                    }
+                                }
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.log('Open all countries on load call failed ' + errorThrown);
+                            }
+                        }); 	
+                        
+                        
+                         
                     });
                    
                 });
@@ -575,8 +606,7 @@ function updateDepartment(id,department) {
 };
 
 // Add Department code////////////////////////////
-function addDepartment(newDepartment) { 
-    console.log(newDepartment)
+function addDepartment(newDepartment) {    
         $.ajax({
             url: "libs/php/addDepartment.php",
             type: 'POST',
@@ -585,7 +615,6 @@ function addDepartment(newDepartment) {
                 newDepartment: newDepartment
             },
             success: function(result) {			                 
-             console.log(result)
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('add department failed on load call failed ' + errorThrown);
@@ -617,6 +646,9 @@ function showAddDepartmentModal() {
 //Delete department code
 
 function deleteDepartment(id) {
+
+    
+
     $.ajax({
         url: "libs/php/deleteDepartmentByID.php",
                 type: 'POST',
@@ -661,13 +693,13 @@ function deleteDepartment(id) {
                 $('#detailsModalInstructions').html('Click Location to edit');
                 $('#modalTitle').html('Locations');
                 $('#modalDetails').html(locations);
-                $("#detailsModal").modal('show');
+               
                 //Add on clicks to buttons          
                 $("#addButton").prop("onclick", null).off("click");
                 $("#addButton").click(function(){
                     showAddLocationModal();
                 });
-               
+                $("#detailsModal").modal('show');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all locations failed on load call failed ' + errorThrown);
@@ -710,17 +742,60 @@ function deleteDepartment(id) {
                     //delete button and confirmation modal
                     $("#deleteLocationButton").prop("onclick", null).off("click");
                     $("#deleteLocationButton").click(function(){
-                    $('#titleConfirmationModal').html("Delete Department");
-                    $('#bodyConfirmationModal').html("Are you Sure You Want to Delete");
-                    $('#confirmationActionButton').html("Delete");
-                    $("#confirmationModal").modal('show'); 
-                    
-                    $("#confirmationActionButton").prop("onclick", null).off("click");
-                    $("#confirmationActionButton").click(function(){
-                        deleteLocation(result['data'][0]['id']);
-                        $("#confirmationModal").modal('hide');
-                        $('#updateModal').modal('hide');
-                        showAllDepartments(); 
+
+
+                        $('#titleConfirmationModal').html("Delete Location");
+                        $('#bodyConfirmationModal').html("Are you Sure You Want to Delete");
+                        $('#confirmationActionButton').html("Delete");
+                        $("#confirmationModal").modal('show');                   
+                        $("#confirmationActionButton").prop("onclick", null).off("click");
+                        $("#confirmationActionButton").click(function(){
+                        
+
+                            $.ajax({
+                                url: "libs/php/getLocationIDs.php",
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                
+                                },
+                                success: function(result) {					
+                                    let noDuplications = true
+                                                                        
+                                    if (result.status.name == "ok") {
+                                        result['data'].forEach(id => {
+                                            if    (id['locationID'] == x) {
+                                              noDuplications = false;
+                                             
+                                            }
+                                        
+                                            
+                                        });
+                                       
+                                        if (noDuplications == true) {
+                                           
+                                            deleteLocation(x);
+                                            $("#confirmationModal").modal('hide');
+                                            $('#updateModal').modal('hide');
+                                            showAllLocations();
+                                        }
+                                        else {
+                                            $('#bodyConfirmationModal').html("This Location is in use");
+                                        }
+                                    }
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.log('Open all countries on load call failed ' + errorThrown);
+                                }
+                            }); 	
+
+
+
+
+
+
+
+                        
                     });
                     
                    
@@ -756,7 +831,6 @@ function deleteDepartment(id) {
 
 //Add Location Code/////////////////////////////
 function addLocation(newLocation) { 
-    console.log(newLocation)
         $.ajax({
             url: "libs/php/addLocation.php",
             type: 'POST',
@@ -765,7 +839,6 @@ function addLocation(newLocation) {
                 newLocation: newLocation
             },
             success: function(result) {			                 
-             console.log(result)
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all locations failed on load call failed ' + errorThrown);
