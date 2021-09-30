@@ -1,7 +1,7 @@
 //Function sets up all database
 function setUp() {
 //Set place holder in search field
-    $('#search').val('Search By Name...');
+    //$('#search').val('Search By Name...');
 //Get All Contacts
         $.ajax({
             url: "libs/php/getAll.php",
@@ -205,6 +205,7 @@ function setUp() {
 
     //function opens the modal and populates the persons data
         function getPersonelRecord(id) {
+          
             $.ajax({
                 url:'libs/php/getPersonByID.php',
                 method: 'post',
@@ -248,33 +249,9 @@ function setUp() {
                             $("#confirmationModal").modal('hide');
                             $("#detailsModal").modal('hide');
                         });
-                        
-                        // deletePersonel(id);
-                        // $("#detailsModal").modal('hide');
+                    
                     });
-                        // $('#updateButton').show();
-                        // $('#addButton').show();
-                        // $('#deleteButton').show();
-                        // $('#detailsModalInstructions').hide();
-                        // $("#detailsModal").modal('show');
-                        // //Add on clicks to buttons          
-                        // $("#addButton").prop("onclick", null).off("click");
-                        // $("#addButton").click(function(){
-                        //     alert("add Button Person");
-                        // });
-                        // $("#updateButton").prop("onclick", null).off("click");
-                        // $("#updateButton").click(function(){
-                        // editPersonelRecord(id)
-                        // });
-                        // $("#deleteButton").prop("onclick", null).off("click");
-                        // $("#deleteButton").click(function(){
-                          
-
-                        //         //deletePersonel(id);
-                               
-                                
-                                                      
-                        // });
+                       
                 },
 
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -286,7 +263,10 @@ function setUp() {
                 
                    
                     });
-        }
+        
+        
+        
+                }
 
 //<select id="departmentMenu" class="form-control" data-role="select-dropdown"></select>
 
@@ -473,22 +453,6 @@ function deletePersonel(id) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  //PERSONNEL CODE ENDS///////////////////////////////////////////////////
 //DEPARTMENT CODE START///////////////////////////////////////////////////
 //Get departments and display in modal in desktop
@@ -521,14 +485,6 @@ function deletePersonel(id) {
                     $("#addButton").click(function(){
                         showAddDepartmentModal();
                     });
-                    // $("#updateButton").prop("onclick", null).off("click");
-                    // $("#updateButton").click(function(){
-                    // alert("update Button Department");
-                    // });
-                    // $("#deleteButton").prop("onclick", null).off("click");
-                    // $("#deleteButton").click(function(){
-                    //     alert("delete Button Department");
-                    // });
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all departments failed on load call failed ' + errorThrown);
@@ -566,11 +522,7 @@ function showDepartment(x) {
                 showAllDepartments();                      
             });
             
-            
-            
-            
-            
-            
+         
             
             $("#deleteDepartmentButton").click(function(){
                 
@@ -591,21 +543,11 @@ function showDepartment(x) {
                         $('#updateModal').modal('hide');
                         showAllDepartments(); 
                     });
-                    
-                    // deletePersonel(id);
-                    // $("#detailsModal").modal('hide');
+                   
                 });
                 
-                
-                
-                
-                
-                
-                
-                
-                // deleteDepartment(result['data'][0]['id']);
-                // $('#updateModal').modal('hide');
-                // showAllDepartments();                      
+              
+                                   
             });
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -694,25 +636,6 @@ function deleteDepartment(id) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //DEPARTMENT CODE END///////////////////////////////////////////////////
 //LOCATION CODE START///////////////////////////////////////////////////
 
@@ -744,12 +667,7 @@ function deleteDepartment(id) {
                 $("#addButton").click(function(){
                     showAddLocationModal();
                 });
-                // $("#updateButton").prop("onclick", null).off("click");
-                // $("#updateButton").click(function(){
-                //     $("#locationUpdateModal").modal('show');
-                // });
                
-
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all locations failed on load call failed ' + errorThrown);
@@ -805,24 +723,10 @@ function deleteDepartment(id) {
                         showAllDepartments(); 
                     });
                     
-                    // deletePersonel(id);
-                    // $("#detailsModal").modal('hide');
+                   
                 });
 
 
-
-
-
-
-
-
-
-
-                        // $("#deleteLocationButton").click(function(){
-                        //     deleteLocation(result['data'][0]['id']);  
-                        //     $('#updateModal').modal('hide');
-                        //     showAllLocations();                                  
-                        // });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all locations failed on load call failed ' + errorThrown);
