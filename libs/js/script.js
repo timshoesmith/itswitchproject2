@@ -157,7 +157,6 @@ function setUp() {
         $(document).ready(function() {
             //set up database
             setUp();
-
             $("#search").keyup(function() {
                 var searchCharacters = $(this).val();
                 if(searchCharacters!='') {                
@@ -607,14 +606,13 @@ function updateDepartment(id,department) {
 };
 
 // Add Department code////////////////////////////
-function addDepartment(newDepartment, locationID) {    
+function addDepartment(newDepartment) {    
         $.ajax({
             url: "libs/php/addDepartment.php",
             type: 'POST',
             dataType: 'json',
             data: {
-                newDepartment: newDepartment,
-                locationID: locationID
+                newDepartment: newDepartment
             },
             success: function(result) {			                 
             },
@@ -622,16 +620,13 @@ function addDepartment(newDepartment, locationID) {
                 console.log('add department failed on load call failed ' + errorThrown);
             }
         }); 
-        
 }
 
 function showAddDepartmentModal() {
     $('#updateModalTitle').html('Update Department');
                 let form =
                     `
-                    <td><input type="text" id="addDepartmentName"></td>
-                    <td>          
-                    <div class="form-group"><select id="departmentLocationMenu" class="form-control" data-role="select-dropdown"></select></div></td>`                  
+                    <td><input type="text" id="addDepartmentName"></td>`                  
                     $('#updateModalDetails').html(form);
                                 
                 let modalFooter = 
@@ -639,36 +634,9 @@ function showAddDepartmentModal() {
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
                      $('#updateModalFooter').html(modalFooter);                  
                 
-                     $.ajax({
-                        url: "libs/php/getAllLocations.php",
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                        
-                        },
-                        success: function(result) {					
-                            let menu = ['<option value="">(Selected a Location)</option>'];
-                            let menuItem = '';                                             
-                            result['data'].forEach(element => {
-                                menuItem = `<option value=${element['id']}>${element['name']}</option>`;
-                                menu.push(menuItem);
-                            })
-                            $('#departmentLocationMenu').html(menu);
-            
-            
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.log('Open all countries on load call failed ' + errorThrown);
-                        }
-                    }); 
-
-
-
-
-
                 $("#updateModal").modal('show');
                 $("#saveUpdateModal").click(function(){
-                    addDepartment( $("#addDepartmentName").val(), );
+                    addDepartment( $("#addDepartmentName").val());
                     $('#updateModal').modal('hide');
                     showAllDepartments();                      
                 });

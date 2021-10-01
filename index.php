@@ -49,7 +49,7 @@
                          
 <!-- Main database -->
             <div class="row">
-                <div class="table" id="tablePersonelHead" >
+                <div class="table">
                     <table class="table table-striped table-sm table-bordered table-hover">
                             <thead class=thead-light>
                                 <tr>
