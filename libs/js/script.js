@@ -1,7 +1,10 @@
 //Function sets up all database
 function setUp() {
-//Set place holder in search field
-    //$('#search').val('Search By Name...');
+
+    
+    // add locationDropDown and Deartmentdropdown
+    getLocationDropDown('#locationMenu');
+    getDepartmentDropdown('#departmentMenu');
 //Get All Contacts
         $.ajax({
             url: "libs/php/getAll.php",
@@ -37,7 +40,8 @@ function setUp() {
             }
         }); 	
 //Get departments and add to dropdown menu in desktop
-        $.ajax({
+function getDepartmentDropdown(dropdownID)  {      
+$.ajax({
             url: "libs/php/getAllDepartments.php",
             type: 'POST',
             dataType: 'json',
@@ -52,13 +56,16 @@ function setUp() {
                 
                     menu.push(menuItem);
                 })
-                $('#departmentMenu').html(menu);
+                $(dropdownID).html(menu);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Open all countries on load call failed ' + errorThrown);
             }
         }); 
+    }
 //Get locations and add to dropdown menu in desktop  
+        
+function getLocationDropDown(dropdownID) {
         $.ajax({
             url: "libs/php/getAllLocations.php",
             type: 'POST',
@@ -73,7 +80,7 @@ function setUp() {
                     menuItem = `<option value=${element['id']}>${element['name']}</option>`;
                     menu.push(menuItem);
                 })
-                $('#locationMenu').html(menu);
+                $(dropdownID).html(menu);
 
 
             },
@@ -82,7 +89,7 @@ function setUp() {
             }
         }); 	
     }
-
+}
 
 
 //Select Menu function for department in desktop
@@ -626,7 +633,8 @@ function showAddDepartmentModal() {
     $('#updateModalTitle').html('Update Department');
                 let form =
                     `
-                    <td><input type="text" id="addDepartmentName"></td>`                  
+                    <td><input type="text" id="addDepartmentName"></td>
+                    <td> <div class="form-group"><select id="addDepartmentLocationID" class="form-control" data-role="select-dropdown"></select></div></td>`                      
                     $('#updateModalDetails').html(form);
                                 
                 let modalFooter = 
