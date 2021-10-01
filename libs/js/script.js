@@ -68,7 +68,7 @@ function getDepartmentDropdown(dropdownID)  {
         }
     //Get locations and add to dropdown menu with id passed  
             
-    function getLocationDropDown(dropdownID) {
+    function getLocationDropDown(dropdownID,locationMessage) {
             $.ajax({
                 url: "libs/php/getAllLocations.php",
                 type: 'POST',
@@ -77,7 +77,7 @@ function getDepartmentDropdown(dropdownID)  {
                 
                 },
                 success: function(result) {					
-                    let menu = ['<option value="">(Selected a Location)</option>'];
+                    let menu = ['<option value="">' + locationMessage + '</option>'];
                     let menuItem = '';                                             
                     result['data'].forEach(element => {
                         menuItem = `<option value=${element['id']}>${element['name']}</option>`;
@@ -471,9 +471,9 @@ function deletePersonel(id) {
             data: {
             },
             success: function(result) {					
-                let departments = ["<tr><th>ID</th><th>Department</th><th>Location</th></tr>"];
+                let departments = ["<tr><th>ID</th><th>Department</th><th>Location</td></tr>"];
                 let row = "";
-                console.log(result)
+            
             result['data'].forEach(element => {
                 row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['department']}</td><td>${element['location']}</td></tr>`
                 departments.push(row);
@@ -507,14 +507,18 @@ function showDepartment(x) {
                 type: 'POST',
                 dataType: 'json',
                 data: {
-            id: x
-        },
+                    id: x
+                    },
         success: function(result) {	
+            console.log(result)
             $('#updateModalTitle').show();	                 
            $('#updateModalTitle').html('Update Department');
             let form =
                 `<td>${result['data'][0]['id']}</td>
-                <td><input type="text" id="updateDepartmentName" value="${result['data'][0]['name']}"></td>`                  
+                <td><input type="text" id="updateDepartmentName" value="${result['data'][0]['name']}"></td>
+                <td> <div class="form-group"><select id="addLocationLocationID" class="form-control" data-role="select-dropdown"></select></div></td>`                      
+                getLocationDropDown("#addLocationLocationID", result['data'][0]['location'], 'I need updating'); 
+                                 
                 $('#updateModalDetails').html(form);
                             
             let modalFooter = 
@@ -525,7 +529,10 @@ function showDepartment(x) {
             
             $("#updateModal").modal('show');
             $("#saveUpdateModal").click(function(){
-                updateDepartment(result['data'][0]['id'], $("#updateDepartmentName").val());
+                console.log($("#addLocationLocationID").val());
+                console.log($("#updateDepartmentName").val());
+                console.log(result['data'][0]['id']);
+                updateDepartment(result['data'][0]['id'], $("#updateDepartmentName").val(), $("#addLocationLocationID").val());
                 $('#updateModal').modal('hide');
                 showAllDepartments();                      
             });
@@ -594,7 +601,7 @@ function showDepartment(x) {
     }); 
 }
 //update department function
-function updateDepartment(id,department) {
+function updateDepartment(id,department, locationID) {
     console.log
     $.ajax({
         url: "libs/php/updateDepartment.php",
@@ -602,9 +609,11 @@ function updateDepartment(id,department) {
         dataType: 'json',
         data: {
             id: id,
-            department: department
+            department: department,
+            locationID: locationID
         },
-        success: function(result) {			                  
+        success: function(result) {
+            console.log(result)			                  
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Update locations failed on load call failed ' + errorThrown);
@@ -636,7 +645,7 @@ function showAddDepartmentModal() {
                     `
                     <td><input type="text" id="addDepartmentName"></td>
                     <td> <div class="form-group"><select id="addDepartmentLocationID" class="form-control" data-role="select-dropdown"></select></div></td>`                      
-                    getLocationDropDown("#addDepartmentLocationID"); 
+                    getLocationDropDown("#addDepartmentLocationID", 'Add a location'); 
                     $('#updateModalDetails').html(form);
                             
                 let modalFooter = 
