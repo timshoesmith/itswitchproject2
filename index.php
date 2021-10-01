@@ -48,7 +48,7 @@
             </div>
                          
 <!-- Main database -->
-            <div class="row">
+            <div class="row" id="personelTableDiv">
                 <div class="table">
                     <table class="table table-striped table-sm table-bordered table-hover">
                             <thead class=thead-light>
