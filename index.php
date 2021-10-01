@@ -42,7 +42,7 @@
                 <div class="col-md-2 col-border">
                  Personel
                     </div>
-                        <div class="col-md-4 col-border"><input type="text" name="search" id="search" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name..."> </div>
+                        <div class="col-md-4 col-border"><input type="text" name="search" id="search" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name, Dept or Location..."> </div>
                         <div class="col-md-3 col-border">
                             <div class="form-group"> <select id="departmentMenu" class="form-control" data-role="select-dropdown"></select></div>
                         </div>            

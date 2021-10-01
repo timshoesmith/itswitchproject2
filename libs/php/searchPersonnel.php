@@ -39,9 +39,9 @@
     $theRequest = "%" . $_REQUEST['searchCharacters'] . "%";
 	
 	
-	$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE p.lastName LIKE  ?  or p.firstName LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
+	$query = $conn->prepare('SELECT p.id, p.lastName, p.firstName, p.jobTitle, p.email, d.name as department, l.name as location FROM personnel p LEFT JOIN department d ON (d.id = p.departmentID) LEFT JOIN location l ON (l.id = d.locationID) WHERE p.lastName LIKE  ?  or p.firstName LIKE ? or d.name LIKE ? or l.name LIKE ? ORDER BY p.lastName, p.firstName, d.name, l.name');
 	
-	$query->bind_param("ss", $theRequest, $theRequest);
+	$query->bind_param("ssss", $theRequest, $theRequest, $theRequest, $theRequest);
 
 	$query->execute();
 	
