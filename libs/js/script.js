@@ -39,60 +39,60 @@ function setUp() {
                 console.log('Open all countries on load call failed ' + errorThrown);
             }
         }); 	
-//Get departments and add to dropdown menu in desktop
-function getDepartmentDropdown(dropdownID)  {      
-$.ajax({
-            url: "libs/php/getAllDepartments.php",
-            type: 'POST',
-            dataType: 'json',
-            data: {
-            
-            },
-            success: function(result) {					
-                let menu = ['<option value="">(Selected a Department)</option>'];
-                let menuItem = '';                                             
-                result['data'].forEach(element => {
-                    menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
-                
-                    menu.push(menuItem);
-                })
-                $(dropdownID).html(menu);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Open all countries on load call failed ' + errorThrown);
-            }
-        }); 
-    }
-//Get locations and add to dropdown menu in desktop  
-        
-function getLocationDropDown(dropdownID) {
-        $.ajax({
-            url: "libs/php/getAllLocations.php",
-            type: 'POST',
-            dataType: 'json',
-            data: {
-            
-            },
-            success: function(result) {					
-                let menu = ['<option value="">(Selected a Location)</option>'];
-                let menuItem = '';                                             
-                result['data'].forEach(element => {
-                    menuItem = `<option value=${element['id']}>${element['name']}</option>`;
-                    menu.push(menuItem);
-                })
-                $(dropdownID).html(menu);
 
-
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Open all countries on load call failed ' + errorThrown);
-            }
-        }); 	
-    }
 }
 
-
-//Select Menu function for department in desktop
+//Get departments and add to dropdown menu in desktop
+function getDepartmentDropdown(dropdownID)  {      
+    $.ajax({
+                url: "libs/php/getAllDepartments.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                
+                },
+                success: function(result) {					
+                    let menu = ['<option value="">(Selected a Department)</option>'];
+                    let menuItem = '';                                             
+                    result['data'].forEach(element => {
+                        menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
+                    
+                        menu.push(menuItem);
+                    })
+                    $(dropdownID).html(menu);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Open all countries on load call failed ' + errorThrown);
+                }
+            }); 
+        }
+    //Get locations and add to dropdown menu with id passed  
+            
+    function getLocationDropDown(dropdownID) {
+            $.ajax({
+                url: "libs/php/getAllLocations.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                
+                },
+                success: function(result) {					
+                    let menu = ['<option value="">(Selected a Location)</option>'];
+                    let menuItem = '';                                             
+                    result['data'].forEach(element => {
+                        menuItem = `<option value=${element['id']}>${element['name']}</option>`;
+                        menu.push(menuItem);
+                    })
+                    $(dropdownID).html(menu);
+    
+    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Open all countries on load call failed ' + errorThrown);
+                }
+            }); 	
+        }
+//Select Menu function for department with id passed
         $('#departmentMenu').change(function(){
                 let contacts = [];
                 let row = "Im a row";                      
@@ -471,11 +471,11 @@ function deletePersonel(id) {
             data: {
             },
             success: function(result) {					
-                let departments = [];
+                let departments = ["<tr><th>ID</th><th>Department</th><th>Location</th></tr>"];
                 let row = "";
-    
+                console.log(result)
             result['data'].forEach(element => {
-                row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['name']}</td></tr>`
+                row =   `<tr onClick="showDepartment(${element['id']})"><td>${element['id']}</td><td>${element['department']}</td><td>${element['location']}</td></tr>`
                 departments.push(row);
             });               
                     $('#detailsModalInstructions').html('Click Department to edit');
@@ -613,13 +613,14 @@ function updateDepartment(id,department) {
 };
 
 // Add Department code////////////////////////////
-function addDepartment(newDepartment) {    
+function addDepartment(newDepartment, locationID) {    
         $.ajax({
             url: "libs/php/addDepartment.php",
             type: 'POST',
             dataType: 'json',
             data: {
-                newDepartment: newDepartment
+                newDepartment: newDepartment,
+                locationID: locationID
             },
             success: function(result) {			                 
             },
@@ -635,8 +636,9 @@ function showAddDepartmentModal() {
                     `
                     <td><input type="text" id="addDepartmentName"></td>
                     <td> <div class="form-group"><select id="addDepartmentLocationID" class="form-control" data-role="select-dropdown"></select></div></td>`                      
+                    getLocationDropDown("#addDepartmentLocationID"); 
                     $('#updateModalDetails').html(form);
-                                
+                            
                 let modalFooter = 
                     `<button type="button" class="btn btn-primary" id="saveUpdateModal">Save changes</button>
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;                   
@@ -644,7 +646,8 @@ function showAddDepartmentModal() {
                 
                 $("#updateModal").modal('show');
                 $("#saveUpdateModal").click(function(){
-                    addDepartment( $("#addDepartmentName").val());
+                    alert($('#addDepartmentLocationID').val())
+                    addDepartment( $("#addDepartmentName").val(), $('#addDepartmentLocationID').val());
                     $('#updateModal').modal('hide');
                     showAllDepartments();                      
                 });
