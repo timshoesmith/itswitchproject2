@@ -19,10 +19,7 @@
     <body>
 
 <!-- Container Div plus main database showing personnel and search -->
-    <div class="container border border-primary">   
-   
-    
-        
+    <div class="container border border-primary">         
                 <div class="row align-items-center border  border-primary">
                     <div class="col-md-6">
                         <div class="row">
@@ -48,36 +45,30 @@
                 </div>
 
                 <div class="row align-items-center border border-primary">
-                            <div class="col-md-6 align-items-center border border-primary" id="searchRow">
-                                <div class="id">
-                                    <h5>Search by Name, Dept or Loc...</h5>
-                                </div>
+                            <div class="col-md-4 align-items-center border border-primary" id="searchRow">
+                    
+                                <input type="text" name="searchName" id="searchName" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name, Dept or Location...">
+                
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="row">
                                 
                                 
                                     <div class="col-6">
                                         <div class="dropdown">
-                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Search by Dept
                                             </button>
-                                            <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
                                             </div>
                                         </div> 
                                     </div>
                                     <div class="col-6">
                                         <div class="dropdown">
-                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonLocation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Search by Location
                                             </button>
-                                            <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            <div class="dropdown-menu w-100" aria-labelledby="" id="dropdownLocationButton">
                                             </div> 
                                         </div>
                                     </div>                      
@@ -143,43 +134,7 @@
                                     <th scope="col">Location</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>Sales
-                                    <td>London</td>
-                                    </tr>
+                                <tbody id="allDepartments">                                
                                 </tbody>
 
                     </table>        
@@ -262,41 +217,11 @@
                 </div>
                 <div class="modal-body">
                     <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                                    <tr>
-                                    <th scope="col">Location</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                    <tr>
-                                    <td>London</td>
-                                    </tr>
-                                </tbody>
-
+                        <thead>
+                            <tr><th scope="col">Location</th></tr>
+                        </thead>
+                        <tbody id="allLocations">
+                        </tbody>
                     </table>        
                 </div>
                 <div class="modal-footer">
