@@ -8,8 +8,9 @@ function setUp() {
     //click on row of personnel event
     $('#tablePersonnel').on('click', 'tr' , function (event) {
         openUpdateDeletePersonnelModal(event['currentTarget']['id'], event['currentTarget']['department']);
-
-
+        });
+        $('#dropdownDepartmentButton li a').on('click', function(){
+            console.log('hi')
         });
 }
 //PERSONNEL FUNCTIONS////////////////////////////////
@@ -113,15 +114,11 @@ $('#addPersonnelButton').click(function () {
     $('#addPersonnelConfirmation').modal('show');
 });
 
-
-
 $("#addPersonnelCloseButton").click(function(){ 
         $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
     
     });
-
-
 
 //Update personnel modal form/////////////////
 
@@ -133,8 +130,6 @@ function openUpdateDeletePersonnelModal(id) {
             id: id
         },
         success: function(result) {         
-                   console.log(result)
-                    console.log(result['data'][0]['department'])
                     $('#updateOrDeletePersonnel').modal('show'); 
                     document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
                     document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
@@ -148,7 +143,6 @@ function openUpdateDeletePersonnelModal(id) {
                         $('#updatePersonnelButton').click(function () {   
                             $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
                             $("#updatePersonnelButtonConfirmation").click(function(){
-                                console.log($("#inputFirstNameName").val())
                                 updatePersonnel( result['data'][0]['id'], $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
                                 $('#updateOrDeletePersonnel').modal('hide');
                                 setUp();
@@ -160,7 +154,6 @@ function openUpdateDeletePersonnelModal(id) {
 
                     //Delete Personnel when DElete button clicked
                         $('#deletePersonnelButton').click(function () {  
-                            console.log('button clicked') 
                         $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
                         $("#deletePersonnelButtonConfirmation").click(function(){
                         deletePersonnel( result['data'][0]['id']);
@@ -180,20 +173,6 @@ function openUpdateDeletePersonnelModal(id) {
             });            
         }
 
-// //UPdate Personnel when UPdate button clicked
-// $('#updatePersonnelButton').click(function () {   
-//     $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
-//     $("#deletePersonnelButtonConfirmation").click(function(){
-//         updatePersonnel( $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
-//         $('#updateOrDeletePersonnel').modal('hide');
-//         setUp();
-// });
-//     $('#updateOrDeletePersonnelConfirmation').modal('show');
-
-// });
-
-//Delete Personel code
-
 function deletePersonnel(id) {
     $.ajax({
         url: "libs/php/deletePersonelByID.php",
@@ -210,8 +189,6 @@ function deletePersonnel(id) {
         }
     }); 
 }
-
-
 
 //update Personnel function
 function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID) {
@@ -235,6 +212,35 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
         }
     }); 
 };
+//PERSONNEL FUNCTION END///////////////////////////////////////////
+
+//DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
+
+
+
+//Show single department to update and delete
+function showDepartment(x) {
+    $.ajax({
+        url: "libs/php/getDepartmentByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: x
+                    },
+        success: function(result) {	
+            console.log(result)
+            
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+
+
+
+
 
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      
@@ -249,7 +255,7 @@ function getAllDepartments(modalID)  {
                     let menu = [];
                     let menuItem = '';                                             
                     result['data'].forEach(element => {
-                        menuItem =  `<tr id=${element['id']}>
+                        menuItem =  `<tr id=${element['id']} class="rowClick">
                                         <td>${element['department']}</td>
                                         <td>${element['location']}</td>
                                     </tr>`;
@@ -302,7 +308,7 @@ function getDepartmentDropdown(dropdownID)  {
                     let menu = [];
                     let menuItem = '';                                             
                     result['data'].forEach(element => {
-                        menuItem =  `<a class="dropdown-item" id=${element['id']} href="#">${element['department']}</a>`;
+                        menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['department']}</a></li>`;
                         
                         menu.push(menuItem);
                     })
@@ -314,6 +320,68 @@ function getDepartmentDropdown(dropdownID)  {
             }); 
 }
 
+
+
+
+//Select Menu function for department with id passed
+function getPersonnelByDepartmentID(id) { 
+        $.ajax({
+            url: "libs/php/getPersonelByDept.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+            success: function(result) {	      
+                let contacts = [];
+                let row = "";
+               
+                result['data'].forEach(element => {
+                row =   `<tr id="${element['id']}" class="rowClick">
+                            <td>${element['id']}</td>
+                            <td>${element['firstName']},${element['lastName']}</td>
+                            <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
+                            <td>${element['email']}</td>
+                            <td class="d-none d-md-table-cell">${element['department']}</td>
+                            <td class="d-none d-md-table-cell">${element['location']}</td>
+                            </tr>`
+                            contacts.push(row);
+                
+                })
+                $('#allPersonnel').html(contacts);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Get pesonel by department ID call failed ' + errorThrown);
+        }
+        
+    }); 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//DEPARTMENT FUNCTION END////////////////////////////////////
+
+//LOCATION FUNCTIONS BEGIN//////////////////////////////////
  //Get locations and add to dropdown menu with id passed  
             
  function getLocationDropDown(dropdownID) {
@@ -328,7 +396,7 @@ function getDepartmentDropdown(dropdownID)  {
             let menu = [];
             let menuItem = '';                                             
             result['data'].forEach(element => {
-                menuItem =  `<a class="dropdown-item" id=${element['id']} href="#">${element['name']}</a>`;
+                menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['name']}</a></li>`;
                 menu.push(menuItem);
             })
             $(dropdownID).html(menu);
@@ -341,8 +409,53 @@ function getDepartmentDropdown(dropdownID)  {
     }); 	
 }
 
+function getPersonnelByLocationID(id) {
+    //Select Menu function for location in desktop   
+   
+        // let contacts = [];
+        // let row = "Im a row";                      
+                //Get personel by location id dropdown menu in desktop  
+            $.ajax({
+                url: "libs/php/getPersonelByLocation.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function(result) {	   
+                    let contacts = [];
+                    let row = "";
+                   
+                    result['data'].forEach(element => {
+                    row =   `<tr id="${element['id']}" class="rowClick">
+                                <td>${element['id']}</td>
+                                <td>${element['firstName']},${element['lastName']}</td>
+                                <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
+                                <td>${element['email']}</td>
+                                <td class="d-none d-md-table-cell">${element['department']}</td>
+                                <td class="d-none d-md-table-cell">${element['location']}</td>
+                                </tr>`
+                                contacts.push(row);
+                    
+                    })
+                    $('#allPersonnel').html(contacts);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Get pesonel by location ID call failed ' + errorThrown);
+            }
+            
+        }); 
+  
+}
+
+
+
+
+
+
+
 //Setup function is called
-setUp();
+// setUp();
 
 //SEARCHES ///////////////////////
 //Search by Name
@@ -386,7 +499,19 @@ $(document).ready(function() {
     else {                 
         setUp();
         }             
-    });        
+    }); 
+    $('#dropdownDepartmentButton li a').on('click', function(){
+        //$('#datebox').val($(this).text());
+        alert($(this).text());
+    });
+    $(document).on('click', '#dropdownDepartmentButton li a', function() {
+        var id= ($(this).attr('id'));
+        getPersonnelByDepartmentID(id)
+    }); 
+    $(document).on('click', '#dropdownLocationButton li a', function() {
+        var id= ($(this).attr('id'));
+        getPersonnelByLocationID(id);
+    });    
 });
 
 

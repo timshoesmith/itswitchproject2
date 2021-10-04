@@ -59,16 +59,16 @@
                                             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Search by Dept
                                             </button>
-                                            <div class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
-                                            </div>
-                                        </div> 
+                                            <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
+                                            </ul >
+                                            </div> 
                                     </div>
                                     <div class="col-6">
                                         <div class="dropdown">
                                             <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonLocation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 Search by Location
                                             </button>
-                                            <div class="dropdown-menu w-100" aria-labelledby="" id="dropdownLocationButton">
+                                            <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownLocationButton">
                                             </div> 
                                         </div>
                                     </div>                      
