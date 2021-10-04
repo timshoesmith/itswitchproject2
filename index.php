@@ -37,7 +37,7 @@
                                 <button type="button" class="btn btn-primary d-none d-xl-inline" data-toggle="modal" data-target="#listDeptOrCompany">Show All</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listDepartment">Depts</button>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listLocation">Loc</button>
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addPersonnel">Add</button>
+                                <button type="button" class="btn btn-success" id="addPersonnelTopButton" data-toggle="modal" data-target="">Add</button>
                                 <button type="button" class="btn btn-primary d-none d-xl-inline" data-toggle="modal" data-target="#updateOrDeletePersonnel">UpOrD</button>
                             </div>
                         </div>
@@ -301,7 +301,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="addPersonnelForm">
                         <div class="form-group">
                             <label for="inputFirstName">First Name</label>
                             <input type="text" class="form-control" id="inputFirstName" aria-describedby="First Name">
@@ -316,22 +316,19 @@
                         </div>
                         <div class="form-group">
                             <label for="inputEmail">Email address</label>
-                            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" id="inputEmail" aria-describedby="email address">
                         </div>
-                        <div class="form-group">
-                            <label for="inputDepartment">Department</label>
-                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="department">
-                        </div>
-                        
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Are you sure you want to add</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <div class="form-group">                     
+                            <select id="dropdownAddPersonnelDepartment" name="select" class="custom-select">
+                            </select>
+  
+                </div>
+                       
+                        <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
                     </form>          
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addPersonnelCloseButton>Close</button>
                 </div>
             </div>
         </div>
@@ -386,7 +383,48 @@
                 </div>
             </div>
         </div>
-
+<!-- Add Confirmation for  Personnel -->
+<div class="modal fade" id="addPersonnelConfirmation" tabindex="-1" aria-labelledby="addConfirmationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addConfirmationLabel">Add Personnel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <p>Are you sure you want to add PERSON NAME?</p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="addPersonnelButtonConfirmation">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Update Confirmation for  Personnel -->
+        <div class="modal fade" id="updatePersonnelConfirmation" tabindex="-1" aria-labelledby="updateConfirmationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateConfirmationLabel">Update Personnel</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <p>Are you sure you want to update PERSON NAME?</p>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 <!-- Delete Confirmation for  Personnel -->
         <div class="modal fade" id="deletePersonnelConfirmation" tabindex="-1" aria-labelledby="deleteConfirmationLabel" aria-hidden="true">
             <div class="modal-dialog">

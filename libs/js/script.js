@@ -7,6 +7,7 @@ function setUp() {
     getLocationDropDown('#dropdownLocationButton');
     
 }
+//PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
 function getAllPersonnel() {
 $.ajax({
@@ -39,9 +40,97 @@ $.ajax({
     error: function(jqXHR, textStatus, errorThrown) {
         console.log('Open all countries on load call failed ' + errorThrown);
     }
-}); 	
-
+    }); 	
 }
+
+//Add personnel Form/////////////////
+function getAllDepartmentsForPersonnel(modalID)  {      
+    $.ajax({
+                url: "libs/php/getAllDepartments.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                
+                },
+                success: function(result) {				
+                    let menu = [`<option value= 0}>Choose Department</option>`];
+                    let menuItem = '';  
+                    console.log(result)                                           
+                    result['data'].forEach(element => {
+                        menuItem =  `<option value=${element['id']}>${element['department']}</option>`;
+                    
+                        menu.push(menuItem);
+                    })
+                    $(modalID).html(menu);
+                    console.log('this one')
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Open all getAllDepartmentsForPersonnel on load call failed ' + errorThrown);
+                }
+            }); 
+        }
+//Add Personel AJAX CALL
+function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepartment) { 
+    console.log(newFirstName)
+    console.log(newDepartment)
+        $.ajax({
+            url: "libs/php/addPersonel.php",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                newFirstName: newFirstName,
+                newLastName: newLastName,
+                newJobTitle: newJobTitle,
+                newEmail: newEmail,
+                newDepartment: newDepartment
+            },
+            success: function(result) {			                 
+             console.log(result)
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Add personel failed on load call failed ' + errorThrown);
+            }
+        }); 
+}
+//Open add Personnel Form
+$("#addPersonnelTopButton").click(function(){ 
+    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment');
+    $('#addPersonnel').modal('show');
+  });
+
+//Add Personnel when Add button clicked
+$('#addPersonnelButton').click(function () {
+    
+    $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
+    $("#addPersonnelButtonConfirmation").click(function(){
+        alert('im being added')
+        addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
+        $('#addPersonnel').modal('hide');
+        setUp();
+});
+    $('#addPersonnelConfirmation').modal('show');
+});
+
+ 
+ 
+
+
+//Clear Add personnel form when close button clicked on close
+// function clearForms($form)
+// {
+//     $form.find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+//     $form.find(':checkbox, :radio').prop('checked', false);
+// }
+$("#addPersonnelCloseButton").click(function(){ 
+        // clearForms($('#addPersonnelForm'));
+        $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
+    
+    });
+
+
+
+
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      
     $.ajax({
@@ -63,6 +152,7 @@ function getAllDepartments(modalID)  {
                         menu.push(menuItem);
                     })
                     $(modalID).html(menu);
+                    console.log('hh')
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all countries on load call failed ' + errorThrown);
@@ -194,3 +284,5 @@ $(document).ready(function() {
         }             
     });        
 });
+
+
