@@ -7,7 +7,8 @@ function setUp() {
     getLocationDropDown('#dropdownLocationButton');
     //click on row of personnel event
     $('#tablePersonnel').on('click', 'tr' , function (event) {
-        console.log(event['currentTarget']['id'])
+        openUpdateDeletePersonnelModal(event['currentTarget']['id']);
+
 
         });
 }
@@ -126,6 +127,80 @@ $("#addPersonnelCloseButton").click(function(){
         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
     
     });
+
+
+
+//Update personnel modal form/////////////////
+
+function openUpdateDeletePersonnelModal(id) {
+    editPersonelRecord(id);
+}
+//function opens the modal with input data fields ready for edit
+function editPersonelRecord(id) {
+    $.ajax({
+        url:'libs/php/getPersonByID.php',
+        method: 'post',
+        data: {
+            id: id
+        },
+        success: function(result) {         
+                   console.log(result['data'][0]['firstName'])
+                    console.log(result)
+                    $('#updateOrDeletePersonnel').modal('show'); 
+                    document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
+                    document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
+                    document.querySelector('input[name="inputJobTitleName"]').value = result['data'][0]['jobTitle'];
+                    document.querySelector('input[name="inputEmailName"]').value = result['data'][0]['email'];
+                    $('#inputFirstName').val(result['data'][0]['firstName']);
+                   document.getElementById('inputLastName').value='text to be displayed' ; 
+                   $('#updateOrDeletePersonnel').modal('show'); 
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('edit personel failed on load call failed ' + errorThrown);
+            }
+
+            });
+          
+                              
+             
+           
+            }
+
+
+
+//update Personnel function
+function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID) {
+    console.log
+    $.ajax({
+        url: "libs/php/updatePersonnel.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            jobTitle: jobTitle,
+            email: email,
+            departmentID: departmentID
+
+        },
+        success: function(result) {			                  
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Update locations failed on load call failed ' + errorThrown);
+        }
+    }); 
+};
+
+
+
+
+
+
+
+
+
+
 
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      

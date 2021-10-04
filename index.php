@@ -350,19 +350,19 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputFirstName">First Name</label>
-                                <input type="text" class="form-control" id="inputFirstName" aria-describedby="First Name">
+                                <input type="text" class="form-control" id="inputFirstName" name="inputFirstNameName" aria-describedby="First Name">
                             </div>
                             <div class="form-group">
                                 <label for="inputLastName">Last Name</label>
-                                <input type="text" class="form-control" id="inputLastName" aria-describedby="Last Name">
+                                <input type="text" class="form-control" id="inputLastName" name="inputLastNameName" aria-describedby="Last Name">
                             </div>
                             <div class="form-group">
                                 <label for="inputJobTitle">Job Title</label>
-                                <input type="text" class="form-control" id="inputJobTitle" aria-describedby="Job Title">
+                                <input type="text" class="form-control" id="inputJobTitle" name="inputJobTitleName"aria-describedby="Job Title">
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail">Email address</label>
-                                <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="inputEmail" name="inputEmailName"aria-describedby="emailHelp">
                             </div>
                             <div class="form-group">
                                 <label for="inputDepartment">Department</label>
