@@ -370,7 +370,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="updatePersonnelButton">Update</button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePersonnelConfirmation">Delete</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" id="deletePersonnelButton" data-target="#deletePersonnelConfirmation">Delete</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -408,7 +408,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <p>Are you sure you want to update PERSON NAME?</p>
+                       <p id="updateConfirmationText">Are you sure you want to update PERSON NAME?</p>
                         
                     </div>
                     <div class="modal-footer">
@@ -429,11 +429,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <p>Are you sure you want to delete PERSON NAME?</p>
+                       <p id="deleteConfirmationText"></p>
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-danger" id="deletePersonnelButtonConfirmation" data-dismiss="modal">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                        
                     </div>

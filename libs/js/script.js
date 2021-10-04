@@ -144,8 +144,6 @@ function openUpdateDeletePersonnelModal(id) {
                    $('#updateOrDeletePersonnel').modal('show'); 
 
 
-
-
                    //UPdate Personnel when UPdate button clicked
                         $('#updatePersonnelButton').click(function () {   
                             $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
@@ -155,11 +153,24 @@ function openUpdateDeletePersonnelModal(id) {
                                 $('#updateOrDeletePersonnel').modal('hide');
                                 setUp();
                         });
+                            $('#updateConfirmationText').html(`Are you sure you want to update ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
                             $('#updateOrDeletePersonnelConfirmation').modal('show');
 
                         });
 
+                    //Delete Personnel when DElete button clicked
+                        $('#deletePersonnelButton').click(function () {  
+                            console.log('button clicked') 
+                        $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
+                        $("#deletePersonnelButtonConfirmation").click(function(){
+                        deletePersonnel( result['data'][0]['id']);
+                        $('#updateOrDeletePersonnel').modal('hide');
+                        setUp();
+                    });
+                    $('#deleteConfirmationText').html(`Are you sure you want to delete ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
+                    $('#deletePersonnelConfirmation').modal('show');
 
+                });
 
 
             },
@@ -169,18 +180,38 @@ function openUpdateDeletePersonnelModal(id) {
             });            
         }
 
-//UPdate Personnel when UPdate button clicked
-$('#updatePersonnelButton').click(function () {   
-    $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
-    $("#updatePersonnelButtonConfirmation").click(function(){
-        console.log($("#inputFirstNameName").val())
-        updatePersonnel( $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
-        $('#updateOrDeletePersonnel').modal('hide');
-        setUp();
-});
-    $('#updateOrDeletePersonnelConfirmation').modal('show');
+// //UPdate Personnel when UPdate button clicked
+// $('#updatePersonnelButton').click(function () {   
+//     $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
+//     $("#deletePersonnelButtonConfirmation").click(function(){
+//         updatePersonnel( $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
+//         $('#updateOrDeletePersonnel').modal('hide');
+//         setUp();
+// });
+//     $('#updateOrDeletePersonnelConfirmation').modal('show');
 
-});
+// });
+
+//Delete Personel code
+
+function deletePersonnel(id) {
+    $.ajax({
+        url: "libs/php/deletePersonelByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+            id: id
+        },
+        success: function(result) {	
+          
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+
 
 //update Personnel function
 function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID) {
