@@ -94,6 +94,7 @@
                 <table class="table table-striped table-sm table-bordered table-hover" id="tablePersonnel">
                     <thead>
                         <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col" class="d-none d-md-table-cell">Job Title</th>
                         <th scope="col ">Email</th>

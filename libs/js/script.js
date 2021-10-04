@@ -5,7 +5,11 @@ function setUp() {
     getAllLocations("#allLocations");
     getDepartmentDropdown('#dropdownDepartmentButton');
     getLocationDropDown('#dropdownLocationButton');
-    
+    //click on row of personnel event
+    $('#tablePersonnel').on('click', 'tr' , function (event) {
+        console.log(event['currentTarget']['id'])
+
+        });
 }
 //PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
@@ -24,7 +28,8 @@ $.ajax({
             let row = "";
            
             result['data'].forEach(element => {
-            row =   `<tr id="${element['id']}">
+            row =   `<tr id="${element['id']}" class="rowClick">
+                        <td>${element['id']}</td>
                         <td>${element['firstName']},${element['lastName']}</td>
                         <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                         <td>${element['email']}</td>
@@ -40,7 +45,9 @@ $.ajax({
     error: function(jqXHR, textStatus, errorThrown) {
         console.log('Open all countries on load call failed ' + errorThrown);
     }
-    }); 	
+   
+    });
+   
 }
 
 //Add personnel Form/////////////////
@@ -54,15 +61,13 @@ function getAllDepartmentsForPersonnel(modalID)  {
                 },
                 success: function(result) {				
                     let menu = [`<option value= 0}>Choose Department</option>`];
-                    let menuItem = '';  
-                    console.log(result)                                           
+                    let menuItem = '';                                            
                     result['data'].forEach(element => {
                         menuItem =  `<option value=${element['id']}>${element['department']}</option>`;
                     
                         menu.push(menuItem);
                     })
                     $(modalID).html(menu);
-                    console.log('this one')
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all getAllDepartmentsForPersonnel on load call failed ' + errorThrown);
@@ -71,8 +76,6 @@ function getAllDepartmentsForPersonnel(modalID)  {
         }
 //Add Personel AJAX CALL
 function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepartment) { 
-    console.log(newFirstName)
-    console.log(newDepartment)
         $.ajax({
             url: "libs/php/addPersonel.php",
             type: 'POST',
@@ -85,7 +88,6 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepart
                 newDepartment: newDepartment
             },
             success: function(result) {			                 
-             console.log(result)
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Add personel failed on load call failed ' + errorThrown);
@@ -111,9 +113,6 @@ $('#addPersonnelButton').click(function () {
     $('#addPersonnelConfirmation').modal('show');
 });
 
- 
- 
-
 
 //Clear Add personnel form when close button clicked on close
 // function clearForms($form)
@@ -127,9 +126,6 @@ $("#addPersonnelCloseButton").click(function(){
         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
     
     });
-
-
-
 
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      
@@ -152,7 +148,6 @@ function getAllDepartments(modalID)  {
                         menu.push(menuItem);
                     })
                     $(modalID).html(menu);
-                    console.log('hh')
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log('Open all countries on load call failed ' + errorThrown);
