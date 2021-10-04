@@ -321,14 +321,12 @@
                         </div>
                         <div class="form-group">                     
                             <select id="dropdownAddPersonnelDepartment" name="select" class="custom-select">
-                            </select>
-  
-                </div>
-                       
-                        <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
+                            </select> 
+                        </div>                    
                     </form>          
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addPersonnelCloseButton>Close</button>
                 </div>
             </div>
@@ -350,36 +348,30 @@
                         <form>
                             <div class="form-group">
                                 <label for="inputFirstName">First Name</label>
-                                <input type="text" class="form-control" id="inputFirstName" name="inputFirstNameName" aria-describedby="First Name">
+                                <input type="text" class="form-control" id="inputFirstNameName" name="inputFirstNameName" aria-describedby="First Name">
                             </div>
                             <div class="form-group">
                                 <label for="inputLastName">Last Name</label>
-                                <input type="text" class="form-control" id="inputLastName" name="inputLastNameName" aria-describedby="Last Name">
+                                <input type="text" class="form-control" id="inputLastNameName" name="inputLastNameName" aria-describedby="Last Name">
                             </div>
                             <div class="form-group">
                                 <label for="inputJobTitle">Job Title</label>
-                                <input type="text" class="form-control" id="inputJobTitle" name="inputJobTitleName"aria-describedby="Job Title">
+                                <input type="text" class="form-control" id="inputJobTitleName" name="inputJobTitleName"aria-describedby="Job Title">
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail">Email address</label>
-                                <input type="email" class="form-control" id="inputEmail" name="inputEmailName"aria-describedby="emailHelp">
+                                <input type="email" class="form-control" id="inputEmailName" name="inputEmailName"aria-describedby="emailHelp">
                             </div>
-                            <div class="form-group">
-                                <label for="inputDepartment">Department</label>
-                                <input type="text" class="form-control" id="inputDepartment" aria-describedby="department">
-                            </div>
-                            
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Are you sure you want to </label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+                            <div class="form-group">                     
+                                <select id="dropdownUpdatePersonnelDepartment" name="select" class="custom-select"></select> 
+                            </div>                                                    
                         </form> 
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" id="updatePersonnelButton">Update</button>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePersonnelConfirmation">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -406,7 +398,7 @@
             </div>
         </div>
 <!-- Update Confirmation for  Personnel -->
-        <div class="modal fade" id="updatePersonnelConfirmation" tabindex="-1" aria-labelledby="updateConfirmationLabel" aria-hidden="true">
+        <div class="modal fade" id="updateOrDeletePersonnelConfirmation" tabindex="-1" aria-labelledby="updateConfirmationLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -420,7 +412,7 @@
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="updatePersonnelButtonConfirmation">Yes</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                     </div>
                 </div>

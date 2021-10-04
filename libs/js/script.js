@@ -7,7 +7,7 @@ function setUp() {
     getLocationDropDown('#dropdownLocationButton');
     //click on row of personnel event
     $('#tablePersonnel').on('click', 'tr' , function (event) {
-        openUpdateDeletePersonnelModal(event['currentTarget']['id']);
+        openUpdateDeletePersonnelModal(event['currentTarget']['id'], event['currentTarget']['department']);
 
 
         });
@@ -52,7 +52,7 @@ $.ajax({
 }
 
 //Add personnel Form/////////////////
-function getAllDepartmentsForPersonnel(modalID)  {      
+function getAllDepartmentsForPersonnel(modalID, defaultText)  {      
     $.ajax({
                 url: "libs/php/getAllDepartments.php",
                 type: 'POST',
@@ -61,7 +61,7 @@ function getAllDepartmentsForPersonnel(modalID)  {
                 
                 },
                 success: function(result) {				
-                    let menu = [`<option value= 0}>Choose Department</option>`];
+                    let menu = [`<option value= 0}>${defaultText}</option>`];
                     let menuItem = '';                                            
                     result['data'].forEach(element => {
                         menuItem =  `<option value=${element['id']}>${element['department']}</option>`;
@@ -97,7 +97,7 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepart
 }
 //Open add Personnel Form
 $("#addPersonnelTopButton").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment');
+    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
     $('#addPersonnel').modal('show');
   });
 
@@ -106,7 +106,6 @@ $('#addPersonnelButton').click(function () {
     
     $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
     $("#addPersonnelButtonConfirmation").click(function(){
-        alert('im being added')
         addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
         $('#addPersonnel').modal('hide');
         setUp();
@@ -115,14 +114,8 @@ $('#addPersonnelButton').click(function () {
 });
 
 
-//Clear Add personnel form when close button clicked on close
-// function clearForms($form)
-// {
-//     $form.find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-//     $form.find(':checkbox, :radio').prop('checked', false);
-// }
+
 $("#addPersonnelCloseButton").click(function(){ 
-        // clearForms($('#addPersonnelForm'));
         $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
     
@@ -133,10 +126,6 @@ $("#addPersonnelCloseButton").click(function(){
 //Update personnel modal form/////////////////
 
 function openUpdateDeletePersonnelModal(id) {
-    editPersonelRecord(id);
-}
-//function opens the modal with input data fields ready for edit
-function editPersonelRecord(id) {
     $.ajax({
         url:'libs/php/getPersonByID.php',
         method: 'post',
@@ -144,33 +133,57 @@ function editPersonelRecord(id) {
             id: id
         },
         success: function(result) {         
-                   console.log(result['data'][0]['firstName'])
-                    console.log(result)
+                   console.log(result)
+                    console.log(result['data'][0]['department'])
                     $('#updateOrDeletePersonnel').modal('show'); 
                     document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
                     document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
                     document.querySelector('input[name="inputJobTitleName"]').value = result['data'][0]['jobTitle'];
                     document.querySelector('input[name="inputEmailName"]').value = result['data'][0]['email'];
-                    $('#inputFirstName').val(result['data'][0]['firstName']);
-                   document.getElementById('inputLastName').value='text to be displayed' ; 
+                    getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result['data'][0]['department']);
                    $('#updateOrDeletePersonnel').modal('show'); 
+
+
+
+
+                   //UPdate Personnel when UPdate button clicked
+                        $('#updatePersonnelButton').click(function () {   
+                            $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
+                            $("#updatePersonnelButtonConfirmation").click(function(){
+                                console.log($("#inputFirstNameName").val())
+                                updatePersonnel( result['data'][0]['id'], $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
+                                $('#updateOrDeletePersonnel').modal('hide');
+                                setUp();
+                        });
+                            $('#updateOrDeletePersonnelConfirmation').modal('show');
+
+                        });
+
+
+
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('edit personel failed on load call failed ' + errorThrown);
-            }
+                }
+            });            
+        }
 
-            });
-          
-                              
-             
-           
-            }
+//UPdate Personnel when UPdate button clicked
+$('#updatePersonnelButton').click(function () {   
+    $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
+    $("#updatePersonnelButtonConfirmation").click(function(){
+        console.log($("#inputFirstNameName").val())
+        updatePersonnel( $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
+        $('#updateOrDeletePersonnel').modal('hide');
+        setUp();
+});
+    $('#updateOrDeletePersonnelConfirmation').modal('show');
 
-
+});
 
 //update Personnel function
 function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID) {
-    console.log
     $.ajax({
         url: "libs/php/updatePersonnel.php",
         type: 'POST',
@@ -191,16 +204,6 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
         }
     }); 
 };
-
-
-
-
-
-
-
-
-
-
 
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      
