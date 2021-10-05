@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="libs/css/style.css?<?php echo date("YmdHisP");?>">
     </head>
     <body>
+    <div id="preloader"></div> 
 
 <!-- Container Div plus main database showing personnel and search -->
         <div class="container border border-primary">         
