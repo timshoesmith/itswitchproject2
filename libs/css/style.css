@@ -46,3 +46,22 @@
     transform: rotate(360deg);
     }
   }
+
+  .modal-body {
+
+    max-height: 70vh;
+
+    overflow-y: auto;
+
+}
+
+
+  input[type=text]{
+    border: 0;
+    border: 1px solid #ccc;
+    
+    outline: 0;
+  }
+  border-info {
+    border-color: white!important
+  }

@@ -12,16 +12,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
       
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    
-       
         <link rel="stylesheet" href="libs/css/style.css?<?php echo date("YmdHisP");?>">
     </head>
     <body>
     <div id="preloader"></div> 
 
-<!-- Container Div plus main database showing personnel and search -->
-        <div class="container border border-primary">         
-                <div class="row align-items-center border  border-primary">
+        <!-- Container Div plus main database showing personnel and search -->
+        <div class="container border border-danger">         
+                <div class="row align-items-center border  border-dnager">
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-4">
@@ -45,56 +43,54 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center border border-primary">
-                            <div class="col-md-4 align-items-center border border-primary" id="searchRow">
-                    
-                                <input type="text" name="searchName" id="searchName" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name, Dept or Location...">
-                
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                
-                                
-                                    <div class="col-6">
-                                        <div class="dropdown">
-                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Search by Dept
-                                            </button>
-                                            <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
-                                            </ul >
+                <div class="row align-items-center border border-danger">
+                    <div class="col-lg-4 col-sm-12 align-items-center border border-danger" id="searchRow">
+            
+                        <input type="text" name="searchName" id="searchName" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name, Dept or Location...">
+        
+                    </div>
+                    <div class="col-md-8 d-none d-lg-block">
+                        <div class="row ">         
+                                <div class="col-6">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Search by Dept
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
+                                        </ul >
+                                    </div> 
+                                </div>
+                                <div class="col-6">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonLocation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Search by Location
+                                        </button>
+                                        <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownLocationButton">
                                         </div> 
                                     </div>
-                                    <div class="col-6">
-                                        <div class="dropdown">
-                                            <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonLocation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                Search by Location
-                                            </button>
-                                            <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownLocationButton">
-                                            </div> 
-                                        </div>
-                                    </div>                      
-                                </div>
-                            </div>                    
-                
+                                </div>                      
+                            
+                        </div>                    
+                    </div>
 
-<!-- Table of personnel -->
-            <div class="row border border-primary">
-                <table class="table table-striped table-sm table-bordered table-hover" id="tablePersonnel">
-                    <thead>
-                        <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col" class="d-none d-md-table-cell">Job Title</th>
-                        <th scope="col ">Email</th>
-                        <th scope="col" class="d-none d-md-table-cell">Department</th>
-                        <th scope="col" class="d-none d-md-table-cell">Location</th>
-                        </tr>
-                    </thead>
-                    <tbody id="allPersonnel">
-                    </tbody>
-                </table>
-            </div>
+                            <!-- Table of personnel -->
+                    <div class="row border border-danger">
+                        <table class="table table-striped table-sm table-bordered table-hover" id="tablePersonnel">
+                            <thead>
+                                <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col" class="d-none d-md-table-cell">Job Title</th>
+                                <th scope="col ">Email</th>
+                                <th scope="col" class="d-none d-md-table-cell">Department</th>
+                                <th scope="col" class="d-none d-md-table-cell">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allPersonnel">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
         </div>
-    </div>
   <!-- End of Container Div plus main database showing personnel and search -->
 
 
@@ -105,10 +101,10 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="departmentLabel">Departmentss</h5>
+                    <h5 class="modal-title" id="departmentLabel">Departments</h5>
                     <button type="button" class="btn btn-primary" id="addDepartmentlButton">Add</button>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                    <!-- <span aria-hidden="true">&times;</span> -->
                     </button>
                 </div>
                 <div class="modal-body">
@@ -270,7 +266,49 @@
  <!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
 
 
-    <!-- Modal Update Location -->
+   
+
+
+
+
+
+
+
+
+
+   
+
+
+
+ <!-- Modal Which lists the locations -->
+        <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="locationLabel">Locations</h5>
+                    <button type="button" class="btn btn-primary">Add</button>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span> -->
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered table-hover" id="tableLocation">
+                        <thead>
+                            <tr><th scope="col">Location</th></tr>
+                        </thead>
+                        <tbody id="allLocations">
+                        </tbody>
+                    </table>        
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Modal Update Location -->
 <div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -284,7 +322,7 @@
                     <form>
                         <div class="form-group">
                             <label for="inputLocation">Location</label>
-                            <input type="text" class="form-control" id="inputLocation" name="inputLocationName" aria-describedby="location of department">
+                            <input type="text" class="form-control" id="inputLocation" name="inputLocation" aria-describedby="location of department">
                         </div>
                       
                         <button type="submit" class="btn btn-primary" id="updateLocationButton">Update</button>
@@ -298,44 +336,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-   
-
-<!-- Modal Which lists the locations -->
-        <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="locationLabel">Locations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-striped table-bordered table-hover" id="tableLocation">
-                        <thead>
-                            <tr><th scope="col">Location</th></tr>
-                        </thead>
-                        <tbody id="allLocations">
-                        </tbody>
-                    </table>        
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrDeleteLocation">Click on Location</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
-                </div>
-                </div>
-            </div>
-        </div>
 <!-- Update Confirmation for  Location -->
 <div class="modal fade" id="updateLocationConfirmation" tabindex="-1" aria-labelledby="updateLocationConfirmationLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -347,7 +347,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="updateConfirmationText">Are you sure you want to delete LOCATION?</p>
+                    <p id="updateConfirmationLocationText">Are you sure you want to update LOCATION?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="updateLocationButtonConfirmation">Yes</button>
@@ -379,7 +379,7 @@
         </div>
     </div>
 
-
+ 
 
 <!-- PERSONNEL MODALS////////////////////////////////////////////////////////////// -->
 

@@ -40,8 +40,8 @@ $.ajax({
                        
                         <td>${element['firstName']},${element['lastName']}</td>
                         <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                        <td>${element['email']}</td>
-                        <td class="d-none d-md-table-cell">${element['department']}</td>
+                        <td class="d-none d-md-table-cell">${element['email']}</td>
+                        <td>${element['department']}</td>
                         <td class="d-none d-md-table-cell">${element['location']}</td>
                         </tr>`
                         contacts.push(row);
@@ -420,9 +420,6 @@ function getAllLocationForDepartment(modalID, defaultText)  {
             }); 
 }
 
-
-
-//ADD DEPARTMENT FUNCTIONS//////////////////////////////////////
 //Add department function
 function addDepartment(newDepartment, locationID) {    
     $.ajax({
@@ -467,11 +464,7 @@ $("#addDepartmentCloseButton").click(function(){
     });
 //ADD DEPARTMENT FINISHED/////////////////////////////////
 
-
-
-
-//LOCATION FUNCTIONS START/////////////////
-//UPDATE FUNCTIONS/////////////////////////
+//UPDATE DEPARTMENT FUNCTIONS/////////////////////////
 //Show single department to update and delete
 function updateDepartment(id,department, locationID) {
     console.log
@@ -492,65 +485,9 @@ function updateDepartment(id,department, locationID) {
         }
     }); 
 };
+//UPDATE DEPARTMENT FUNCTIONS/////////////////////////
 
 
-function openUpdateDeleteLocationModal(x) {
-    $.ajax({
-        url: "libs/php/getLocationByID.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    id: x
-                    },
-        success: function(result) {	
-            console.log(result)
-           
-            document.querySelector('input[name="inputLocationName"]').value = result['data'][0]['name'];
-            $('#updateOrDeleteLocation').modal('show');
-
-
-         //UPdate Department when UPdate button clicked
-                 $('#updateLocationButton').click(function () {   
-       
-                         console.log( $("#inputLocation").val());
-                        
-                     alert('hi')
-                 });
-                   
-        
-        
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Show department failed on load call failed ' + errorThrown);
-        }
-    }); 
-}
-
-//Get locations and add to department Modal       
-    function getAllLocations(modalID) {
-            $.ajax({
-                url: "libs/php/getAllLocations.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                
-                },
-                success: function(result) {					
-                    let menu = [];
-                    let menuItem = '';                                             
-                    result['data'].forEach(element => {
-                        menuItem = `<tr id=${element['id']} class="rowClick"><td>${element['name']}</td></tr>`;
-                        menu.push(menuItem);
-                    })
-                    $(modalID).html(menu);
-    
-    
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('Open all countries on load call failed ' + errorThrown);
-                }
-            }); 	       
-        }
 //Get departments and add to dropdown menu in desktop
 function getDepartmentDropdown(dropdownID)  {      
     $.ajax({
@@ -595,8 +532,8 @@ function getPersonnelByDepartmentID(id) {
                            
                             <td>${element['firstName']},${element['lastName']}</td>
                             <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                            <td>${element['email']}</td>
-                            <td class="d-none d-md-table-cell">${element['department']}</td>
+                            <td class="d-none d-md-table-cell">${element['email']}</td>
+                            <td>${element['department']}</td>
                             <td class="d-none d-md-table-cell">${element['location']}</td>
                             </tr>`
                             contacts.push(row);
@@ -618,8 +555,6 @@ $("#addPersonnelTopButton").click(function(){
     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
     $('#addPersonnel').modal('show');
   });
-
-
 
 
 //DEPARTMENT FUNCTION END////////////////////////////////////
@@ -674,8 +609,8 @@ function getPersonnelByLocationID(id) {
                             
                                 <td>${element['firstName']},${element['lastName']}</td>
                                 <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                                <td>${element['email']}</td>
-                                <td class="d-none d-md-table-cell">${element['department']}</td>
+                                <td class="d-none d-md-table-cell">${element['email']}</td>
+                                <td>${element['department']}</td>
                                 <td class="d-none d-md-table-cell">${element['location']}</td>
                                 </tr>`
                                 contacts.push(row);
@@ -690,8 +625,143 @@ function getPersonnelByLocationID(id) {
         }); 
   
 }
+//update location function
+function updateLocation(id,location) {
+    console.log
+    $.ajax({
+        url: "libs/php/updateLocation.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            location: location
+        },
+        success: function(result) {			                  
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Update locations failed on load call failed ' + errorThrown);
+        }
+    }); 
+};
+
+function openUpdateDeleteLocationModal(x) {
+    $.ajax({
+        url: "libs/php/getLocationByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: x
+                    },
+        success: function(result) {	
+            console.log(result)
+           
+            document.querySelector('input[name="inputLocation"]').value = result['data'][0]['name'];
+            $('#updateOrDeleteLocation').modal('show');
 
 
+           //UPdate Location when UPdate button clicked
+           $('#updateLocationButton').click(function () {   
+            $("#updateLocationButtonConfirmation").prop("onclick", null).off("click");      
+            $("#updateLocationButtonConfirmation").click(function(){
+              
+                updateLocation(result['data'][0]['id'], $("#inputLocation").val());
+                $('#updateOrDeleteLocation').modal('hide');
+                console.log('the result ' + result['data'][0]['id'] + ' ' +  $("#inputLocation").val())
+               
+               
+            
+        });
+            $('#updateConfirmationLocationText').html(`Are you sure you want to update ${$("#inputLocation").val()} ?`);
+            $('#updateLocationConfirmation').modal('show');
+          
+        });
+        //  //Delete Personnel when DElete button clicked
+        //  $('#deleteDepartmentButton').click(function () {  
+        //     $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
+        //     $("#deleteDepartmentButtonConfirmation").click(function(){
+        //     console.log('the id is : ' + result['data'][0]['id'])
+        //     checkDepartmentID(result['data'][0]['id']);
+        //     //deleteDepartment( result['data'][0]['id']);
+        //     $('#updateOrDeleteDepartment').modal('hide');
+        
+        // });
+        // $('#deleteConfirmationText').html(`Are you sure you want to delete ${result['data'][0]['name']} ?`);
+        // $('#deleteDepartmentConfirmation').modal('show');
+
+    // });
+        
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Get locations and add to department Modal       
+    function getAllLocations(modalID) {
+            $.ajax({
+                url: "libs/php/getAllLocations.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                
+                },
+                success: function(result) {					
+                    let menu = [];
+                    let menuItem = '';                                             
+                    result['data'].forEach(element => {
+                        menuItem = `<tr id=${element['id']} class="rowClick"><td>${element['name']}</td></tr>`;
+                        menu.push(menuItem);
+                    })
+                    $(modalID).html(menu);
+    
+    
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Open all countries on load call failed ' + errorThrown);
+                }
+            }); 	       
+        }
 
 
 
@@ -722,8 +792,8 @@ $(document).ready(function() {
                 row =   `<tr id="${element['id']}">
                 <td>${element['firstName']},${element['lastName']}</td>
                 <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                <td>${element['email']}</td>
-                <td class="d-none d-md-table-cell">${element['department']}</td>
+                <td  class="d-none d-md-table-cell">${element['email']}</td>
+                <td>${element['department']}</td>
                 <td class="d-none d-md-table-cell">${element['location']}</td>
                 </tr>`
                             contacts.push(row);
