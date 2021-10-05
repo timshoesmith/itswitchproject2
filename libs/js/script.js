@@ -5,10 +5,13 @@ function setUp() {
     getAllLocations("#allLocations");
     getDepartmentDropdown('#dropdownDepartmentButton');
     getLocationDropDown('#dropdownLocationButton');
-   
-        // $('#dropdownDepartmentButton li a').on('click', function(){
-        //     console.log('hi')
-        // });
+    //click on row of personnel event
+    $('#tablePersonnel').on('click', 'tr' , function (event) {
+        openUpdateDeletePersonnelModal(event['currentTarget']['id'], event['currentTarget']['department']);
+        });
+        $('#dropdownDepartmentButton li a').on('click', function(){
+            console.log('hi')
+        });
 }
 //PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
@@ -28,7 +31,7 @@ $.ajax({
            
             result['data'].forEach(element => {
             row =   `<tr id="${element['id']}" class="rowClick">
-                       
+                        <td>${element['id']}</td>
                         <td>${element['firstName']},${element['lastName']}</td>
                         <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                         <td>${element['email']}</td>
@@ -127,7 +130,7 @@ function openUpdateDeletePersonnelModal(id) {
             id: id
         },
         success: function(result) {         
-                    // $('#updateOrDeletePersonnel').modal('show'); 
+                    $('#updateOrDeletePersonnel').modal('show'); 
                     document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
                     document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
                     document.querySelector('input[name="inputJobTitleName"]').value = result['data'][0]['jobTitle'];
@@ -211,51 +214,12 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 };
 //PERSONNEL FUNCTION END///////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
 
-//get all location to add to add department form
-function getAllLocationForDepartment(modalID, defaultText)  {      
-    $.ajax({
-                url: "libs/php/getAllLocations.php",
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                
-                },
-                success: function(result) {	
-                    console.log(result)			
-                    let menu = [`<option value= 0}>${defaultText}</option>`];
-                    let menuItem = '';                                            
-                    result['data'].forEach(element => {
-                        menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
-                    
-                        menu.push(menuItem);
-                    })
-                    $(modalID).html(menu);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('Open all  getAllLocationForDepartmenton load call failed ' + errorThrown);
-                }
-            }); 
-        }
+
+
 //Show single department to update and delete
-function openUpdateDeleteDepartmentModal(x) {
+function showDepartment(x) {
     $.ajax({
         url: "libs/php/getDepartmentByID.php",
                 type: 'POST',
@@ -265,78 +229,13 @@ function openUpdateDeleteDepartmentModal(x) {
                     },
         success: function(result) {	
             console.log(result)
-            $('#updateOrDeleteDepartment').modal('show');
-            document.querySelector('input[name="inputDepartment"]').value = result['data'][0]['name'];
-            getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result['data'][0]['location'])
+            
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show department failed on load call failed ' + errorThrown);
         }
     }); 
 }
-
-
-
-//Add department function
-function addDepartment(newDepartment, locationID) {    
-    $.ajax({
-        url: "libs/php/addDepartment.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            newDepartment: newDepartment,
-            locationID: locationID
-        },
-        success: function(result) {	
-            console.log(result);		                 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('add department failed on load call failed ' + errorThrown);
-        }
-    }); 
-}
-
-
-//Add Department when Add button clicked
-$('#addDepartmentlButton').click(function () {
-    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
-    $('#addDepartment').modal('show');
-  });
-
- //Add Department when Add button clicked
-$('#addDepartmentButton').click(function () {
-    
-   
-    $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addDepartmentButtonConfirmation").click(function(){
-        addDepartment( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
-        console.log("dept "  + $("#inputDepartmentAdd").val())
-        console.log("dept "  + $("#dropdownAddDepartmentLocation").val())
-        $('#addDepartment').modal('hide');
-
-      
-});
-    $('#addDepartmentConfirmation').modal('show');
-});
-
-$("#addDepartmentCloseButton").click(function(){ 
-        $('#addDepartmentForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addDepartmentForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -421,6 +320,9 @@ function getDepartmentDropdown(dropdownID)  {
             }); 
 }
 
+
+
+
 //Select Menu function for department with id passed
 function getPersonnelByDepartmentID(id) { 
         $.ajax({
@@ -436,7 +338,7 @@ function getPersonnelByDepartmentID(id) {
                
                 result['data'].forEach(element => {
                 row =   `<tr id="${element['id']}" class="rowClick">
-                           
+                            <td>${element['id']}</td>
                             <td>${element['firstName']},${element['lastName']}</td>
                             <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                             <td>${element['email']}</td>
@@ -455,31 +357,6 @@ function getPersonnelByDepartmentID(id) {
     }); 
 
 }
-
-
-//Open add Department Form
-$("#addPersonnelTopButton").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-    $('#addPersonnel').modal('show');
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -551,7 +428,7 @@ function getPersonnelByLocationID(id) {
                    
                     result['data'].forEach(element => {
                     row =   `<tr id="${element['id']}" class="rowClick">
-                            
+                                <td>${element['id']}</td>
                                 <td>${element['firstName']},${element['lastName']}</td>
                                 <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                                 <td>${element['email']}</td>
@@ -623,10 +500,10 @@ $(document).ready(function() {
         setUp();
         }             
     }); 
-    // $('#dropdownDepartmentButton li a').on('click', function(){
-    //     //$('#datebox').val($(this).text());
-    //     alert($(this).text());
-    // });
+    $('#dropdownDepartmentButton li a').on('click', function(){
+        //$('#datebox').val($(this).text());
+        alert($(this).text());
+    });
     $(document).on('click', '#dropdownDepartmentButton li a', function() {
         var id= ($(this).attr('id'));
         getPersonnelByDepartmentID(id)
@@ -634,18 +511,6 @@ $(document).ready(function() {
     $(document).on('click', '#dropdownLocationButton li a', function() {
         var id= ($(this).attr('id'));
         getPersonnelByLocationID(id);
-    }); 
-    
-      //click on row of personnel event
-      $('#tablePersonnel').on('click', 'tr' , function (event) {
-        openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
-        //event['currentTarget']['department']
-        });  
-         //click on row of departments event
-      $('#tableDepartment').on('click', 'tr' , function (event) {
-          console.log(event['currentTarget'])
-          openUpdateDeleteDepartmentModal(event['currentTarget']['id']);
-        }); 
+    });    
 });
-
 

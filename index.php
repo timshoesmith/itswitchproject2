@@ -19,7 +19,7 @@
     <body>
 
 <!-- Container Div plus main database showing personnel and search -->
-        <div class="container border border-primary">         
+    <div class="container border border-primary">         
                 <div class="row align-items-center border  border-primary">
                     <div class="col-md-6">
                         <div class="row">
@@ -61,7 +61,7 @@
                                             </button>
                                             <ul class="dropdown-menu w-100" aria-labelledby="" id="dropdownDepartmentButton">
                                             </ul >
-                                        </div> 
+                                            </div> 
                                     </div>
                                     <div class="col-6">
                                         <div class="dropdown">
@@ -74,13 +74,15 @@
                                     </div>                      
                                 </div>
                             </div>                    
-                
+              
+    
 
-<!-- Table of personnel -->
+        <!-- Table of personnel -->
             <div class="row border border-primary">
                 <table class="table table-striped table-sm table-bordered table-hover" id="tablePersonnel">
                     <thead>
                         <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col" class="d-none d-md-table-cell">Job Title</th>
                         <th scope="col ">Email</th>
@@ -92,9 +94,16 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+            </div>
     </div>
+
   <!-- End of Container Div plus main database showing personnel and search -->
+
+
+
+
+
+
 
 
 <!-- DEPARTMENT MODALS////////////////////////////////////////////////////////////// -->
@@ -104,13 +113,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="departmentLabel">Departmentss</h5>
+                    <h5 class="modal-title" id="departmentLabel">Departments</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-striped table-bordered table-hover" id="tableDepartment">
+                    <table class="table table-striped table-bordered table-hover">
                     <thead>
                                     <tr>
                                     <th scope="col">Department</th>
@@ -125,7 +134,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrDeleteDepartment">Click On Department</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>                
-                    <button type="button" class="btn btn-primary" id="addDepartmentlButton">Add</button>
+                    <button type="button" class="btn btn-primary">Add</button>
                 </div>
                 </div>
             </div>
@@ -145,19 +154,19 @@
                     <form>
                         <div class="form-group">
                             <label for="inputDepartment">Department</label>
-                            <input type="text" class="form-control" id="inputDepartment" name="inputDepartment" aria-describedby="Department Name">
+                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="Department Name">
                         </div>
-                        <div class="form-group">                     
-                                <select id="dropdownUpdateDepartmentLocation" name="select" class="custom-select"></select> 
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Are you sure you want to update Department </label>
                         </div>
-                       
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </form> 
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDepartmentConfirmation">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDepartmentConfirmation">Delete</button>
                 </div>
             </div>
         </div>
@@ -185,71 +194,39 @@
     </div>
 
 
-<!-- Modal Add Department -->
-<div class="modal fade" id="addDepartment" tabindex="-1" aria-labelledby="addDepartmentlLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+
+<!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
+
+<!-- Modal Which lists the locations -->
+        <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="DepartmentLabel">Add Department</h5>
+                    <h5 class="modal-title" id="locationLabel">Locations</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addDepartmentForm">
-                    <div class="form-group">
-                            <label for="inputDepartmentAdd">First Name</label>
-                            <input type="text" class="form-control" id="inputDepartmentAdd" aria-describedby="First Name">
-                        </div>
-                        <!-- <div class="form-group">
-                            <label for="inputDepartment">Department</label>
-                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="Department Name">
-                        </div> -->
-                        <div class="form-group">                     
-                            <select id="dropdownAddDepartmentLocation" name="select" class="custom-select">
-                            </select>                     
-                    </form>          
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr><th scope="col">Location</th></tr>
+                        </thead>
+                        <tbody id="allLocations">
+                        </tbody>
+                    </table>        
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addDepartmentButton">Add</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addDepartmentCloseButton>Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrDeleteLocation">Click on Location</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
                 </div>
             </div>
         </div>
-    </div>
 
-
-
-<!-- Add Confirmation for  Department -->
-<div class="modal fade" id="addDepartmentConfirmation" tabindex="-1" aria-labelledby="add department check" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="departmentConfirmation">Add Department</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to add DEPARTMENT?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="addDepartmentButtonConfirmation">Yes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-<!-- Modal Update Location -->
-<div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
+<!-- Modal Update Department -->
+    <div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -279,44 +256,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-    <!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
-
-<!-- Modal Which lists the locations -->
-        <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="locationLabel">Locations</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr><th scope="col">Location</th></tr>
-                        </thead>
-                        <tbody id="allLocations">
-                        </tbody>
-                    </table>        
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateOrDeleteLocation">Click on Location</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
-                </div>
-                </div>
-            </div>
-        </div>
 
 <!-- Delete Confirmation for  Location -->
     <div class="modal fade" id="deleteLocationConfirmation" tabindex="-1" aria-labelledby="deleteLocationConfirmationLabel" aria-hidden="true">
@@ -399,19 +338,19 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label for="inputFirstNameName">First Name</label>
+                                <label for="inputFirstName">First Name</label>
                                 <input type="text" class="form-control" id="inputFirstNameName" name="inputFirstNameName" aria-describedby="First Name">
                             </div>
                             <div class="form-group">
-                                <label for="inputLastNameName">Last Name</label>
+                                <label for="inputLastName">Last Name</label>
                                 <input type="text" class="form-control" id="inputLastNameName" name="inputLastNameName" aria-describedby="Last Name">
                             </div>
                             <div class="form-group">
-                                <label for="inputJobTitleName">Job Title</label>
+                                <label for="inputJobTitle">Job Title</label>
                                 <input type="text" class="form-control" id="inputJobTitleName" name="inputJobTitleName"aria-describedby="Job Title">
                             </div>
                             <div class="form-group">
-                                <label for="inputEmailName">Email address</label>
+                                <label for="inputEmail">Email address</label>
                                 <input type="email" class="form-control" id="inputEmailName" name="inputEmailName"aria-describedby="emailHelp">
                             </div>
                             <div class="form-group">                     
