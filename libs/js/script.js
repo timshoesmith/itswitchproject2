@@ -170,12 +170,7 @@ function openUpdateDeletePersonnelModal(id) {
         });            
     }
     
-
-
-
-
-
-        function deletePersonnel(id) {
+function deletePersonnel(id) {
     $.ajax({
         url: "libs/php/deletePersonelByID.php",
                 type: 'POST',
@@ -218,12 +213,23 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
 //Delete department code
-
 function deleteDepartment(id) {
-
-    
-
     $.ajax({
         url: "libs/php/deleteDepartmentByID.php",
                 type: 'POST',
@@ -239,20 +245,6 @@ function deleteDepartment(id) {
         }
     }); 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
 //Get departments and add to departments Modal
 function getAllDepartments(modalID)  {      
     $.ajax({
@@ -320,7 +312,7 @@ function openUpdateDeleteDepartmentModal(x) {
 
 
             //UPdate Department when UPdate button clicked
-                 $('#updateDepartmentlButton').click(function () {   
+                 $('#updateDepartmentButton').click(function () {   
                      $("#updateDepartmentButtonConfirmation").prop("onclick", null).off("click");      
                      $("#updateDepartmentButtonConfirmation").click(function(){
                          updateDepartment(result['data'][0]['id'], $("#inputDepartment").val(), $("#dropdownUpdateDepartmentLocation").val());
@@ -349,21 +341,6 @@ function openUpdateDeleteDepartmentModal(x) {
         });
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show department failed on load call failed ' + errorThrown);
@@ -371,36 +348,7 @@ function openUpdateDeleteDepartmentModal(x) {
     }); 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //UPDATE DEPARTMENT CLOSE///////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -482,8 +430,61 @@ $("#addDepartmentCloseButton").click(function(){
 
 
 
+//LOCATION FUNCTIONS START/////////////////
+//UPDATE FUNCTIONS/////////////////////////
+//Show single department to update and delete
+function updateDepartment(id,department, locationID) {
+    console.log
+    $.ajax({
+        url: "libs/php/updateDepartment.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            department: department,
+            locationID: locationID
+        },
+        success: function(result) {
+            console.log(result)			                  
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Update locations failed on load call failed ' + errorThrown);
+        }
+    }); 
+};
 
 
+function openUpdateDeleteLocationModal(x) {
+    $.ajax({
+        url: "libs/php/getLocationByID.php",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    id: x
+                    },
+        success: function(result) {	
+            console.log(result)
+           
+            document.querySelector('input[name="inputLocationName"]').value = result['data'][0]['name'];
+            $('#updateOrDeleteLocation').modal('show');
+
+
+         //UPdate Department when UPdate button clicked
+                 $('#updateLocationButton').click(function () {   
+       
+                         console.log( $("#inputLocation").val());
+                        
+                     alert('hi')
+                 });
+                   
+        
+        
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Show department failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
 
 
 
@@ -510,7 +511,7 @@ $("#addDepartmentCloseButton").click(function(){
                     let menu = [];
                     let menuItem = '';                                             
                     result['data'].forEach(element => {
-                        menuItem = `<tr id=${element['id']}><td>${element['name']}</td></tr>`;
+                        menuItem = `<tr id=${element['id']} class="rowClick"><td>${element['name']}</td></tr>`;
                         menu.push(menuItem);
                     })
                     $(modalID).html(menu);
@@ -772,6 +773,10 @@ $(document).ready(function() {
       $('#tableDepartment').on('click', 'tr' , function (event) {
           openUpdateDeleteDepartmentModal(event['currentTarget']['id']);
         }); 
+           //click on row of locations event
+      $('#tableLocation').on('click', 'tr' , function (event) {
+        openUpdateDeleteLocationModal(event['currentTarget']['id']);
+      }); 
 });
 
 

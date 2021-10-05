@@ -155,7 +155,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="updateDepartmentlButton">Update</button>
+                    <button type="submit" class="btn btn-primary" id="updateDepartmentButton">Update</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDepartmentButtonConfirmation" id="deleteDepartmentButton">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -266,11 +266,10 @@
 
 
 
+ <!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
 
 
-
-
-<!-- Modal Update Location -->
+    <!-- Modal Update Location -->
 <div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -283,14 +282,11 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="inputLocationName">Location</label>
-                            <input type="text" class="form-control" id="inputLocationName" aria-describedby="location of department">
+                            <label for="inputLocation">Location</label>
+                            <input type="text" class="form-control" id="inputLocation" name="inputLocationName" aria-describedby="location of department">
                         </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Are you sure you want to update Location </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                      
+                        <button type="submit" class="btn btn-primary" id="updateLocationButton">Update</button>
                     </form> 
                     
                 </div>
@@ -310,7 +306,7 @@
 
 
 
-    <!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
+   
 
 <!-- Modal Which lists the locations -->
         <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
@@ -323,7 +319,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover" id="tableLocation">
                         <thead>
                             <tr><th scope="col">Location</th></tr>
                         </thead>
@@ -339,6 +335,27 @@
                 </div>
             </div>
         </div>
+<!-- Update Confirmation for  Location -->
+<div class="modal fade" id="updateLocationConfirmation" tabindex="-1" aria-labelledby="updateLocationConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="locationConfirmation">Update Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="updateConfirmationText">Are you sure you want to delete LOCATION?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="updateLocationButtonConfirmation">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <!-- Delete Confirmation for  Location -->
     <div class="modal fade" id="deleteLocationConfirmation" tabindex="-1" aria-labelledby="deleteLocationConfirmationLabel" aria-hidden="true">
