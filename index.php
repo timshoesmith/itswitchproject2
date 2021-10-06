@@ -96,7 +96,7 @@
 
 <!-- DEPARTMENT MODALS////////////////////////////////////////////////////////////// -->
 
-<!-- Modal Which lists the departments -->
+<!-- Modal List Departments -->
         <div class="modal fade" id="listDepartment" tabindex="-1" aria-labelledby="listDeptartmentLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -128,7 +128,7 @@
             </div>
         </div>
 
-<!-- Modal Update Department -->
+<!-- Modal Update of Delete Department -->
     <div class="modal fade" id="updateOrDeleteDepartment" tabindex="-1" aria-labelledby="updateOrDeleteDepartmentLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -155,6 +155,39 @@
                     <button type="submit" class="btn btn-primary" id="updateDepartmentButton">Update</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDepartmentButtonConfirmation" id="deleteDepartmentButton">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal Add Department -->
+<div class="modal fade" id="addDepartment" tabindex="-1" aria-labelledby="addDepartmentlLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DepartmentLabel">Add Department</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDepartmentForm">
+                    <div class="form-group">
+                            <label for="inputDepartmentAdd">First Name</label>
+                            <input type="text" class="form-control" id="inputDepartmentAdd" aria-describedby="First Name">
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="inputDepartment">Department</label>
+                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="Department Name">
+                        </div> -->
+                        <div class="form-group">                     
+                            <select id="dropdownAddDepartmentLocation" name="select" class="custom-select">
+                            </select> 
+                        </div>                    
+                    </form>          
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addDepartmentButtonOnAddForm">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addDepartmentCloseButton>Close</button>
                 </div>
             </div>
         </div>
@@ -201,44 +234,6 @@
             </div>
         </div>
     </div>
-
-
-<!-- Modal Add Department -->
-<div class="modal fade" id="addDepartment" tabindex="-1" aria-labelledby="addDepartmentlLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="DepartmentLabel">Add Department</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addDepartmentForm">
-                    <div class="form-group">
-                            <label for="inputDepartmentAdd">First Name</label>
-                            <input type="text" class="form-control" id="inputDepartmentAdd" aria-describedby="First Name">
-                        </div>
-                        <!-- <div class="form-group">
-                            <label for="inputDepartment">Department</label>
-                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="Department Name">
-                        </div> -->
-                        <div class="form-group">                     
-                            <select id="dropdownAddDepartmentLocation" name="select" class="custom-select">
-                            </select> 
-                        </div>                    
-                    </form>          
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addDepartmentButton">Add</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addDepartmentCloseButton>Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
 <!-- Add Confirmation for  Department -->
 <div class="modal fade" id="addDepartmentConfirmation" tabindex="-1" aria-labelledby="add department check" aria-hidden="true">
         <div class="modal-dialog">
@@ -261,32 +256,22 @@
     </div>
 
 
+<!-- DEPARTMENT MODALS ENDS ////////////////////////////////////////////////////////////// -->
+
+
+
+
 
 
  <!-- LOCATION MODALS////////////////////////////////////////////////////////////// -->
 
-
-   
-
-
-
-
-
-
-
-
-
-   
-
-
-
- <!-- Modal Which lists the locations -->
-        <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
+<!-- Modal Lists the locations -->
+    <div class="modal fade" id="listLocation" tabindex="-1" aria-labelledby="listLocationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="locationLabel">Locations</h5>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-primary" id="addLocationButton">Add</button>
                     <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span> -->
                     </button>
@@ -304,12 +289,11 @@
                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     
                 </div>
-                </div>
             </div>
         </div>
-
-<!-- Modal Update Location -->
-<div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
+    </div>  
+<!-- Modal Update or Delete Location -->
+    <div class="modal fade" id="updateOrDeleteLocation" tabindex="-1" aria-labelledby="updateOrDeleteLocationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -321,8 +305,8 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="inputLocation">Location</label>
-                            <input type="text" class="form-control" id="inputLocation" name="inputLocation" aria-describedby="location of department">
+                            <label for="inputLocationUpdateOrDelete">Location</label>
+                            <input type="text" class="form-control" id="inputLocationUpdateOrDelete" name="inputLocationUpdateOrDelete" aria-describedby="location of department">
                         </div>
                       
                         <button type="submit" class="btn btn-primary" id="updateLocationButton">Update</button>
@@ -336,12 +320,40 @@
             </div>
         </div>
     </div>
-<!-- Update Confirmation for  Location -->
-<div class="modal fade" id="updateLocationConfirmation" tabindex="-1" aria-labelledby="updateLocationConfirmationLabel" aria-hidden="true">
+<!-- Modal Add Location -->
+    <div class="modal fade" id="addLocation" tabindex="-1" aria-labelledby="addLocationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="locationConfirmation">Update Location</h5>
+                    <h5 class="modal-title" id="AddLocationTitleLabel">Add Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputLocation">Location</label>
+                            <input type="text" class="form-control" name="inputLocationAdd" id="inputLocationAdd" aria-describedby="location">
+                        </div>
+                      
+                       
+                    </form> 
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="addLocationButtonOnAddForm">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Update Confirmation for  Location -->
+    <div class="modal fade" id="updateLocationConfirmation" tabindex="-1" aria-labelledby="updateLocationConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateOrDeleteLocationConfirmationTitle">Update Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -351,35 +363,53 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="updateLocationButtonConfirmation">Yes</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
     </div>
-
-
 <!-- Delete Confirmation for  Location -->
     <div class="modal fade" id="deleteLocationConfirmation" tabindex="-1" aria-labelledby="deleteLocationConfirmationLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="locationConfirmation">Delete Location</h5>
+                    <h5 class="modal-title" id="addLocationConfirmationTitle">Delete Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete LOCATION?</p>
+                    <p id="deleteConfirmationLocationText">Are you sure you want to delete LOCATION?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="deleteLocationButtonConfirmation">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Add  Confirmation for  Location -->
+    <div class="modal fade" id="addLocationConfirmation" tabindex="-1" aria-labelledby="addLocationConfirmationLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addLocationConfirmationTitle">Delete Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="addConfirmationLocationText">Are you sure you want to delete LOCATION?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="addLocationButtonConfirmation">Yes</button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
     </div>
 
- 
+ <!-- LOCATION MODALS END////////////////////////////////////////////////////////////// -->
 
 <!-- PERSONNEL MODALS////////////////////////////////////////////////////////////// -->
 

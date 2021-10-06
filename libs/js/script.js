@@ -438,21 +438,17 @@ function addDepartment(newDepartment, locationID) {
         }
     }); 
 }
-//Add Department when Add button clicked
+//Open Add Department Modal when Add button clicked
 $('#addDepartmentlButton').click(function () {
     getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
     $('#addDepartment').modal('show');
   });
- //Add Department when Add button clicked
-$('#addDepartmentButton').click(function () {
-   
-  
+//Add Department when Add button clicked
+$('#addDepartmentButtonOnAddForm').click(function () {  
     $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
     $("#addDepartmentButtonConfirmation").click(function(){
         addDepartment( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
-        $('#addDepartment').modal('hide');
-
-      
+        $('#addDepartment').modal('hide');    
 });
     $('#addDepartmentConfirmation').modal('show');
 });
@@ -653,28 +649,29 @@ function openUpdateDeleteLocationModal(x) {
                     id: x
                     },
         success: function(result) {	
-            console.log(result)
-           
+            console.log(result['data'])
             document.querySelector('input[name="inputLocation"]').value = result['data'][0]['name'];
             $('#updateOrDeleteLocation').modal('show');
-
-
            //UPdate Location when UPdate button clicked
-           $('#updateLocationButton').click(function () {   
-            $("#updateLocationButtonConfirmation").prop("onclick", null).off("click");      
-            $("#updateLocationButtonConfirmation").click(function(){
-              
+           $('#updateLocationButton').click(function () { 
+               
+              //     $("#updateLocationButtonConfirmation").prop("onclick", null).off("click");      
+                //     $("#updateLocationButtonConfirmation").click(function(){
+
                 updateLocation(result['data'][0]['id'], $("#inputLocation").val());
-                $('#updateOrDeleteLocation').modal('hide');
-                console.log('the result ' + result['data'][0]['id'] + ' ' +  $("#inputLocation").val())
+      
+              
+      
+        //         $('#updateOrDeleteLocation').modal('hide');
+        //         console.log('the result ' + result['data'][0]['id'] + ' ' +  $("#inputLocation").val())
                
                
             
         });
-            $('#updateConfirmationLocationText').html(`Are you sure you want to update ${$("#inputLocation").val()} ?`);
-            $('#updateLocationConfirmation').modal('show');
+        //     $('#updateConfirmationLocationText').html(`Are you sure you want to update ${$("#inputLocation").val()} ?`);
+        //     $('#updateLocationConfirmation').modal('show');
           
-        });
+        // });
         //  //Delete Personnel when DElete button clicked
         //  $('#deleteDepartmentButton').click(function () {  
         //     $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
@@ -698,22 +695,54 @@ function openUpdateDeleteLocationModal(x) {
 }
 
 
+//ADD LOCATION FUNCTIONS/////////////////////
+
+
+//Add Location function
+function addLocation(newLocation) {    
+    $.ajax({
+        url: "libs/php/addLocation.php",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            newLocation: newLocation           
+        },
+        success: function(result) {	
+            console.log(result);		                 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('add location failed on load call failed ' + errorThrown);
+        }
+    }); 
+}
+
+//Open ADD Location when Add button clicked
+$('#addLocationButton').click(function () {
+    $('#addLocation').modal('show');
+  });
+
+//Add Location when Add button clicked
+$('#addLocationButtonOnAddForm').click(function () {  
+    $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
+    $("#addLocationButtonConfirmation").click(function(){
+        addLocation($("#inputLocationAdd").val());   
+        $('#addLocation').modal('hide');    
+});
+    $('#addLocationConfirmation').modal('show');
+});
+//Add department when close button clicked clears form
+// $("#addDepartmentCloseButton").click(function(){ 
+//         $('#addDepartmentForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+//         $('#addDepartmentForm').find(':checkbox, :radio').prop('checked', false);
+    
+//     });
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+//ADD LOCATION FUNCTIONS END////////////////////////
 
 
 
