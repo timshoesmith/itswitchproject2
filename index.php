@@ -152,7 +152,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="updateDepartmentButton">Update</button>
+                    <button type="button" class="btn btn-primary" id="updateDepartmentButton">Update</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteDepartmentButtonConfirmation" id="deleteDepartmentButton">Delete</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
@@ -172,7 +172,7 @@
                 <div class="modal-body">
                     <form id="addDepartmentForm">
                     <div class="form-group">
-                            <label for="inputDepartmentAdd">First Name</label>
+                            <label for="inputDepartmentAdd">Department Name</label>
                             <input type="text" class="form-control" id="inputDepartmentAdd" aria-describedby="First Name">
                         </div>
                         <!-- <div class="form-group">
@@ -204,7 +204,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="updateConfirmationText">Are you sure you want to update DEPARTMENT?</p>
+                    <p id="updateConfirmationTextDepartment">Are you sure you want to update DEPARTMENT?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"id="updateDepartmentButtonConfirmation" >Yes</button>
@@ -225,7 +225,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to delete DEPARTMENT?</p>
+                    <p id="deleteConfirmationTextDepartment">Are you sure you want to delete DEPARTMENT?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="deleteDepartmentButtonConfirmation">Yes</button>
@@ -245,7 +245,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure you want to add DEPARTMENT?</p>
+                    <p id="addConfirmationTextDepartment">Are you sure you want to add DEPARTMENT?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="addDepartmentButtonConfirmation">Yes</button>
@@ -297,7 +297,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="locationDeleteLabel">Update or Delete Location</h5>
+                    <h5 class="modal-title" id="deleteLocationTitleLabel">Update or Delete Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -309,13 +309,13 @@
                             <input type="text" class="form-control" id="inputLocationUpdateOrDelete" name="inputLocationUpdateOrDelete" aria-describedby="location of department">
                         </div>
                       
-                        <button type="submit" class="btn btn-primary" id="updateLocationButton">Update</button>
+                        <button type="button" class="btn btn-primary" id="updateLocationButton">Update</button>
                     </form> 
                     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLocationConfirmation">Delete</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" id="deleteLocationButtonOnUpdateForm" data-target="deleteLocationButtonOnUpdateForm">Delete</button>
                 </div>
             </div>
         </div>
@@ -331,7 +331,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                <form id="addLocationForm">
                         <div class="form-group">
                             <label for="inputLocation">Location</label>
                             <input type="text" class="form-control" name="inputLocationAdd" id="inputLocationAdd" aria-describedby="location">
@@ -342,8 +342,8 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="addLocationButtonOnAddForm">Add</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="addLocationButtonOnAddForm">Add</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="addLocationCloseButton">Close</button>
                 </div>
             </div>
         </div>
@@ -353,13 +353,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateOrDeleteLocationConfirmationTitle">Update Location</h5>
+                    <h5 class="modal-title" id="updateLocationConfirmationTitle">Update Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="updateConfirmationLocationText">Are you sure you want to update LOCATION?</p>
+                    <p id="updateConfirmationTextLocation">Are you sure you want to update LOCATION?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="updateLocationButtonConfirmation">Yes</button>
@@ -373,13 +373,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addLocationConfirmationTitle">Delete Location</h5>
+                    <h5 class="modal-title" id="deleteLocationConfirmationTitle">Delete Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="deleteConfirmationLocationText">Are you sure you want to delete LOCATION?</p>
+                    <p id="deleteConfirmationTextLocation">Are you sure you want to delete LOCATION?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="deleteLocationButtonConfirmation">Yes</button>
@@ -399,7 +399,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="addConfirmationLocationText">Are you sure you want to delete LOCATION?</p>
+                    <p id="addConfirmationTextLocation">Are you sure you want to delete LOCATION?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="addLocationButtonConfirmation">Yes</button>
@@ -411,7 +411,33 @@
 
  <!-- LOCATION MODALS END////////////////////////////////////////////////////////////// -->
 
-<!-- PERSONNEL MODALS////////////////////////////////////////////////////////////// -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- PERSONNEL MODALS////////////////////////////////////////////////////////////// -->
 
 <!-- Modal Add Personnel -->
     <div class="modal fade" id="addPersonnel" tabindex="-1" aria-labelledby="addPersonnelLabel" aria-hidden="true">
@@ -491,7 +517,7 @@
                         
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="updatePersonnelButton">Update</button>
+                        <button type="button" class="btn btn-primary" id="updatePersonnelButton">Update</button>
                         <button type="button" class="btn btn-danger" data-toggle="modal" id="deletePersonnelButton" data-target="#deletePersonnelConfirmation">Delete</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
@@ -509,7 +535,7 @@
                             </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to add PERSON NAME?</p>
+                        <p id="addConfirmationTextPersonnel">Are you sure you want to add PERSON NAME?</p>
                             
                     </div>
                     <div class="modal-footer">
@@ -531,7 +557,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <p id="updateConfirmationText">Are you sure you want to update PERSON NAME?</p>
+                       <p id="updateConfirmationTextPersonnel">Are you sure you want to update PERSON NAME?</p>
                         
                     </div>
                     <div class="modal-footer">
@@ -552,7 +578,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                       <p id="deleteConfirmationText"></p>
+                       <p id="deleteConfirmationTextPersonnel"></p>
                         
                     </div>
                     <div class="modal-footer">
