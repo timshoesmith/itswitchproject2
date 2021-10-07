@@ -54,7 +54,11 @@ $.ajax({
     });
    
 }
-
+//Open add personnel form when button clicked
+$("#addPersonnelTopButton").click(function(){ 
+    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+    $('#addPersonnel').modal('show');
+  });
 //Add personnel Form/////////////////
 function getAllDepartmentsForPersonnel(modalID, defaultText)  {      
     $.ajax({
@@ -290,7 +294,7 @@ function deleteDepartment(id) {
     }); 
 }
 
-//Can I delete department? function returns boolean yes or no given a department ID
+//Can I delete department? function adds or alerts if department ID is in use
 function checkDepartmentID(id) {
     $.ajax({
         url: "libs/php/checkDepartmentID.php",
@@ -480,29 +484,65 @@ function getAllLocationForDepartment(modalID, defaultText)  {
             }); 
 }
 
-//Add department function
-function addDepartment(newDepartment, locationID) {    
-    $.ajax({
-        url: "libs/php/addDepartment.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            newDepartment: newDepartment,
-            locationID: locationID
-        },
-        success: function(result) {		                 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('add department failed on load call failed ' + errorThrown);
-        }
-    }); 
-}
 
-//Open add Department Form
-$("#addPersonnelTopButton").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-    $('#addPersonnel').modal('show');
-  });
+
+
+
+
+
+
+
+
+
+
+//ADD DEPARTMENT////////////////////////
+  //Add department function
+  function addDepartment(newDepartment, locationID) {    
+      $.ajax({
+          url: "libs/php/addDepartment.php",
+          type: 'POST',
+          dataType: 'json',
+          data: {
+              newDepartment: newDepartment,
+              locationID: locationID
+          },
+          success: function(result) {		                 
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              console.log('add department failed on load call failed ' + errorThrown);
+          }
+      }); 
+  }
+  
+  //Can I add department? function adds or alerts if department ID is in use
+  function checkDepartmentForDuplicate(name, locationID) {
+      $.ajax({
+          url: "libs/php/checkDepartmentNameDuplicate.php",
+                  type: 'POST',
+                  dataType: 'json',
+                  data: {
+                      name: name,
+                      locationID: locationID
+                      },
+          success: function(result) {	
+                  if (result['data'][0]['count(name)'] == 0) {
+                      addDepartment(name, locationID);
+                  }
+                  else 
+                  {
+                      alert('This department has already been created!')
+                  }
+             
+     
+          
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+              console.log('Show department failed on load call failed ' + errorThrown);
+          }
+      }); 
+  }
+
+
   //Open Add Department Modal when Add button clicked
 $('#addDepartmentlButton').click(function () {
     getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
@@ -512,7 +552,7 @@ $('#addDepartmentlButton').click(function () {
 $('#addDepartmentButtonOnAddForm').click(function () {  
     $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
     $("#addDepartmentButtonConfirmation").click(function(){
-        addDepartment( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
+        checkDepartmentForDuplicate( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
         $('#addDepartment').modal('hide');    
 });
     $('#addConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartmentAdd").val()}?`);
@@ -888,6 +928,10 @@ $(document).ready(function() {
       $('#tableLocation').on('click', 'tr' , function (event) {
         openUpdateDeleteLocationModal(event['currentTarget']['id']);
       }); 
+            //click on row of locations event
+            $('#showAllPersonnel').click(function() {
+               setUp();
+              }); 
 });
 
 

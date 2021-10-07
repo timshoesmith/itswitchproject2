@@ -10,8 +10,8 @@
         <title>Company Contacts</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <link re="stylesheet" href="./libs/css/bootstrap.css"> -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="libs/css/bootstrap.css" />
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="libs/css/style.css?<?php echo date("YmdHisP");?>">
     </head>
     <body>
@@ -41,9 +41,10 @@
                     <div class="col-md-6 d-none d-md-block">
                         <div class="row d-inline d-md-block">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listDepartment">Company</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listLocation">Locations</button>
-                                <button type="button" class="btn btn-success" id="addPersonnelTopButton" data-toggle="modal" data-target="">Add Personnel</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="modal" id='showAllPersonnel'>All</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#listDepartment">Departments</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#listLocation">Locations</button>
+                                <button type="button" class="btn btn-danger" id="addPersonnelTopButton" data-toggle="modal" data-target="">Add</button>
                             </div>
                         </div>
                     </div>
@@ -180,10 +181,6 @@
                             <label for="inputDepartmentAdd">Department Name</label>
                             <input type="text" class="form-control" id="inputDepartmentAdd" aria-describedby="First Name">
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="inputDepartment">Department</label>
-                            <input type="text" class="form-control" id="inputDepartment" aria-describedby="Department Name">
-                        </div> -->
                         <div class="form-group">                     
                             <select id="dropdownAddDepartmentLocation" name="select" class="custom-select">
                             </select> 
@@ -448,9 +445,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="personnelLabel">Add Personnel</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
                 </div>
                 <div class="modal-body">
                     <form id="addPersonnelForm">
@@ -477,7 +472,7 @@
                     </form>          
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
+                   
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addPersonnelCloseButton>Close</button>
                 </div>
             </div>
@@ -597,8 +592,8 @@
 
 
         <script src="libs/js/jquery-2.2.3.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>  
-        <!-- <script src="./libs/js/bootstrap.js"></script>> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>   -->
+        <script src="libs/js/bootstrap.js"></script>
         <script src="https://kit.fontawesome.com/a49cfc5756.js" crossorigin="anonymous"></script>
         <script src="libs/js/script.js?<?php echo date("YmdHis");?>"></script>
     </body>
