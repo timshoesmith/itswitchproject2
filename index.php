@@ -10,7 +10,7 @@
         <title>Company Contacts</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-      
+        <!-- <link re="stylesheet" href="./libs/css/bootstrap.css"> -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="libs/css/style.css?<?php echo date("YmdHisP");?>">
     </head>
@@ -22,22 +22,28 @@
                 <div class="row align-items-center border  border-dnager">
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-4">
-                                <img class="img-responsive" src="libs/images/cologo1.png" />
+                            <div class="col-2">
+                                <img class="img-responsive" src="libs/images/cologo2.png" />
                             </div>
                             <div class="col-8">
                                 <h1 class="align-middle">The Company</h1>
                             </div>
+
+                            <div class="col-2">
+                                 <div class="row d-block d-sm-block d-md-none">
+                                        <div>
+                                            <button type="button" class="btn btn-danger fa solid fa-plus float-right" id="addPersonnelTopButtonSmallScreen" data-toggle="modal" data-target=""></button>
+                                        </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-none d-md-block">
                         <div class="row d-inline d-md-block">
                             <div class="col-12">
-                                <button type="button" class="btn btn-primary d-none d-xl-inline" data-toggle="modal" data-target="#listDeptOrCompany">Show All</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listDepartment">Depts</button>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listLocation">Loc</button>
-                                <button type="button" class="btn btn-success" id="addPersonnelTopButton" data-toggle="modal" data-target="">Add</button>
-                                <button type="button" class="btn btn-primary d-none d-xl-inline" data-toggle="modal" data-target="#updateOrDeletePersonnel">UpOrD</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listDepartment">Company</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#listLocation">Locations</button>
+                                <button type="button" class="btn btn-success" id="addPersonnelTopButton" data-toggle="modal" data-target="">Add Personnel</button>
                             </div>
                         </div>
                     </div>
@@ -165,9 +171,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="DepartmentLabel">Add Department</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn btn-primary" id="addDepartmentButtonOnAddForm">Add</button>
+                   
                 </div>
                 <div class="modal-body">
                     <form id="addDepartmentForm">
@@ -186,7 +191,7 @@
                     </form>          
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addDepartmentButtonOnAddForm">Add</button>
+                   
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addDepartmentCloseButton>Close</button>
                 </div>
             </div>
@@ -326,9 +331,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="AddLocationTitleLabel">Add Location</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn btn-primary" id="addLocationButtonOnAddForm">Add</button>
                 </div>
                 <div class="modal-body">
                 <form id="addLocationForm">
@@ -342,7 +345,7 @@
                     
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="addLocationButtonOnAddForm">Add</button>
+                  
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="addLocationCloseButton">Close</button>
                 </div>
             </div>
@@ -595,6 +598,8 @@
 
         <script src="libs/js/jquery-2.2.3.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>  
+        <!-- <script src="./libs/js/bootstrap.js"></script>> -->
+        <script src="https://kit.fontawesome.com/a49cfc5756.js" crossorigin="anonymous"></script>
         <script src="libs/js/script.js?<?php echo date("YmdHis");?>"></script>
     </body>
 </html>

@@ -15,9 +15,6 @@ function setUp() {
     getDepartmentDropdown('#dropdownDepartmentButton');
     getLocationDropDown('#dropdownLocationButton');
    
-        // $('#dropdownDepartmentButton li a').on('click', function(){
-        //     console.log('hi')
-        // });
 }
 //PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
@@ -102,11 +99,17 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepart
             }
         }); 
 }
-//Open add Personnel Form
+//Open add Personnel Form large Screen
 $("#addPersonnelTopButton").click(function(){ 
     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
     $('#addPersonnel').modal('show');
   });
+//Open add Personnel Form small Screen
+$("#addPersonnelTopButtonSmallScreen").click(function(){ 
+    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+    $('#addPersonnel').modal('show');
+  });
+  
 
 //Add Personnel when Add button clicked
 $('#addPersonnelButton').click(function () {
@@ -118,6 +121,9 @@ $('#addPersonnelButton').click(function () {
         setUp();
 });
     $('#addPersonnelConfirmation').modal('show');
+    $('#addConfirmationTextPersonnel').html(`Are you sure you want to update ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);
+                            
+    addConfirmationTextPersonnel
 });
 
 $("#addPersonnelCloseButton").click(function(){ 
@@ -294,9 +300,7 @@ function checkDepartmentID(id) {
                     id: id
                     },
         success: function(result) {	
-            console.log(result['data'][0]['count(id)']);
                 if (result['data'][0]['count(id)'] == 0) {
-                    console.log('It is zero')
                     deleteDepartment(id);
                 }
                 else 
@@ -321,9 +325,7 @@ function openUpdateDeleteDepartmentModal(x) {
                 data: {
                     id: x
                     },
-        success: function(result) {	
-            console.log(result)
-           
+        success: function(result) {	         
             document.querySelector('input[name="inputDepartment"]').value = result['data'][0]['name'];
             getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result['data'][0]['location'])
             $('#updateOrDeleteDepartment').modal('show');
@@ -336,12 +338,11 @@ function openUpdateDeleteDepartmentModal(x) {
                        
                          updateDepartment(result['data'][0]['id'], $("#inputDepartment").val(), $("#dropdownUpdateDepartmentLocation").val());
                          $('#updateOrDeleteDepartment').modal('hide');
-                         console.log( $("#dropdownUpdateDepartmentLocation").val());
-                         console.log( $("#inputDepartment").val())
+                   
                         
                      
                  });
-                     $('#updateConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartment").val()} ?`);
+                     $('#updateConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartment").val()}?`);
                      $('#updateDepartmentConfirmation').modal('show');
                    
                  });
@@ -350,13 +351,11 @@ function openUpdateDeleteDepartmentModal(x) {
              $('#deleteDepartmentButton').click(function () {  
                 $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
                 $("#deleteDepartmentButtonConfirmation").click(function(){
-                console.log('the id is : ' + result['data'][0]['id'])
                 checkDepartmentID(result['data'][0]['id']);
-                //deleteDepartment( result['data'][0]['id']);
                 $('#updateOrDeleteDepartment').modal('hide');
             
             });
-            $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']} ?`);
+            $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
             $('#deleteDepartmentConfirmation').modal('show');
 
         });
@@ -430,33 +429,9 @@ function getPersonnelByDepartmentID(id) {
 }
 
 
-//DELETE DEPARTMENT CLOSE
-//UPDATE DEPARTMENT/////////////////////////////////////////
-//Show single department to update and delete
-function updateDepartment(id,department, locationID) {
-    console.log
-    $.ajax({
-        url: "libs/php/updateDepartment.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            id: id,
-            department: department,
-            locationID: locationID
-        },
-        success: function(result) {
-            console.log(result)			                  
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Update locations failed on load call failed ' + errorThrown);
-        }
-    }); 
-};
-
 
 //Ajax update call to update Department
 function updateDepartment(id,department, locationID) {
-    console.log
     $.ajax({
         url: "libs/php/updateDepartment.php",
         type: 'POST',
@@ -466,8 +441,7 @@ function updateDepartment(id,department, locationID) {
             department: department,
             locationID: locationID
         },
-        success: function(result) {
-            console.log(result)			                  
+        success: function(result) {	                  
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Update locations failed on load call failed ' + errorThrown);
@@ -516,8 +490,7 @@ function addDepartment(newDepartment, locationID) {
             newDepartment: newDepartment,
             locationID: locationID
         },
-        success: function(result) {	
-            console.log(result);		                 
+        success: function(result) {		                 
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('add department failed on load call failed ' + errorThrown);
@@ -542,7 +515,9 @@ $('#addDepartmentButtonOnAddForm').click(function () {
         addDepartment( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
         $('#addDepartment').modal('hide');    
 });
+    $('#addConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartmentAdd").val()}?`);
     $('#addDepartmentConfirmation').modal('show');
+
 });
 //Add department when close button clicked clears form
 $("#addDepartmentCloseButton").click(function(){ 
@@ -632,7 +607,6 @@ function getPersonnelByLocationID(id) {
 //UPDATE LOCATION FUNCTIONS START///////////////
 //update location function
 function updateLocation(id,location) {
-    console.log
     $.ajax({
         url: "libs/php/updateLocation.php",
         type: 'POST',
@@ -658,7 +632,6 @@ function openUpdateDeleteLocationModal(x) {
                     id: x
                     },
         success: function(result) {	
-            console.log(result['data'][0]['id'])
             document.querySelector('input[name="inputLocationUpdateOrDelete"]').value = result['data'][0]['name'];
             $('#updateOrDeleteLocation').modal('show');
            //UPdate Location when UPdate button clicked
@@ -667,17 +640,13 @@ function openUpdateDeleteLocationModal(x) {
                   $("#updateLocationButtonConfirmation").prop("onclick", null).off("click");      
                     $("#updateLocationButtonConfirmation").click(function(){
 
-                updateLocation(result['data'][0]['id'], $("#inputLocationUpdateOrDelete").val());
-                        console.log($("#inputLocationUpdateOrDelete").val())
-              
-      
+                updateLocation(result['data'][0]['id'], $("#inputLocationUpdateOrDelete").val());                  
                 $('#updateOrDeleteLocation').modal('hide');
-                console.log('the result ' + result['data'][0]['id'] + ' ' +  $("#inputLocation").val())
                
            });
             
      
-            $('#updateConfirmationTextLocation').html(`Are you sure you want to update ${$("#inputLocation").val()} ?`);
+            $('#updateConfirmationTextLocation').html(`Are you sure you want to update ${$("#inputLocation").val()}?`);
             $('#updateLocationConfirmation').modal('show');
           
         });
@@ -686,13 +655,10 @@ function openUpdateDeleteLocationModal(x) {
             $("#deleteLocationButtonConfirmation").prop("onclick", null).off("click");      
             
             $("#deleteLocationButtonConfirmation").click(function(){
-            // console.log('the id is : ' + result['data'][0]['id'])
             checkLocationID(result['data'][0]['id']);
-            // deleteLocation( result['data'][0]['id']);
-         
             $('#updateOrDeleteLocation').modal('hide');       
         });
-        $('#deleteConfirmationTextLocation').html(`Are you sure you want to delete ${result['data'][0]['name']} ?`);
+        $('#deleteConfirmationTextLocation').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
         $('#deleteLocationConfirmation').modal('show');
 
     });
@@ -719,8 +685,7 @@ function addLocation(newLocation) {
         data: {
             newLocation: newLocation           
         },
-        success: function(result) {	
-            console.log(result);		                 
+        success: function(result) {		                 
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('add location failed on load call failed ' + errorThrown);
@@ -781,16 +746,14 @@ function checkLocationID(id) {
                     id: id
                     },
         success: function(result) {	
-            console.log(result['data'][0]['count(id)']);
-                if (result['data'][0]['count(id)'] == 0) {
-                    console.log('It is zero')
+                if (result['data'][0]['count(id)'] == 0) {              
                 deleteLocation(id);
                 }
                 else 
                 {
                     alert('This department is in use!')
                 }
-           alert('im checked')
+         
    
         
         },
@@ -923,7 +886,6 @@ $(document).ready(function() {
         }); 
            //click on row of locations event
       $('#tableLocation').on('click', 'tr' , function (event) {
-          console.log(event['currentTarget']['id'])
         openUpdateDeleteLocationModal(event['currentTarget']['id']);
       }); 
 });

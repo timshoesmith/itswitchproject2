@@ -65,3 +65,31 @@
   border-info {
     border-color: white!important
   }
+
+
+
+  #addPersonnelTopButtonSmallScreen {
+    border: 3px solid #df4759;
+    border-radius: 40px;
+    color: #df4759;
+    background-color: white;
+    padding: 15px 15px;
+    margin: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #addPersonnelTopButtonSmallScreen:hover {
+    border-radius: 50px;
+    background: #df4759;
+    color: #fff;
+  }
+  #addPersonnelTopButtonSmallScreen.cart:after {
+    content: '\f07a';
+    font-family: FontAwesome;
+    padding-left: 10px;
+  }
