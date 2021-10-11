@@ -93,3 +93,7 @@
     font-family: FontAwesome;
     padding-left: 10px;
   }
+
+  #topMenu {
+    position: fixed;
+  }

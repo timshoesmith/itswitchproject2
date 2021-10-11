@@ -18,14 +18,12 @@
     <div id="preloader"></div> 
 
         <!-- Container Div plus main database showing personnel and search -->
-        <div class="container border border-danger">         
-                <div class="row align-items-center border  border-dnager">
+        <div class="container border"> 
+            <div class="col-12 sticky-top bg-white text-dark">        
+                <div class="row align-items-center border">
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-2">
-                                <img class="img-responsive" src="libs/images/cologo2.png" />
-                            </div>
-                            <div class="col-8">
+                            <div class="col-10">
                                 <h1 class="align-middle">The Company</h1>
                             </div>
 
@@ -50,14 +48,14 @@
                     </div>
                 </div>
 
-                <div class="row align-items-center border border-danger">
-                    <div class="col-lg-4 col-sm-12 align-items-center border border-danger" id="searchRow">
+                    <div class="row align-items-center border">
+                    <div class="col-lg-4 col-sm-12 align-items-center border" id="searchRow">
             
                         <input type="text" name="searchName" id="searchName" onfocus="this.value=''" class="form-control form-control-lg rounded-0 border-info" value="Search By Name, Dept or Location...">
         
                     </div>
-                    <div class="col-md-8 d-none d-lg-block">
-                        <div class="row ">         
+                        <div class="col-md-8 d-none d-lg-block">
+                            <div class="row ">         
                                 <div class="col-6">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenuButtonDepartment" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,11 +75,11 @@
                                     </div>
                                 </div>                      
                             
-                        </div>                    
-                    </div>
-
+                            </div>                    
+                        </div>
+                </div>
                             <!-- Table of personnel -->
-                    <div class="row border border-danger">
+                    <div class="row border">
                         <table class="table table-striped table-sm table-bordered table-hover" id="tablePersonnel">
                             <thead>
                                 <tr>
