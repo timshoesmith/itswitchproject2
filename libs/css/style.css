@@ -94,6 +94,8 @@
     padding-left: 10px;
   }
 
-  #topMenu {
-    position: fixed;
-  }
+ table {
+   cursor: pointer;
+ }
+ 
+ 

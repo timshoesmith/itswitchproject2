@@ -102,7 +102,7 @@
 <!-- DEPARTMENT MODALS////////////////////////////////////////////////////////////// -->
 
 <!-- Modal List Departments -->
-        <div class="modal fade" id="listDepartment" tabindex="-1" aria-labelledby="listDeptartmentLabel" aria-hidden="true">
+    <div class="modal fade" id="listDepartment" tabindex="-1" aria-labelledby="listDeptartmentLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
@@ -132,7 +132,6 @@
                 </div>
             </div>
         </div>
-
 <!-- Modal Update of Delete Department -->
     <div class="modal fade" id="updateOrDeleteDepartment" tabindex="-1" aria-labelledby="updateOrDeleteDepartmentLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -165,7 +164,7 @@
         </div>
     </div>
 <!-- Modal Add Department -->
-<div class="modal fade" id="addDepartment" tabindex="-1" aria-labelledby="addDepartmentlLabel" aria-hidden="true">
+    <div class="modal fade" id="addDepartment" tabindex="-1" aria-labelledby="addDepartmentlLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -192,9 +191,8 @@
             </div>
         </div>
     </div>
-
 <!-- UPdate Confirmation for  Department -->
-<div class="modal fade" id="updateDepartmentConfirmation" tabindex="-1" aria-labelledby="update department" aria-hidden="true">
+    <div class="modal fade" id="updateDepartmentConfirmation" tabindex="-1" aria-labelledby="update department" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -213,7 +211,6 @@
             </div>
         </div>
     </div>
-
 <!-- Delete Confirmation for  Department -->
     <div class="modal fade" id="deleteDepartmentConfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

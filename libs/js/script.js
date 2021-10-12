@@ -305,15 +305,19 @@ function checkDepartmentID(id) {
                     },
         success: function(result) {	
                 if (result['data'][0]['count(id)'] == 0) {
-                    deleteDepartment(id);
+                  
+                    $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
+                    $("#deleteDepartmentButtonConfirmation").click(function(){
+                        deleteDepartment(id);
+                        $('#updateOrDeleteDepartment').modal('hide');              
+                        });
+                $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
+                $('#deleteDepartmentConfirmation').modal('show');              
                 }
                 else 
                 {
                     alert('This department is in use!')
-                }
-           
-   
-        
+                }       
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show department failed on load call failed ' + errorThrown);
@@ -352,15 +356,10 @@ function openUpdateDeleteDepartmentModal(x) {
                  });
 
              //Delete Department when DElete button clicked
-             $('#deleteDepartmentButton').click(function () {  
-                $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-                $("#deleteDepartmentButtonConfirmation").click(function(){
+             $('#deleteDepartmentButton').click(function () { 
                 checkDepartmentID(result['data'][0]['id']);
-                $('#updateOrDeleteDepartment').modal('hide');
-            
-            });
-            $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
-            $('#deleteDepartmentConfirmation').modal('show');
+               
+             
 
         });
         
@@ -692,14 +691,8 @@ function openUpdateDeleteLocationModal(x) {
         });
          //Delete Location when DElete button clicked
          $('#deleteLocationButtonOnUpdateForm').click(function () { 
-            $("#deleteLocationButtonConfirmation").prop("onclick", null).off("click");      
-            
-            $("#deleteLocationButtonConfirmation").click(function(){
             checkLocationID(result['data'][0]['id']);
-            $('#updateOrDeleteLocation').modal('hide');       
-        });
-        $('#deleteConfirmationTextLocation').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
-        $('#deleteLocationConfirmation').modal('show');
+           
 
     });
 
@@ -786,8 +779,15 @@ function checkLocationID(id) {
                     id: id
                     },
         success: function(result) {	
-                if (result['data'][0]['count(id)'] == 0) {              
-                deleteLocation(id);
+                if (result['data'][0]['count(id)'] == 0) { 
+                    $("#deleteLocationButtonConfirmation").prop("onclick", null).off("click");                 
+                    $("#deleteLocationButtonConfirmation").click(function(){
+                        deleteLocation(id);
+                    $('#updateOrDeleteLocation').modal('hide');       
+                });
+                $('#deleteConfirmationTextLocation').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
+                $('#deleteLocationConfirmation').modal('show');             
+              
                 }
                 else 
                 {
