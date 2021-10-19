@@ -18,7 +18,7 @@
     <div id="preloader"></div> 
 
         <!-- Container Div plus main database showing personnel and search -->
-        <div class="container border">
+        <div class="container border"> 
             <div class="col-12 sticky-top bg-white text-dark">        
                 <div class="row d-flex justify-content-center  border ">                   
                             <div class="col-md-4">
@@ -29,11 +29,16 @@
                                 <button type="button" class="btn btn-outline-secondary float-right" data-toggle="tooltip" data-placement="top" title="Show Locations"><span data-toggle="modal" data-target="#listLocation"><i class="fas fa-city"></i></span></button>
                                 <button type="button" class="btn btn-outline-secondary float-right" data-toggle="tooltip" data-placement="top" title="Show Departments"><span data-toggle="modal" data-target="#listDepartment"><i class="fas fa-building"></i></span></button>
                                 <button type="button" class="btn btn-outline-secondary float-right" data-toggle="tooltip" data-placement="left" title="Show All Personnel" data-target="modal" id='showAllPersonnel'><i class="fas fa-user-friends"></i></button>
+                                
+
+                                                      
+
+
                             </div>
                        
                 </div>
 
-                    <div class="row align-items-center border h-300">
+                    <div class="row align-items-center border">
 
 
                         <div class="col-lg-4 col-sm-12 align-items-center border" id="searchRow">
@@ -41,6 +46,10 @@
                             <input type="text" name="searchName" id="searchName" onfocus="this.value=''" class="form-control form-control-lg rounded-0" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="Search By Name, Dept or Location...">
         
                         </div>
+
+
+
+
 
 
 
@@ -66,11 +75,11 @@
                                 </div>                      
                             
                             </div>                    
-                    </div>
+                        </div>
                     
-            </div>
+                    </div>
                         
-                   
+                    
                     
                     
                     <!-- Table of personnel -->
@@ -89,9 +98,8 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
         </div>
-            
-    
   <!-- End of Container Div plus main database showing personnel and search -->
 
 
@@ -384,13 +392,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addLocationConfirmationTitle">Add Location</h5>
+                    <h5 class="modal-title" id="addLocationConfirmationTitle">Delete Location</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p id="addConfirmationTextLocation">Are you sure you want to Add LOCATION?</p>
+                    <p id="addConfirmationTextLocation">Are you sure you want to delete LOCATION?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal" id="addLocationButtonConfirmation">Yes</button>
