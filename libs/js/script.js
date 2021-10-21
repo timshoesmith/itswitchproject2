@@ -64,6 +64,67 @@ $(window).on('load', function () {
 
 
 
+// Department Event Listenters
+
+//Open Add Department Modal when Add button clicked
+ $('#departmentAddButton').click(function () {
+    $("#inputDepartmentAdd").html("");
+    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
+    $('#departmentAdd').modal('show');
+  });
+//Add department when close button clicked clears form
+$("#departmentAddCloseButton").click(function(){ 
+    $('#departmentAddForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+    $('#departmentAddForm').find(':checkbox, :radio').prop('checked', false);
+});
+//Add Department when Add button clicked
+$("#departmentAddButtonOnAddForm").click(function(){
+    //check a location has been selected
+    if ($("#dropdownAddDepartmentLocation").val() > 0) { 
+    checkDepartmentForDuplicate( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
+} else {
+    $('#departmentAddMustHaveLocation').modal('show');
+}
+});
+//Add Brings up confirmation modal
+$("#departmentAddButtonConfirmationYes").click(function(){ 
+   
+        addDepartment($('#inputDepartmentAdd').val(),$("#dropdownAddDepartmentLocation").val()); 
+        $('#listDepartments').modal('hide');
+        $('#departmentAddConfirmation').modal('hide');
+        $('#departmentAdd').modal('hide');
+        $('#departmentAddForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $('#departmentAddForm').find(':checkbox, :radio').prop('checked', false);
+        //THIS DOES NOT UPDATE THE DROPDOWN SO NEW DEPT DOES NOT SHOW////////////////////////////////
+        getAllDepartments("#allDepartments");
+        //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
+        $('#listDepartments').modal('show');
+});
+
+//Delete Department////////////////////
+$('#departmentDeleteButton').click(function(){
+    alert('delete clicked');
+});
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
 
   //Add Personnel when Add button clicked
 $('#addPersonnelButton').click(function () {
@@ -86,29 +147,9 @@ $("#addPersonnelCloseButton").click(function(){
     
     });
 
-  //Open Add Department Modal when Add button clicked
-  $('#addDepartmentlButton').click(function () {
-    $("#inputDepartmentAdd").html("");
-    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
-    $('#addDepartment').modal('show');
-  });
-//Add Department when Add button clicked
-$('#addDepartmentButtonOnAddForm').click(function () {  
-    $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addDepartmentButtonConfirmation").click(function(){
-        checkDepartmentForDuplicate( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
-        $('#addDepartment').modal('hide');    
-});
-    $('#addConfirmationTextDepartment').html(`Are you sure you want to Add ${$("#inputDepartmentAdd").val()}?`);
-    $('#addDepartmentConfirmation').modal('show');
+ 
 
-});
-//Add department when close button clicked clears form
-$("#addDepartmentCloseButton").click(function(){ 
-        $('#addDepartmentForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addDepartmentForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
+
 
 
 //Open ADD Location when Add button clicked
@@ -450,11 +491,7 @@ function openUpdateDeleteDepartmentModal(x) {
             document.querySelector('input[name="inputDepartment"]').value = result['data'][0]['name'];
             getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result['data'][0]['location']);
             $("#dropdownUpdateDepartmentLocation").val(result['data'][0]['locationID']);
-            console.log("IN " + $("#dropdownUpdateDepartmentLocation").val())
-            $('#updateOrDeleteDepartment').modal('show');
-            console.log("Out " + $("#dropdownUpdateDepartmentLocation").val())
-            console.log(result['data'][0]['locationID']);
-
+            $('#departmentUpdateOrDelete').modal('show');
             //UPdate Department when UPdate button clicked
                  $('#updateDepartmentButton').click(function () {   
                      $("#updateDepartmentButtonConfirmation").prop("onclick", null).off("click");      
@@ -462,7 +499,7 @@ function openUpdateDeleteDepartmentModal(x) {
                        
                          updateDepartment(result['data'][0]['id'], $("#inputDepartment").val(), $("#dropdownUpdateDepartmentLocation").val());
                          console.log($("#dropdownUpdateDepartmentLocation").val())
-                         $('#updateOrDeleteDepartment').modal('hide');
+                         $('#departmentUpdateOrDelete').modal('hide');
                      
                  });
                      $('#updateConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartment").val()}?`);
@@ -582,7 +619,7 @@ function checkDepartmentID(id) {
                     $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
                     $("#deleteDepartmentButtonConfirmation").click(function(){
                         deleteDepartment(id);
-                        $('#updateOrDeleteDepartment').modal('hide');              
+                        $('#departmentUpdateOrDelete').modal('hide');              
                         });
                 $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
                 $('#deleteDepartmentConfirmation').modal('show');              
@@ -706,11 +743,15 @@ function getAllLocationForDepartment(modalID, defaultText)  {
                       },
           success: function(result) {	
                   if (result['data'][0]['count(name)'] == 0) {
-                      addDepartment(name, locationID);
+                    //   addDepartment(name, locationID);
+                    $(addConfirmationTextDepartment).html("Are you sure you want to add " +  $('#inputDepartmentAdd').val());
+                  
+                      $('#departmentAddConfirmation').modal('show');
                   }
                   else 
                   {
-                      alert('This department has already been created!')
+                    $('#departmentAddAlreadyCreated').modal('show');
+                      
                   }
              
      
