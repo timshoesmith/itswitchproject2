@@ -7,16 +7,198 @@ $(window).on('load', function () {
         }
     });
 
+//Company Home Page Event Listeners    
+    $("#companyPageAddPerson").click(function(){ 
+        getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+        $('#addPersonnel').modal('show');
+    });
+
+    $("#companyPageShowDepartments").click(function(){ 
+        getAllDepartments("#allDepartments");
+        $('#listDepartments').modal('show');
+    });
+ 
+    $("#companyPageSearchPersonnel").keyup(function() {
+        var searchCharacters = $(this).val();
+            if(searchCharacters!='') {                
+                $.ajax({
+                    url:'libs/php/searchPersonnel.php',
+                    method: 'post',
+                    data: {
+                        searchCharacters: searchCharacters
+                    },
+                    success: function(result) {
+                        let contacts = [];
+                        let row = "";
+            
+                    result['data'].forEach(element => {
+                    row =   `<tr id="${element['id']}">
+                    <td>${element['firstName']},${element['lastName']}</td>
+                    <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
+                    <td  class="d-none d-md-table-cell">${element['email']}</td>
+                    <td>${element['department']}</td>
+                    <td class="d-none d-md-table-cell">${element['location']}</td>
+                    </tr>`
+                                contacts.push(row);
+                    
+                    });
+                                $('#allPersonnel').html(contacts);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log('search personel  call failed ' + errorThrown);
+                        } 
+                        
+                        
+                });              
+            }
+                //go back to full database
+            else {                 
+                setUp();
+            }             
+        }); 
+
+    $("#companyPageShowLocations").click(function(){ 
+        getAllLocations("#allLocations");
+        $('#listLocations').modal('show');
+    });
+
+
+
+
+  //Add Personnel when Add button clicked
+$('#addPersonnelButton').click(function () {
+    
+    $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
+    $("#addPersonnelButtonConfirmation").click(function(){
+        addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
+        $('#addPersonnel').modal('hide');
+        setUp();
+});
+    $('#addPersonnelConfirmation').modal('show');
+    $('#addConfirmationTextPersonnel').html(`Are you sure you want to Add ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);
+                            
+    
+});
+
+$("#addPersonnelCloseButton").click(function(){ 
+        $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
+    
+    });
+
+  //Open Add Department Modal when Add button clicked
+  $('#addDepartmentlButton').click(function () {
+    $("#inputDepartmentAdd").html("");
+    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
+    $('#addDepartment').modal('show');
+  });
+//Add Department when Add button clicked
+$('#addDepartmentButtonOnAddForm').click(function () {  
+    $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
+    $("#addDepartmentButtonConfirmation").click(function(){
+        checkDepartmentForDuplicate( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
+        $('#addDepartment').modal('hide');    
+});
+    $('#addConfirmationTextDepartment').html(`Are you sure you want to Add ${$("#inputDepartmentAdd").val()}?`);
+    $('#addDepartmentConfirmation').modal('show');
+
+});
+//Add department when close button clicked clears form
+$("#addDepartmentCloseButton").click(function(){ 
+        $('#addDepartmentForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $('#addDepartmentForm').find(':checkbox, :radio').prop('checked', false);
+    
+    });
+
+
+//Open ADD Location when Add button clicked
+$('#addLocationButton').click(function () {
+    $("#inputLocationAdd").html("");
+    $('#addLocation').modal('show');
+  });
+
+//Add Location when Add button clicked
+$('#addLocationButtonOnAddForm').click(function () {  
+    $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
+    $("#addLocationButtonConfirmation").click(function(){
+        addLocation($("#inputLocationAdd").val());   
+        $('#addLocation').modal('hide');    
+});
+    $('#addConfirmationTextLocation').html(`Are you sure you want to Add ${$("#inputLocationAdd").val()}?`);
+    $('#addLocationConfirmation').modal('show');
+});
+//Add Locaiton when close button clicked clears form
+$("#addLocationCloseButton").click(function(){ 
+        $('#addLocationForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $('#addLocationForm').find(':checkbox, :radio').prop('checked', false);
+    
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Function sets up all database
 function setUp() {
-    getAllPersonnel();
-    getAllDepartments("#allDepartments");
-    getAllLocations("#allLocations");
+    getAllPersonnel(); 
     getDepartmentDropdown('#dropdownDepartmentButton');
-    getLocationDropDown('#dropdownLocationButton');
-   
+    getLocationDropDown('#dropdownLocationButton'); 
+
+    $(document).on('click', '#dropdownDepartmentButton li a', function() {
+        var id= ($(this).attr('id'));
+        if (id == "companyPageShowAllDepts") {
+           setUp();
+        } else {
+            getPersonnelByDepartmentID(id);
+        }
+       
+    }); 
+    $(document).on('click', '#dropdownLocationButton li a', function() {
+        var id= ($(this).attr('id'));
+        if (id == "companyPageShowAllLocations") {
+            setUp();
+         } else {
+            getPersonnelByLocationID(id);
+         }
+      
+    }); 
+    
+      //click on row of personnel event
+        $('#tablePersonnel').on('click', 'tr' , function (event) {
+            openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
+            //event['currentTarget']['department']
+            });  
+         //click on row of departments event
+        $('#tableDepartment').on('click', 'tr' , function (event) {
+            openUpdateDeleteDepartmentModal(event['currentTarget']['id']);
+            }); 
+           //click on row of locations event
+        $('#tableLocation').on('click', 'tr' , function (event) {
+            openUpdateDeleteLocationModal(event['currentTarget']['id']);
+        }); 
+            //click on row of locations event
+        $('#showAllPersonnel').click(function() {
+            setUp();
+        }); 
+
+
 }
-//PERSONNEL FUNCTIONS////////////////////////////////
+
+
+    //PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
 function getAllPersonnel() {
 $.ajax({
@@ -54,11 +236,7 @@ $.ajax({
     });
    
 }
-//Open add personnel form when button clicked
-$("#addPersonnelTopButton").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-    $('#addPersonnel').modal('show');
-  });
+
 //Add personnel Form/////////////////
 function getAllDepartmentsForPersonnel(modalID, defaultText)  {      
     $.ajax({
@@ -104,37 +282,18 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepart
         }); 
 }
 //Open add Personnel Form large Screen
-$("#addPersonnelTopButton").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-    $('#addPersonnel').modal('show');
-  });
+// $("#addPersonnelTopButton").click(function(){ 
+//     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+//     $('#addPersonnel').modal('show');
+//   });
 //Open add Personnel Form small Screen
-$("#addPersonnelTopButtonSmallScreen").click(function(){ 
-    getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-    $('#addPersonnel').modal('show');
-  });
+// $("#addPersonnelTopButtonSmallScreen").click(function(){ 
+//     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+//     $('#addPersonnel').modal('show');
+//   });
   
 
-//Add Personnel when Add button clicked
-$('#addPersonnelButton').click(function () {
-    
-    $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addPersonnelButtonConfirmation").click(function(){
-        addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
-        $('#addPersonnel').modal('hide');
-        setUp();
-});
-    $('#addPersonnelConfirmation').modal('show');
-    $('#addConfirmationTextPersonnel').html(`Are you sure you want to Add ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);
-                            
-    addConfirmationTextPersonnel
-});
 
-$("#addPersonnelCloseButton").click(function(){ 
-        $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
 
 //Update personnel modal form/////////////////
 
@@ -146,13 +305,13 @@ function openUpdateDeletePersonnelModal(id) {
             id: id
         },
         success: function(result) {         
-                    // $('#updateOrDeletePersonnel').modal('show'); 
+                    // $('#personnelUpdateOrDelete').modal('show'); 
                     document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
                     document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
                     document.querySelector('input[name="inputJobTitleName"]').value = result['data'][0]['jobTitle'];
                     document.querySelector('input[name="inputEmailName"]').value = result['data'][0]['email'];
                     getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result['data'][0]['department']);
-                   $('#updateOrDeletePersonnel').modal('show'); 
+                   $('#personnelUpdateOrDelete').modal('show'); 
 
 
                    //UPdate Personnel when UPdate button clicked
@@ -160,7 +319,7 @@ function openUpdateDeletePersonnelModal(id) {
                             $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
                             $("#updatePersonnelButtonConfirmation").click(function(){
                                 updatePersonnel( result['data'][0]['id'], $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
-                                $('#updateOrDeletePersonnel').modal('hide');
+                                $('#personnelUpdateOrDelete').modal('hide');
                                 setUp();
                         });
                             $('#updateConfirmationTextPersonnel').html(`Are you sure you want to update ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
@@ -173,7 +332,7 @@ function openUpdateDeletePersonnelModal(id) {
                         $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
                         $("#deletePersonnelButtonConfirmation").click(function(){
                         deletePersonnel( result['data'][0]['id']);
-                        $('#updateOrDeletePersonnel').modal('hide');
+                        $('#personnelUpdateOrDelete').modal('hide');
                         setUp();
                     });
                     $('#deleteConfirmationTextPersonnel').html(`Are you sure you want to delete ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
@@ -342,7 +501,7 @@ function getDepartmentDropdown(dropdownID)  {
                 },
                 success: function(result) {	
                   		
-                    let menu = [];
+                    let menu = [`<li><a class="dropdown-item" id="companyPageShowAllDepts" href="#">Show All</a></li>`];
                     let menuItem = '';                                             
                     result['data'].forEach(element => {
                         menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['department']}</a></li>`;
@@ -440,6 +599,31 @@ function checkDepartmentID(id) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Ajax update call to update Department
 function updateDepartment(id,department, locationID) {
     $.ajax({
@@ -491,16 +675,6 @@ function getAllLocationForDepartment(modalID, defaultText)  {
 }
 
 
-
-
-
-
-
-
-
-
-
-
 //ADD DEPARTMENT////////////////////////
   //Add department function
   function addDepartment(newDepartment, locationID) {    
@@ -549,29 +723,7 @@ function getAllLocationForDepartment(modalID, defaultText)  {
   }
 
 
-  //Open Add Department Modal when Add button clicked
-$('#addDepartmentlButton').click(function () {
-    $("#inputDepartmentAdd").html("");
-    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
-    $('#addDepartment').modal('show');
-  });
-//Add Department when Add button clicked
-$('#addDepartmentButtonOnAddForm').click(function () {  
-    $("#addDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addDepartmentButtonConfirmation").click(function(){
-        checkDepartmentForDuplicate( $("#inputDepartmentAdd").val(), $("#dropdownAddDepartmentLocation").val());
-        $('#addDepartment').modal('hide');    
-});
-    $('#addConfirmationTextDepartment').html(`Are you sure you want to Add ${$("#inputDepartmentAdd").val()}?`);
-    $('#addDepartmentConfirmation').modal('show');
 
-});
-//Add department when close button clicked clears form
-$("#addDepartmentCloseButton").click(function(){ 
-        $('#addDepartmentForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addDepartmentForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
 //ADD DEPARTMENT FINISHED/////////////////////////////////
 
 
@@ -596,7 +748,7 @@ $("#addDepartmentCloseButton").click(function(){
         
         },
         success: function(result) {						
-            let menu = [];
+            let menu = [`<li><a class="dropdown-item" id="companyPageShowAllLocations" href="#">Show All</a></li>`];
             let menuItem = '';                                             
             result['data'].forEach(element => {
                 menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['name']}</a></li>`;
@@ -734,28 +886,7 @@ function addLocation(newLocation) {
     }); 
 }
 
-//Open ADD Location when Add button clicked
-$('#addLocationButton').click(function () {
-    $("#inputLocationAdd").html("");
-    $('#addLocation').modal('show');
-  });
 
-//Add Location when Add button clicked
-$('#addLocationButtonOnAddForm').click(function () {  
-    $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addLocationButtonConfirmation").click(function(){
-        addLocation($("#inputLocationAdd").val());   
-        $('#addLocation').modal('hide');    
-});
-    $('#addConfirmationTextLocation').html(`Are you sure you want to Add ${$("#inputLocationAdd").val()}?`);
-    $('#addLocationConfirmation').modal('show');
-});
-//Add Locaiton when close button clicked clears form
-$("#addLocationCloseButton").click(function(){ 
-        $('#addLocationForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addLocationForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
 
 
 //ADD LOCATION FUNCTIONS END////////////////////////
@@ -875,74 +1006,12 @@ function checkLocationID(id, locationName) {
 $(document).ready(function() {
     //set up database
     setUp();
-    $("#searchName").keyup(function() {
-        var searchCharacters = $(this).val();
-        if(searchCharacters!='') {                
-            $.ajax({
-                url:'libs/php/searchPersonnel.php',
-                method: 'post',
-                data: {
-                    searchCharacters: searchCharacters
-                },
-                success: function(result) {
-                    let contacts = [];
-                    let row = "";
-        
-                result['data'].forEach(element => {
-                row =   `<tr id="${element['id']}">
-                <td>${element['firstName']},${element['lastName']}</td>
-                <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                <td  class="d-none d-md-table-cell">${element['email']}</td>
-                <td>${element['department']}</td>
-                <td class="d-none d-md-table-cell">${element['location']}</td>
-                </tr>`
-                            contacts.push(row);
-                
-                });
-                         $('#allPersonnel').html(contacts);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.log('search personel  call failed ' + errorThrown);
-                    } 
-                    
-                    
-            });              
-    }
-    //go back to full database
-    else {                 
-        setUp();
-        }             
-    }); 
+   
     // $('#dropdownDepartmentButton li a').on('click', function(){
     //     //$('#datebox').val($(this).text());
     //     alert($(this).text());
     // });
-    $(document).on('click', '#dropdownDepartmentButton li a', function() {
-        var id= ($(this).attr('id'));
-        getPersonnelByDepartmentID(id)
-    }); 
-    $(document).on('click', '#dropdownLocationButton li a', function() {
-        var id= ($(this).attr('id'));
-        getPersonnelByLocationID(id);
-    }); 
     
-      //click on row of personnel event
-      $('#tablePersonnel').on('click', 'tr' , function (event) {
-        openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
-        //event['currentTarget']['department']
-        });  
-         //click on row of departments event
-      $('#tableDepartment').on('click', 'tr' , function (event) {
-          openUpdateDeleteDepartmentModal(event['currentTarget']['id']);
-        }); 
-           //click on row of locations event
-      $('#tableLocation').on('click', 'tr' , function (event) {
-        openUpdateDeleteLocationModal(event['currentTarget']['id']);
-      }); 
-            //click on row of locations event
-            $('#showAllPersonnel').click(function() {
-               setUp();
-              }); 
 });
 
 

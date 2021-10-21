@@ -55,14 +55,7 @@
 
 }
 
-  input {
-    font-size: 0.75rem!important;
-    border: 1px solid blue!important;
-  }
-  input[type=text]{
-    border: 0;
-    outline: 0;
-  }
+  
  
   
 
@@ -99,8 +92,14 @@
  button {
    margin-right: 10px!important;
  }
- input {
-   border: 0;
- }
+
+#companyPageNavDiv {
+  background-color: white;
+}
+#searchName {
+  font-size: 16px;
+}
+
+ 
  
  
