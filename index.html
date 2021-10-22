@@ -71,12 +71,12 @@
 
 <!-- Personnel Modals///////////////////// -->
 <!-- Modal Add Personnel -->
-<div class="modal fade" id="addPersonnel" tabindex="-1" aria-labelledby="addPersonnelLabel" aria-hidden="true">
+<div class="modal fade" id="addPersonnel" data-backdrop="false" tabindex="-1" aria-labelledby="addPersonnelLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="personnelLabel">Add Personnel</h5>
-                <button type="button" class="btn btn-primary" id="addPersonnelButton">Add</button>
+               
             </div>
             <div class="modal-body">
                 <form id="addPersonnelForm">
@@ -103,13 +103,53 @@
                 </form>          
             </div>
             <div class="modal-footer">
-               
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id=addPersonnelCloseButton>Close</button>
+                <button type="button" class="btn btn-outline-secondary" id="personnelAddButton">SAVE</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id=personnelAddCancelButton>CANCEL</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Modal Update Personnel -->
+
+<!-- Add Confirmation for  Personnel -->
+<div class="modal fade" id="personnelAddConfirmation" tabindex="-1" aria-labelledby="addConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title" id="addConfirmationTitle">Add Personnel</h5>
+            </div>
+            <div class="modal-body">
+                <p id="personnelAddConfirmationText">Are you sure you want to add PERSON NAME?</p>
+                    
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="personnelAddButtonConfirmationYes">YES</button>
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="personnelAddButtonConfirmationNo">NO</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Add Personnel All Fields Not Completed Created-->
+<div class="modal fade" id="personnelAddAllFieldsNotCompleted" data-backdrop="false" tabindex="-1" aria-labelledby="addPersonFieldsNotFilled" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personnelAddAllFieldsNotCompletedTitle">Error</h5>
+            </div>
+            <div class="modal-body">
+                <p id="personnelAddAllFieldsNotCompletedText">All Fields Must be Filled</p>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="personnelAddAllFieldsNotCompletedButtonCancel">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Modal Update Personnel -->
 <div class="modal fade" id="personnelUpdateOrDelete" tabindex="-1" aria-labelledby="personnelUpdateOrDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -408,7 +448,24 @@
     </div>
 </div>
 
-
+<!-- Update Confirmation for  Location -->
+<div class="modal fade" id="updateLocationConfirmation" tabindex="-1" aria-labelledby="updateLocationConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateLocationConfirmationTitle">Update Location</h5>
+               
+            </div>
+            <div class="modal-body">
+                <p id="locationUpdateConfirmationText">Are you sure you want to update LOCATION?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="locationUpdateButtonConfirmationYes">YES</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="locationUpdateButtonConfirmationNo">NO</button>
+            </div>
+        </div>
+    </div>
+    </div>
    
 
 
@@ -453,9 +510,44 @@
     </div>
     </div>
 
+<!-- Delete Confirmation for  Location -->
+<div class="modal fade" id="locationDeleteConfirmation" tabindex="-1" aria-labelledby="locationDeleteConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="locationDeleteConfirmationTitle">Delete Location</h5>
+            </div>
+            <div class="modal-body">
+                <p id="locationDeleteConfirmationText">Are you sure you want to delete LOCATION?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="locationDeleteButtonConfirmationYES">YES</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="locationDeleteButtonConfirmationNO">NO</button>
+            </div>
+        </div>
+    </div>
+    </div>
 
-
-
+<!-- Location Can't be deleted it is in use-->
+<div class="modal fade" id="locationDeleteStillInUse" data-backdrop="false" tabindex="-1" aria-labelledby="Location in use" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="locationDeleteStillInUseTitle">Duplicate</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="locationDeleteStillInUseText">Department is still in use!</p>
+            </div>
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" id="locationDeleteStillInUseButtonCancel">CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>
    
 
 

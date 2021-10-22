@@ -158,9 +158,6 @@ $('#locationAddCloseButton').click(function() {
     $('#locationAddForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
     $('#locationAddForm').find(':checkbox, :radio').prop('checked', false);
 })
-
-
-
 //Add Location when Add button clicked
 $("#locationAddButtonOnAddForm").click(function(){
     $('#addConfirmationTextLocation').html("Are you sure you want to add " +  $('#inputLocationAdd').val());              
@@ -180,10 +177,71 @@ $('#locationAddButtonConfirmationYes').click(function() {
 }); 
 //Delete Location////////////////////
 $('#locationDeleteButton').click(function(){
-    checkLocationID(theDepartmentID);
+    checkLocationID(theLocationID);
+});
+//Delete Location Confirmation
+$('#locationDeleteButtonConfirmationYES').click(function(){
+    deleteLocation(theLocationID);
+    $('#listLocations').modal('hide');
+    $('#locationDeleteConfirmation').modal('hide');
+    $('#locationUpdateOrDelete').modal('hide');
+    //THIS DOES NOT UPDATE THE DROPDOWN SO DELETED DEPT STILL SHOWS////////////////////////////////
+    getAllLocations("#allLocationss");
+    //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
+   // $('#listLocations').modal('show');
+})
+//Confirmation when Update Button is clicked
+$('#locationUpdateButton').click(function() {
+    $('#locationUpdateConfirmationText').html("Are you sure you want to update the location to " +  $('#inputLocation').val());
+    $('#updateLocationConfirmation').modal('show');
+})
+//Location is Updated when confirmation button is clicked
+$('#locationUpdateButtonConfirmationYes').click(function() {
+    updateLocation(theLocationID, $('#inputLocation').val());
+    $('#listLocations').modal('hide');
+    $('#updateLocationConfirmation').modal('hide');
+    $('#locationUpdateOrDelete').modal('hide');
+     getAllLocations("#allLocations");
+       //THIS DOES NOT UPDATE THE DROPDOWN SO UPDATED LOCATION DOES NOT SHOW////////////////////////////////
+     getLocationsDropdown('#dropdownLocationsButton');
+    $('#listLocations').modal('show');
+});
+// Location Event Listenters///////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Personnel Event Listenters/////////////////////////////////////////////////////////////////////////
+
+
+//Save button on add from clicked check to make sure fields are filled
+$('#personnelAddButton').click(function () {
+    console.log($("#dropdownAddPersonnelDepartment").val())
+    if (!$('#inputFirstName').val() || !$('#inputLastName').val() || !$('#inputJobTitle').val() || !$('#inputEmail').val() || !( $("#dropdownAddPersonnelDepartment").val() > 0) ) {
+        $('#personnelAddAllFieldsNotCompleted').modal('show');
+    } else { 
+    $('#personnelAddConfirmationText').html("Are you sure you want to add " +  $('#inputFirstName').val() + ' ' + $('#inputLastName').val()); 
+    $('#personnelAddConfirmation').modal('show');
+    }
+});
+//Add Form Empty if Cancelled
+//Add department when close button clicked clears form
+$('#personnelAddCancelButton').click(function() {
+    $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+    $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
+})
+
+$('#personnelAddButtonConfirmationYes').click(function() {
+    addPersonel($('#inputFirstName').val(), $('#inputLastName').val(), $('#inputJobTitle').val(), $('#inputEmail').val(), $("#dropdownAddPersonnelDepartment").val())
+    $('#personnelAddConfirmation').modal('hide');
+    $('#addPersonnel').modal('hide');
+    setUp();
 });
 
 
+
+
+
+
+// Personnel Event Listenters/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location Event Listenters///////////////////////////////////////////////////////////////////////
 
 
@@ -194,8 +252,6 @@ $('#locationDeleteButton').click(function(){
 
 
 
-///////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -204,54 +260,54 @@ $('#locationDeleteButton').click(function(){
 
 
 
-  //Add Personnel when Add button clicked
-$('#addPersonnelButton').click(function () {
+
+//   //Add Personnel when Add button clicked
+// $('#addPersonnelButton').click(function () {
     
-    $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addPersonnelButtonConfirmation").click(function(){
-        addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
-        $('#addPersonnel').modal('hide');
-        setUp();
-});
-    $('#addPersonnelConfirmation').modal('show');
-    $('#addConfirmationTextPersonnel').html(`Are you sure you want to Add ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);
-                            
+//     $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
+//     $("#addPersonnelButtonConfirmation").click(function(){
+//         addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
+//         $('#addPersonnel').modal('hide');
+//         setUp();
+// });
+//     $('#addPersonnelConfirmation').modal('show');
+//     $('#addConfirmationTextPersonnel').html(`Are you sure you want to Add ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);  
+// });
+// //Clear Add Personnel Form if cancelled
+// $("#addPersonnelCloseButton").click(function(){ 
+//         $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+//         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
     
-});
-
-$("#addPersonnelCloseButton").click(function(){ 
-        $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
-    
-    });
+//     });
+//Add Personnel on confirmation
 
  
 
 
 
 
-//Open ADD Location when Add button clicked
-$('#addLocationButton').click(function () {
-    $("#inputLocationAdd").html("");
-    $('#addLocation').modal('show');
-  });
+// //Open ADD Location when Add button clicked
+// $('#addLocationButton').click(function () {
+//     $("#inputLocationAdd").html("");
+//     $('#addLocation').modal('show');
+//   });
 
-//Add Location when Add button clicked
-$('#addLocationButtonOnAddForm').click(function () {  
-    $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
-    $("#addLocationButtonConfirmation").click(function(){
-        addLocation($("#inputLocationAdd").val());   
-        $('#addLocation').modal('hide');    
-});
-    $('#addConfirmationTextLocation').html(`Are you sure you want to Add ${$("#inputLocationAdd").val()}?`);
-    $('#addLocationConfirmation').modal('show');
-});
-//Add Locaiton when close button clicked clears form
-$("#addLocationCloseButton").click(function(){ 
-        $('#addLocationForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-        $('#addLocationForm').find(':checkbox, :radio').prop('checked', false);
+// //Add Location when Add button clicked
+// $('#addLocationButtonOnAddForm').click(function () {  
+//     $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
+//     $("#addLocationButtonConfirmation").click(function(){
+//         addLocation($("#inputLocationAdd").val());   
+//         $('#addLocation').modal('hide');    
+// });
+//     $('#addConfirmationTextLocation').html(`Are you sure you want to Add ${$("#inputLocationAdd").val()}?`);
+//     $('#addLocationConfirmation').modal('show');
+// });
+// //Add Location when close button clicked clears form
+// $("#addLocationCloseButton").click(function(){ 
+//         $('#addLocationForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+//         $('#addLocationForm').find(':checkbox, :radio').prop('checked', false);
     
-    });
+//     });
 
 
 
@@ -977,7 +1033,7 @@ function deleteLocation(id) {
 }
 
 //Can I delete location? function returns boolean yes or no given a department ID
-function checkLocationID(id, locationName) {
+function checkLocationID(id) {
     $.ajax({
         url: "libs/php/checkLocationID.php",
                 type: 'POST',
@@ -986,22 +1042,18 @@ function checkLocationID(id, locationName) {
                     id: id
                     },
         success: function(result) {	
-                if (result['data'][0]['count(id)'] == 0) { 
-                    $("#deleteLocationButtonConfirmation").prop("onclick", null).off("click");                 
-                    $("#deleteLocationButtonConfirmation").click(function(){
-                        deleteLocation(id);
-                    $('#updateOrDeleteLocation').modal('hide');       
-                });
-                console.log(result['data'][0])
-                $('#deleteConfirmationTextLocation').html(`Are you sure you want to delete ${locationName}?`);
-                $('#deleteLocationConfirmation').modal('show');             
-              
-                }
-                else 
-                {
-                    alert('This department is in use!')
-                }
-         
+            console.log(id)
+                    if (result['data'][0]['count(id)'] == 0) {
+                        $('#locationDeleteConfirmation').modal('show');
+                        $('#locationDeleteConfirmationText').html("Are you sure you want to delete " +  $('#inputLocation').val());      
+                    }
+                    else 
+                    {
+                        console.log('wrong modal')
+                        $('#locationDeleteStillInUseText').html($('#inputLocation').val() + " is still in use! ");                 
+                       $('#locationDeleteStillInUse').modal('show');
+                    }       
+               
    
         
         },
