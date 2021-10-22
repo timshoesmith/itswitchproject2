@@ -150,14 +150,11 @@
 
 
     <!-- Modal Update Personnel -->
-<div class="modal fade" id="personnelUpdateOrDelete" tabindex="-1" aria-labelledby="personnelUpdateOrDeleteLabel" aria-hidden="true">
+<div class="modal fade" id="personnelUpdateOrDelete" data-backdrop="false" tabindex="-1" aria-labelledby="personnelUpdateOrDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="personnelLabel">Update or Delete Personnel</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
                 <form>
@@ -177,20 +174,68 @@
                         <label for="inputEmailName">Email address</label>
                         <input type="email" class="form-control" id="inputEmailName" name="inputEmailName"aria-describedby="emailHelp">
                     </div>
-                    <div class="form-group">                     
-                        <select id="dropdownUpdatePersonnelDepartment" name="select" class="custom-select"></select> 
+                    <div class="form-group"> 
+                        <label for="inputDepartment">Email address</label>                    
+                        <select id="dropdownUpdatePersonnelDepartment" name="inputDepartment" class="custom-select"></select> 
                     </div>                                                    
                 </form> 
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="updatePersonnelButton">Update</button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" id="deletePersonnelButton" data-target="#deletePersonnelConfirmation">Delete</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-secondary mr-auto" data-toggle="modal" id="personnelUpdateDeleteButton" data-target="#deletePersonnelConfirmation">DELETE</button>
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" id="personnelUpdateButtonSave">SAVE</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">CANCEL</button>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Delete Confirmation for  Personnel -->
+<div class="modal fade" id="personnelDeleteConfirmation" data-backdrop="false" tabindex="-1" aria-labelledby="personnelDeleteConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personnelDeleteConfirmationtitle">Delete Personnel</h5>
+                
+            </div>
+            <div class="modal-body">
+               <p id="personnelDeleteConfirmationText">Are you sure you want to delete</p>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="personnelDeleteButtonConfirmationYes">YES</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"id="personnelDeleteButtonConfirmationYes">NO</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="personnelUpdateConfirmation" data-backdrop="false" tabindex="-1" aria-labelledby="personnelUpdateConfirmationLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personnelUpdateConfirmationTitle">Update Personnel</h5>
+            </div>
+            <div class="modal-body">
+               <p id="personnelUpdateConfirmationText">Are you sure you want to update PERSON NAME?</p>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="personnelUpdateButtonConfirmationYes">Yes</button>
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"id="personnelUpdateButtonConfirmationNo" >No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 
 
 <!-- Department Modals///////////////////// -->

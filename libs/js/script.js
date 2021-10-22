@@ -1,5 +1,6 @@
 var theDepartmentID,
-theLocationID;
+theLocationID,
+person = {};
 
 
 
@@ -221,21 +222,35 @@ $('#personnelAddButton').click(function () {
     $('#personnelAddConfirmation').modal('show');
     }
 });
-//Add Form Empty if Cancelled
 //Add department when close button clicked clears form
 $('#personnelAddCancelButton').click(function() {
     $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
     $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
 })
-
+//Confirmation of add personnel Add the record
 $('#personnelAddButtonConfirmationYes').click(function() {
     addPersonel($('#inputFirstName').val(), $('#inputLastName').val(), $('#inputJobTitle').val(), $('#inputEmail').val(), $("#dropdownAddPersonnelDepartment").val())
     $('#personnelAddConfirmation').modal('hide');
     $('#addPersonnel').modal('hide');
     setUp();
 });
-
-
+//Delete Personnel Button on Update Form
+$('#personnelUpdateDeleteButton').click(function() {
+    $('#personnelDeleteConfirmation').modal('show');
+});
+//Confirm Delte before proceeding
+$('#personnelDeleteButtonConfirmationYes').click(function(){
+    deletePersonnel(person['id']);
+    $('#personnelUpdateOrDelete').modal('hide');
+    $('#personnelDeleteConfirmation').modal('hide');
+    //LIST OF PERSONNEL DOES NOT UPDATE ON SETUP////////////////////////////////
+    setUp();
+});
+//Confirm update before proceeding
+$('#personnelUpdateButtonSave').click(function() {
+    $('#personnelUpdateConfirmationText').html('Are you sure you want to update ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val())
+    $('#personnelUpdateConfirmation').modal('show');
+})
 
 
 
@@ -473,43 +488,21 @@ function openUpdateDeletePersonnelModal(id) {
         data: {
             id: id
         },
-        success: function(result) {         
-                    // $('#personnelUpdateOrDelete').modal('show'); 
-                    document.querySelector('input[name="inputLastNameName"]').value = result['data'][0]['lastName'];
-                    document.querySelector('input[name="inputFirstNameName"]').value = result['data'][0]['firstName'];
-                    document.querySelector('input[name="inputJobTitleName"]').value = result['data'][0]['jobTitle'];
-                    document.querySelector('input[name="inputEmailName"]').value = result['data'][0]['email'];
-                    getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result['data'][0]['department']);
-                   $('#personnelUpdateOrDelete').modal('show'); 
-
-
-                   //UPdate Personnel when UPdate button clicked
-                        $('#updatePersonnelButton').click(function () {   
-                            $("#updatePersonnelButtonConfirmation").prop("onclick", null).off("click");      
-                            $("#updatePersonnelButtonConfirmation").click(function(){
-                                updatePersonnel( result['data'][0]['id'], $("#inputFirstNameName").val(), $("#inputLastNameName").val(), $("#inputJobTitleName").val(), $("#inputEmailName").val(),  $("#dropdownUpdatePersonnelDepartment").val());
-                                $('#personnelUpdateOrDelete').modal('hide');
-                                setUp();
-                        });
-                            $('#updateConfirmationTextPersonnel').html(`Are you sure you want to update ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
-                            $('#updateOrDeletePersonnelConfirmation').modal('show');
-
-                        });
-
-                    //Delete Personnel when DElete button clicked
-                        $('#deletePersonnelButton').click(function () {  
-                        $("#deletePersonnelButtonConfirmation").prop("onclick", null).off("click");      
-                        $("#deletePersonnelButtonConfirmation").click(function(){
-                        deletePersonnel( result['data'][0]['id']);
-                        $('#personnelUpdateOrDelete').modal('hide');
-                        setUp();
-                    });
-                    $('#deleteConfirmationTextPersonnel').html(`Are you sure you want to delete ${$("#inputFirstNameName").val()} ${$("#inputLastNameName").val()}?`);
-                    $('#deletePersonnelConfirmation').modal('show');
-
-                });
-
-
+        success: function(result) {   
+            //create global variable
+            person['id'] =   result['data'][0]['id'];
+            person['firstName'] =   result['data'][0]['firstName'];
+            person['lastName'] =   result['data'][0]['lastName'];
+            person['jobTitle'] =   result['data'][0]['jobTitle'];
+            person['email'] =   result['data'][0]['email'];
+            person['department'] =   result['data'][0]['department'];
+            console.log(person)         
+            $('#inputFirstNameName').val(result['data'][0]['firstName']);
+            $('#inputLastNameName').val(result['data'][0]['lastName']);
+            $('#inputJobTitleName').val(result['data'][0]['jobTitle']);
+            $('#inputEmailName').val(result['data'][0]['email']);                  
+            getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result['data'][0]['department']);
+            $('#personnelUpdateOrDelete').modal('show'); 
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('edit personel failed on load call failed ' + errorThrown);
