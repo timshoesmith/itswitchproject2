@@ -1,6 +1,6 @@
 var theDepartmentID,
 theLocationID,
-person = {};
+personID;
 
 
 
@@ -250,9 +250,17 @@ $('#personnelDeleteButtonConfirmationYes').click(function(){
 $('#personnelUpdateButtonSave').click(function() {
     $('#personnelUpdateConfirmationText').html('Are you sure you want to update ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val())
     $('#personnelUpdateConfirmation').modal('show');
+});
+$('#personnelUpdateButtonConfirmationYes').click(function() {
+    updatePersonnel(personID, $('#inputFirstNameName').val(), $('#inputLastNameName').val(), $('#inputJobTitleName').val(), $('#inputEmailName').val(), $('#dropdownUpdatePersonnelDepartment').val());
+    console.log($('#dropdownUpdatePersonnelDepartment').val());
+    $('#personnelUpdateConfirmation').modal('hide');
+    $('#personnelUpdateOrDelete').modal('hide');
+    //NOT UPDATING ON SETUP JUST AFTER APP IS LOADED//////////////////////////////
+    //IF DEPARTMENT DROP DOWN NOT CHANGED IT REVERTS TO NULL///////////////////
+    setUp();
+    
 })
-
-
 
 
 // Personnel Event Listenters/////////////////////////////////////////////////////////////////////////
@@ -490,13 +498,9 @@ function openUpdateDeletePersonnelModal(id) {
         },
         success: function(result) {   
             //create global variable
-            person['id'] =   result['data'][0]['id'];
-            person['firstName'] =   result['data'][0]['firstName'];
-            person['lastName'] =   result['data'][0]['lastName'];
-            person['jobTitle'] =   result['data'][0]['jobTitle'];
-            person['email'] =   result['data'][0]['email'];
-            person['department'] =   result['data'][0]['department'];
-            console.log(person)         
+            personID =   result['data'][0]['id'];
+        
+                
             $('#inputFirstNameName').val(result['data'][0]['firstName']);
             $('#inputLastNameName').val(result['data'][0]['lastName']);
             $('#inputJobTitleName').val(result['data'][0]['jobTitle']);
