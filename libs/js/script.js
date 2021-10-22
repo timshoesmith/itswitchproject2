@@ -1,3 +1,7 @@
+var theDepartmentID;
+
+
+
 //PRELOADER
 $(window).on('load', function () {
     if ($('#preloader').length) {
@@ -64,7 +68,7 @@ $(window).on('load', function () {
 
 
 
-// Department Event Listenters
+// Department Event Listenters///////////////////////////////////////////////////////////////////////
 
 //Open Add Department Modal when Add button clicked
  $('#departmentAddButton').click(function () {
@@ -101,12 +105,66 @@ $("#departmentAddButtonConfirmationYes").click(function(){
         $('#listDepartments').modal('show');
 });
 
+ //click on row of departments event
+$('#departmentTable').on('click', 'tr' , function (event) {
+     theDepartmentID = event['currentTarget']['id'];
+    openUpdateDeleteDepartmentModal(theDepartmentID);
+    }); 
+
 //Delete Department////////////////////
 $('#departmentDeleteButton').click(function(){
-    alert('delete clicked');
+    checkDepartmentID(theDepartmentID);
 });
 
+//Delete Department Confirmation
+$('#departmentDeleteConfirmationButtonYes').click(function(){
+    deleteDepartment(theDepartmentID);
+    $('#listDepartments').modal('hide');
+    $('#departmentDeleteConfirmation').modal('hide');
+    $('#departmentUpdateOrDelete').modal('hide');
+    //THIS DOES NOT UPDATE THE DROPDOWN SO DELETED DEPT STILL SHOWS////////////////////////////////
+    getAllDepartments("#allDepartments");
+    //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
+    $('#listDepartments').modal('show');
+})
+//Confirmation when Update Button is clicked
+$('#departmentUpdateButton').click(function() {
+    $('#departmentUpdateConfirmationText').html("Are you sure you want to update the department to " +  $('#inputDepartment').val());
+    $('#updateDepartmentConfirmation').modal('show');
+})
+//Department is Updated when confirmation button is clicked
+$('#departmentUpdateButtonConfirmationYes').click(function() {
+    updateDepartment(theDepartmentID, $('#inputDepartment').val(), $("#dropdownUpdateDepartmentLocation").val());
+    $('#updateDepartmentConfirmation').modal('hide');
+    $('#departmentUpdateOrDelete').modal('hide');
+     getAllDepartments("#allDepartments");
+       //THIS DOES NOT UPDATE THE DROPDOWN SO UPDATED DEPT DOES NOT SHOW////////////////////////////////
+     getDepartmentDropdown('#dropdownDepartmentButton');
+    $('#listDepartments').modal('hide');
+});
 
+// Department Event Listenters///////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Location Event Listenters/////////////////////////////////////////////////////////////////////////
+
+$('#locationAddButton').click(function() {
+    $("#inputDepartmentAdd").html("");
+    
+    $('#locationAdd').modal('show');
+})
+
+
+
+
+
+  //click on row of locations event
+  $('#locationTable').on('click', 'tr' , function (event) {
+    openUpdateDeleteLocationModal(event['currentTarget']['id']);
+}); 
+
+
+
+// Location Event Listenters///////////////////////////////////////////////////////////////////////
 
 
 
@@ -222,14 +280,8 @@ function setUp() {
             openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
             //event['currentTarget']['department']
             });  
-         //click on row of departments event
-        $('#tableDepartment').on('click', 'tr' , function (event) {
-            openUpdateDeleteDepartmentModal(event['currentTarget']['id']);
-            }); 
-           //click on row of locations event
-        $('#tableLocation').on('click', 'tr' , function (event) {
-            openUpdateDeleteLocationModal(event['currentTarget']['id']);
-        }); 
+        
+         
             //click on row of locations event
         $('#showAllPersonnel').click(function() {
             setUp();
@@ -448,6 +500,10 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 
 //DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
 //Get departments and add to departments Modal
+
+
+
+
 function getAllDepartments(modalID)  {      
     $.ajax({
                 url: "libs/php/getAllDepartments.php",
@@ -488,44 +544,16 @@ function openUpdateDeleteDepartmentModal(x) {
                     id: x
                     },
         success: function(result) {	         
-            document.querySelector('input[name="inputDepartment"]').value = result['data'][0]['name'];
+            $('#inputDepartment').val(result['data'][0]['name']);
             getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result['data'][0]['location']);
             $("#dropdownUpdateDepartmentLocation").val(result['data'][0]['locationID']);
-            $('#departmentUpdateOrDelete').modal('show');
-            //UPdate Department when UPdate button clicked
-                 $('#updateDepartmentButton').click(function () {   
-                     $("#updateDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-                     $("#updateDepartmentButtonConfirmation").click(function(){
-                       
-                         updateDepartment(result['data'][0]['id'], $("#inputDepartment").val(), $("#dropdownUpdateDepartmentLocation").val());
-                         console.log($("#dropdownUpdateDepartmentLocation").val())
-                         $('#departmentUpdateOrDelete').modal('hide');
-                     
-                 });
-                     $('#updateConfirmationTextDepartment').html(`Are you sure you want to update ${$("#inputDepartment").val()}?`);
-                     $('#updateDepartmentConfirmation').modal('show');
-                   
-                 });
-
-             //Delete Department when DElete button clicked
-             $('#deleteDepartmentButton').click(function () { 
-                checkDepartmentID(result['data'][0]['id']);
-               
-             
-
-        });
-        
-        
+            $('#departmentUpdateOrDelete').modal('show');       
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show department failed on load call failed ' + errorThrown);
         }
     }); 
 }
-
-
-
-
 
 //Get departments and add to dropdown menu in desktop
 function getDepartmentDropdown(dropdownID)  {      
@@ -615,18 +643,13 @@ function checkDepartmentID(id) {
                     },
         success: function(result) {	
                 if (result['data'][0]['count(id)'] == 0) {
-                  
-                    $("#deleteDepartmentButtonConfirmation").prop("onclick", null).off("click");      
-                    $("#deleteDepartmentButtonConfirmation").click(function(){
-                        deleteDepartment(id);
-                        $('#departmentUpdateOrDelete').modal('hide');              
-                        });
-                $('#deleteConfirmationTextDepartment').html(`Are you sure you want to delete ${result['data'][0]['name']}?`);
-                $('#deleteDepartmentConfirmation').modal('show');              
+                    $('#departmentDeleteConfirmation').modal('show');
+                    $('#departmentDeleteConfirmationText').html("Are you sure you want to add " +  $('#inputDepartment').val());             
                 }
                 else 
                 {
-                    alert('This department is in use!')
+                    $('#departmentDeleteStillInUseText').html($('#inputDepartment').val() + " is still in use! ");                 
+                   $('#departmentDeleteStillInUse').modal('show');
                 }       
         },
         error: function(jqXHR, textStatus, errorThrown) {
