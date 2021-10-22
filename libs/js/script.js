@@ -1,4 +1,5 @@
-var theDepartmentID;
+var theDepartmentID,
+theLocationID;
 
 
 
@@ -146,22 +147,41 @@ $('#departmentUpdateButtonConfirmationYes').click(function() {
 // Department Event Listenters///////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location Event Listenters/////////////////////////////////////////////////////////////////////////
-
+//Open Add Location Modal when Add button clicked
 $('#locationAddButton').click(function() {
     $("#inputDepartmentAdd").html("");
     
     $('#locationAdd').modal('show');
 })
+//Add department when close button clicked clears form
+$('#locationAddCloseButton').click(function() {
+    $('#locationAddForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+    $('#locationAddForm').find(':checkbox, :radio').prop('checked', false);
+})
 
 
 
-
-
-  //click on row of locations event
+//Add Location when Add button clicked
+$("#locationAddButtonOnAddForm").click(function(){
+    $('#addConfirmationTextLocation').html("Are you sure you want to add " +  $('#inputLocationAdd').val());              
+    $('#locationAddConfirmation').modal('show');
+});
+//Add Location when Confirmation button clicked
+$('#locationAddButtonConfirmationYes').click(function() {
+    addLocation($('#inputLocationAdd').val());
+    $('#listLocations').modal('hide');
+    $('#locationAddConfirmation').modal('hide');
+    $('#locationAdd').modal('hide');
+})
+//click on row of locations event
   $('#locationTable').on('click', 'tr' , function (event) {
-    openUpdateDeleteLocationModal(event['currentTarget']['id']);
+    theLocationID = event['currentTarget']['id'];
+    openUpdateDeleteLocationModal(theLocationID);
 }); 
-
+//Delete Location////////////////////
+$('#locationDeleteButton').click(function(){
+    checkLocationID(theDepartmentID);
+});
 
 
 // Location Event Listenters///////////////////////////////////////////////////////////////////////
@@ -895,30 +915,12 @@ function openUpdateDeleteLocationModal(x) {
                     id: x
                     },
         success: function(result) {	
-            document.querySelector('input[name="inputLocationUpdateOrDelete"]').value = result['data'][0]['name'];
+            $('#inputLocation').val(result['data'][0]['name']);      
+            $('#locationUpdateOrDelete').modal('show');       
+        
             $('#updateOrDeleteLocation').modal('show');
-           //UPdate Location when UPdate button clicked
-           $('#updateLocationButton').click(function () { 
-               
-                  $("#updateLocationButtonConfirmation").prop("onclick", null).off("click");      
-                    $("#updateLocationButtonConfirmation").click(function(){
-
-                updateLocation(result['data'][0]['id'], $("#inputLocationUpdateOrDelete").val());                  
-                $('#updateOrDeleteLocation').modal('hide');
-               
-           });
-            
-     
-            $('#updateConfirmationTextLocation').html(`Are you sure you want to update ${$("#inputLocationUpdateOrDelete").val()}?`);
-            $('#updateLocationConfirmation').modal('show');
           
-        });
-         //Delete Location when Delete button clicked
-         $('#deleteLocationButtonOnUpdateForm').click(function () { 
-            checkLocationID(result['data'][0]['id'], $("#inputLocationUpdateOrDelete").val());
-           
-
-    });
+         
 
       
         
