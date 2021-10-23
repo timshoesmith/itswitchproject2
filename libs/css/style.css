@@ -48,11 +48,8 @@
   }
 
   .modal-body {
-
     max-height: 70vh;
-
     overflow-y: auto;
-
 }
 
   
@@ -86,9 +83,7 @@
     padding-left: 10px;
   }
 
- table {
-   cursor: pointer;
- }
+
  button {
    margin-right: 10px!important;
  }
@@ -100,6 +95,20 @@
   font-size: 16px;
 }
 
-
+table {
+  width: 100%;
+  cursor: pointer;
+}
+#tablePersonnelThead, #tablePersonnelTbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+#tablePersonnelTbody {
+  display: block;
+  overflow-y: auto;
+  table-layout: fixed;
+  max-height: 80vh;
+}
  
  

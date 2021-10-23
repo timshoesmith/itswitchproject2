@@ -48,13 +48,11 @@ $(window).on('load', function () {
                                 contacts.push(row);
                     
                     });
-                                $('#allPersonnel').html(contacts);
+                                $('#tablePersonnelTbody').html(contacts);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log('search personel  call failed ' + errorThrown);
-                        } 
-                        
-                        
+                        }                                              
                 });              
             }
                 //go back to full database
@@ -189,7 +187,6 @@ $('#locationDeleteButtonConfirmationYES').click(function(){
     //THIS DOES NOT UPDATE THE DROPDOWN SO DELETED DEPT STILL SHOWS////////////////////////////////
     getAllLocations("#allLocationss");
     //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
-   // $('#listLocations').modal('show');
 })
 //Confirmation when Update Button is clicked
 $('#locationUpdateButton').click(function() {
@@ -214,7 +211,6 @@ $('#locationUpdateButtonConfirmationYes').click(function() {
 
 //Save button on add from clicked check to make sure fields are filled
 $('#personnelAddButton').click(function () {
-    console.log($("#dropdownAddPersonnelDepartment").val())
     if (!$('#inputFirstName').val() || !$('#inputLastName').val() || !$('#inputJobTitle').val() || !$('#inputEmail').val() || !( $("#dropdownAddPersonnelDepartment").val() > 0) ) {
         $('#personnelAddAllFieldsNotCompleted').modal('show');
     } else { 
@@ -240,7 +236,7 @@ $('#personnelUpdateDeleteButton').click(function() {
 });
 //Confirm Delte before proceeding
 $('#personnelDeleteButtonConfirmationYes').click(function(){
-    deletePersonnel(person['id']);
+    deletePersonnel(personID);
     $('#personnelUpdateOrDelete').modal('hide');
     $('#personnelDeleteConfirmation').modal('hide');
     //LIST OF PERSONNEL DOES NOT UPDATE ON SETUP////////////////////////////////
@@ -253,7 +249,6 @@ $('#personnelUpdateButtonSave').click(function() {
 });
 $('#personnelUpdateButtonConfirmationYes').click(function() {
     updatePersonnel(personID, $('#inputFirstNameName').val(), $('#inputLastNameName').val(), $('#inputJobTitleName').val(), $('#inputEmailName').val(), $('#dropdownUpdatePersonnelDepartment').val());
-    console.log($('#dropdownUpdatePersonnelDepartment').val());
     $('#personnelUpdateConfirmation').modal('hide');
     $('#personnelUpdateOrDelete').modal('hide');
     //NOT UPDATING ON SETUP JUST AFTER APP IS LOADED//////////////////////////////
@@ -266,86 +261,6 @@ $('#personnelUpdateButtonConfirmationYes').click(function() {
 // Personnel Event Listenters/////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location Event Listenters///////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//   //Add Personnel when Add button clicked
-// $('#addPersonnelButton').click(function () {
-    
-//     $("#addPersonnelButtonConfirmation").prop("onclick", null).off("click");      
-//     $("#addPersonnelButtonConfirmation").click(function(){
-//         addPersonel( $("#inputFirstName").val(), $("#inputLastName").val(), $("#inputJobTitle").val(), $("#inputEmail").val(),  $("#dropdownAddPersonnelDepartment").val());
-//         $('#addPersonnel').modal('hide');
-//         setUp();
-// });
-//     $('#addPersonnelConfirmation').modal('show');
-//     $('#addConfirmationTextPersonnel').html(`Are you sure you want to Add ${$("#inputFirstName").val()} ${$("#inputLastName").val()}?`);  
-// });
-// //Clear Add Personnel Form if cancelled
-// $("#addPersonnelCloseButton").click(function(){ 
-//         $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-//         $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
-    
-//     });
-//Add Personnel on confirmation
-
- 
-
-
-
-
-// //Open ADD Location when Add button clicked
-// $('#addLocationButton').click(function () {
-//     $("#inputLocationAdd").html("");
-//     $('#addLocation').modal('show');
-//   });
-
-// //Add Location when Add button clicked
-// $('#addLocationButtonOnAddForm').click(function () {  
-//     $("#addLocationButtonConfirmation").prop("onclick", null).off("click");      
-//     $("#addLocationButtonConfirmation").click(function(){
-//         addLocation($("#inputLocationAdd").val());   
-//         $('#addLocation').modal('hide');    
-// });
-//     $('#addConfirmationTextLocation').html(`Are you sure you want to Add ${$("#inputLocationAdd").val()}?`);
-//     $('#addLocationConfirmation').modal('show');
-// });
-// //Add Location when close button clicked clears form
-// $("#addLocationCloseButton").click(function(){ 
-//         $('#addLocationForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-//         $('#addLocationForm').find(':checkbox, :radio').prop('checked', false);
-    
-//     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -372,24 +287,16 @@ function setUp() {
             getPersonnelByLocationID(id);
          }
       
-    }); 
-    
+    });   
       //click on row of personnel event
         $('#tablePersonnel').on('click', 'tr' , function (event) {
             openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
-            //event['currentTarget']['department']
             });  
-        
-         
-            //click on row of locations event
+
         $('#showAllPersonnel').click(function() {
             setUp();
         }); 
-
-
 }
-
-
     //PERSONNEL FUNCTIONS////////////////////////////////
 //Get All Personnel
 function getAllPersonnel() {
@@ -418,7 +325,7 @@ $.ajax({
                         contacts.push(row);
             
             })
-            $('#allPersonnel').html(contacts);
+            $('#tablePersonnelTbody').html(contacts);
         }
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -473,22 +380,7 @@ function addPersonel(newFirstName, newLastName, newJobTitle, newEmail, newDepart
             }
         }); 
 }
-//Open add Personnel Form large Screen
-// $("#addPersonnelTopButton").click(function(){ 
-//     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-//     $('#addPersonnel').modal('show');
-//   });
-//Open add Personnel Form small Screen
-// $("#addPersonnelTopButtonSmallScreen").click(function(){ 
-//     getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
-//     $('#addPersonnel').modal('show');
-//   });
-  
-
-
-
 //Update personnel modal form/////////////////
-
 function openUpdateDeletePersonnelModal(id) {
     $.ajax({
         url:'libs/php/getPersonByID.php',
@@ -559,24 +451,8 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //DEPARTMENT FUNCTIONS BEGIN///////////////////////////////////
 //Get departments and add to departments Modal
-
-
-
-
 function getAllDepartments(modalID)  {      
     $.ajax({
                 url: "libs/php/getAllDepartments.php",
@@ -603,11 +479,7 @@ function getAllDepartments(modalID)  {
                 }
             }); 
         }
-
 //DELETE DEPARTMENT BEGIN////////////////////////
-
-
-
 function openUpdateDeleteDepartmentModal(x) {
     $.ajax({
         url: "libs/php/getDepartmentByID.php",
@@ -627,7 +499,6 @@ function openUpdateDeleteDepartmentModal(x) {
         }
     }); 
 }
-
 //Get departments and add to dropdown menu in desktop
 function getDepartmentDropdown(dropdownID)  {      
     $.ajax({
@@ -679,7 +550,7 @@ function getPersonnelByDepartmentID(id) {
                             contacts.push(row);
                 
                 })
-                $('#allPersonnel').html(contacts);
+                $('#tablePersonnelTbody').html(contacts);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Get pesonel by department ID call failed ' + errorThrown);
@@ -704,7 +575,6 @@ function deleteDepartment(id) {
         }
     }); 
 }
-
 //Can I delete department? function adds or alerts if department ID is in use
 function checkDepartmentID(id) {
     $.ajax({
@@ -730,33 +600,6 @@ function checkDepartmentID(id) {
         }
     }); 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Ajax update call to update Department
 function updateDepartment(id,department, locationID) {
     $.ajax({
@@ -776,8 +619,6 @@ function updateDepartment(id,department, locationID) {
     }); 
 };
 //UPDATE DEPARTMENT CLOSE///////////////////////////////////////
-
-
 
 
 //ADD DEPARTMENT/////////////////////////////////////////
@@ -806,8 +647,6 @@ function getAllLocationForDepartment(modalID, defaultText)  {
                 }
             }); 
 }
-
-
 //ADD DEPARTMENT////////////////////////
   //Add department function
   function addDepartment(newDepartment, locationID) {    
@@ -848,10 +687,7 @@ function getAllLocationForDepartment(modalID, defaultText)  {
                   {
                     $('#departmentAddAlreadyCreated').modal('show');
                       
-                  }
-             
-     
-          
+                  }        
           },
           error: function(jqXHR, textStatus, errorThrown) {
               console.log('Show department failed on load call failed ' + errorThrown);
@@ -859,16 +695,7 @@ function getAllLocationForDepartment(modalID, defaultText)  {
       }); 
   }
 
-
-
 //ADD DEPARTMENT FINISHED/////////////////////////////////
-
-
-
-
-
-
-
 
 
 //DEPARTMENT FUNCTION END////////////////////////////////////
@@ -900,7 +727,6 @@ function getAllLocationForDepartment(modalID, defaultText)  {
         }
     }); 	
 }
-
 function getPersonnelByLocationID(id) {
     //Select Menu function for location in desktop   
    
@@ -930,14 +756,12 @@ function getPersonnelByLocationID(id) {
                                 contacts.push(row);
                     
                     })
-                    $('#allPersonnel').html(contacts);
+                    $('#tablePersonnelTbody').html(contacts);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Get pesonel by location ID call failed ' + errorThrown);
-            }
-            
-        }); 
-  
+            }          
+        });  
 }
 
 //UPDATE LOCATION FUNCTIONS START///////////////
@@ -971,12 +795,7 @@ function openUpdateDeleteLocationModal(x) {
             $('#inputLocation').val(result['data'][0]['name']);      
             $('#locationUpdateOrDelete').modal('show');       
         
-            $('#updateOrDeleteLocation').modal('show');
-          
-         
-
-      
-        
+            $('#updateOrDeleteLocation').modal('show');       
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show location modal failed on load call failed ' + errorThrown);
@@ -986,7 +805,6 @@ function openUpdateDeleteLocationModal(x) {
 //UPDATE LOCATION FUNCTIONS FINISH///////////////
 
 //ADD LOCATION FUNCTIONS STARTS/////////////////////
-
 
 //Add Location function
 function addLocation(newLocation) {    
@@ -1004,9 +822,6 @@ function addLocation(newLocation) {
         }
     }); 
 }
-
-
-
 
 //ADD LOCATION FUNCTIONS END////////////////////////
 
@@ -1039,20 +854,15 @@ function checkLocationID(id) {
                     id: id
                     },
         success: function(result) {	
-            console.log(id)
                     if (result['data'][0]['count(id)'] == 0) {
                         $('#locationDeleteConfirmation').modal('show');
                         $('#locationDeleteConfirmationText').html("Are you sure you want to delete " +  $('#inputLocation').val());      
                     }
                     else 
                     {
-                        console.log('wrong modal')
                         $('#locationDeleteStillInUseText').html($('#inputLocation').val() + " is still in use! ");                 
                        $('#locationDeleteStillInUse').modal('show');
-                    }       
-               
-   
-        
+                    }             
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Show department failed on load call failed ' + errorThrown);
@@ -1060,28 +870,6 @@ function checkLocationID(id) {
     }); 
 }
 //ADD LOCATION FUNCTIONS END STARTS////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Get locations and add to department Modal       
     function getAllLocations(modalID) {
@@ -1109,24 +897,9 @@ function checkLocationID(id) {
             }); 	       
         }
 
-
-
-
-
-//Setup function is called
-// setUp();
-
 //SEARCHES ///////////////////////
 //Search by Name
 $(document).ready(function() {
     //set up database
     setUp();
-   
-    // $('#dropdownDepartmentButton li a').on('click', function(){
-    //     //$('#datebox').val($(this).text());
-    //     alert($(this).text());
-    // });
-    
 });
-
-
