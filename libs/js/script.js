@@ -39,13 +39,13 @@ $(window).on('load', function () {
             
                     result['data'].forEach(element => {
                     row =   `<tr id="${element['id']}">
-                    <td>${element.firstName},${element['lastName']}</td>
+                    <td>${element['firstName']},${element['lastName']}</td>
                     <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                     <td  class="d-none d-md-table-cell">${element['email']}</td>
                     <td>${element['department']}</td>
                     <td class="d-none d-md-table-cell">${element['location']}</td>
-                    </tr>`
-                                contacts.push(row);
+                    </tr>`;
+                    contacts.push(row);
                     
                     });
                                 $('#tablePersonnelTbody').html(contacts);
@@ -126,12 +126,12 @@ $('#departmentDeleteConfirmationButtonYes').click(function(){
     getAllDepartments("#allDepartments");
     //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
     $('#listDepartments').modal('show');
-})
+});
 //Confirmation when Update Button is clicked
 $('#departmentUpdateButton').click(function() {
     $('#departmentUpdateConfirmationText').html("Are you sure you want to update the department to " +  $('#inputDepartment').val());
     $('#updateDepartmentConfirmation').modal('show');
-})
+});
 //Department is Updated when confirmation button is clicked
 $('#departmentUpdateButtonConfirmationYes').click(function() {
     updateDepartment(theDepartmentID, $('#inputDepartment').val(), $("#dropdownUpdateDepartmentLocation").val());
@@ -148,15 +148,14 @@ $('#departmentUpdateButtonConfirmationYes').click(function() {
 // Location Event Listenters/////////////////////////////////////////////////////////////////////////
 //Open Add Location Modal when Add button clicked
 $('#locationAddButton').click(function() {
-    $("#inputDepartmentAdd").html("");
-    
+    $("#inputDepartmentAdd").html("");   
     $('#locationAdd').modal('show');
-})
+});
 //Add department when close button clicked clears form
 $('#locationAddCloseButton').click(function() {
     $('#locationAddForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
     $('#locationAddForm').find(':checkbox, :radio').prop('checked', false);
-})
+});
 //Add Location when Add button clicked
 $("#locationAddButtonOnAddForm").click(function(){
     $('#addConfirmationTextLocation').html("Are you sure you want to add " +  $('#inputLocationAdd').val());              
@@ -168,7 +167,7 @@ $('#locationAddButtonConfirmationYes').click(function() {
     $('#listLocations').modal('hide');
     $('#locationAddConfirmation').modal('hide');
     $('#locationAdd').modal('hide');
-})
+});
 //click on row of locations event
   $('#locationTable').on('click', 'tr' , function (event) {
     theLocationID = event['currentTarget']['id'];
@@ -187,12 +186,12 @@ $('#locationDeleteButtonConfirmationYES').click(function(){
     //THIS DOES NOT UPDATE THE DROPDOWN SO DELETED DEPT STILL SHOWS////////////////////////////////
     getAllLocations("#allLocationss");
     //THIS MODAL DOES NOT REAPEAR//////////////////////////////////////////////////////////////
-})
+});
 //Confirmation when Update Button is clicked
 $('#locationUpdateButton').click(function() {
     $('#locationUpdateConfirmationText').html("Are you sure you want to update the location to " +  $('#inputLocation').val());
     $('#updateLocationConfirmation').modal('show');
-})
+});
 //Location is Updated when confirmation button is clicked
 $('#locationUpdateButtonConfirmationYes').click(function() {
     updateLocation(theLocationID, $('#inputLocation').val());
@@ -222,17 +221,17 @@ $('#personnelAddButton').click(function () {
 $('#personnelAddCancelButton').click(function() {
     $('#addPersonnelForm').find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
     $('#addPersonnelForm').find(':checkbox, :radio').prop('checked', false);
-})
+});
 //Confirmation of add personnel Add the record
 $('#personnelAddButtonConfirmationYes').click(function() {
-    addPersonel($('#inputFirstName').val(), $('#inputLastName').val(), $('#inputJobTitle').val(), $('#inputEmail').val(), $("#dropdownAddPersonnelDepartment").val())
+    addPersonel($('#inputFirstName').val(), $('#inputLastName').val(), $('#inputJobTitle').val(), $('#inputEmail').val(), $("#dropdownAddPersonnelDepartment").val());
     $('#personnelAddConfirmation').modal('hide');
     $('#addPersonnel').modal('hide');
     setUp();
 });
 //Delete Personnel Button on Update Form
 $('#personnelUpdateDeleteButton').click(function() {
-    $('#personnelDeleteConfirmationText').html('Are you sure you want to delete ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val())
+    $('#personnelDeleteConfirmationText').html('Are you sure you want to delete ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val());
     $('#personnelDeleteConfirmation').modal('show');
 });
 //Confirm Delte before proceeding
@@ -245,7 +244,7 @@ $('#personnelDeleteButtonConfirmationYes').click(function(){
 });
 //Confirm update before proceeding
 $('#personnelUpdateButtonSave').click(function() {
-    $('#personnelUpdateConfirmationText').html('Are you sure you want to update ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val())
+    $('#personnelUpdateConfirmationText').html('Are you sure you want to update ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val());
     $('#personnelUpdateConfirmation').modal('show');
 });
 $('#personnelUpdateButtonConfirmationYes').click(function() {
@@ -254,9 +253,8 @@ $('#personnelUpdateButtonConfirmationYes').click(function() {
     $('#personnelUpdateOrDelete').modal('hide');
     //NOT UPDATING ON SETUP JUST AFTER APP IS LOADED//////////////////////////////
     //IF DEPARTMENT DROP DOWN NOT CHANGED IT REVERTS TO NULL///////////////////
-    setUp();
-    
-})
+    setUp();   
+});
 
 
 // Personnel Event Listenters/////////////////////////////////////////////////////////////////////////
@@ -317,15 +315,14 @@ $.ajax({
             result['data'].forEach(element => {
             row =   `<tr id="${element['id']}" class="rowClick">
                        
-                        <td>${element['firstName']},${element['lastName']}</td>
+                        <td>${element['firstName']},<b>${element['lastName']}</b></td>
                         <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                         <td class="d-none d-md-table-cell">${element['email']}</td>
                         <td>${element['department']}</td>
                         <td class="d-none d-md-table-cell">${element['location']}</td>
                         </tr>`
-                        contacts.push(row);
-            
-            })
+                        contacts.push(row);          
+            });
             $('#tablePersonnelTbody').html(contacts);
         }
     },
@@ -588,7 +585,7 @@ function checkDepartmentID(id) {
         success: function(result) {	
                 if (result['data'][0]['count(id)'] == 0) {
                     $('#departmentDeleteConfirmation').modal('show');
-                    $('#departmentDeleteConfirmationText').html("Are you sure you want to add " +  $('#inputDepartment').val());             
+                    $('#departmentDeleteConfirmationText').html("Are you sure you want to delete " +  $('#inputDepartment').val());             
                 }
                 else 
                 {
