@@ -39,7 +39,7 @@ $(window).on('load', function () {
             
                     result['data'].forEach(element => {
                     row =   `<tr id="${element['id']}">
-                    <td>${element['firstName']},${element['lastName']}</td>
+                    <td>${element.firstName},${element['lastName']}</td>
                     <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
                     <td  class="d-none d-md-table-cell">${element['email']}</td>
                     <td>${element['department']}</td>
@@ -232,6 +232,7 @@ $('#personnelAddButtonConfirmationYes').click(function() {
 });
 //Delete Personnel Button on Update Form
 $('#personnelUpdateDeleteButton').click(function() {
+    $('#personnelDeleteConfirmationText').html('Are you sure you want to delete ' + $('#inputFirstNameName').val() + ' ' + $('#inputLastNameName').val())
     $('#personnelDeleteConfirmation').modal('show');
 });
 //Confirm Delte before proceeding
