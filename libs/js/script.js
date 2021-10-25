@@ -15,7 +15,7 @@ $(window).on('load', function () {
 
 //Company Home Page Event Listeners    
     $("#companyPageAddPerson").click(function(){ 
-        getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department');
+        getAllDepartmentsForPersonnel('#dropdownAddPersonnelDepartment', 'Choose Department', 0);
         $('#addPersonnel').modal('show');
     });
 
@@ -37,18 +37,18 @@ $(window).on('load', function () {
                         let contacts = [];
                         let row = "";
             
-                    result['data'].forEach(element => {
-                    row =   `<tr id="${element['id']}">
-                    <td>${element['firstName']},${element['lastName']}</td>
-                    <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                    <td  class="d-none d-md-table-cell">${element['email']}</td>
-                    <td>${element['department']}</td>
-                    <td class="d-none d-md-table-cell">${element['location']}</td>
+                    result.data.forEach(element => {
+                    row =   `<tr id="${element.id}">
+                    <td>${element.firstName},<b>${element.lastName}</b></td>
+                    <td class="d-none d-md-table-cell">${element.jobTitle}</td>
+                    <td  class="d-none d-md-table-cell">${element.email}</td>
+                    <td>${element.department}</td>
+                    <td class="d-none d-md-table-cell">${element.location}</td>
                     </tr>`;
                     contacts.push(row);
                     
                     });
-                                $('#tablePersonnelTbody').html(contacts);
+                            $('#tablePersonnelTbody').html(contacts);
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             console.log('search personel  call failed ' + errorThrown);
@@ -73,7 +73,7 @@ $(window).on('load', function () {
 //Open Add Department Modal when Add button clicked
  $('#departmentAddButton').click(function () {
     $("#inputDepartmentAdd").html("");
-    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location');
+    getAllLocationForDepartment('#dropdownAddDepartmentLocation', 'Choose Location', 0);
     $('#departmentAdd').modal('show');
   });
 //Add department when close button clicked clears form
@@ -107,7 +107,7 @@ $("#departmentAddButtonConfirmationYes").click(function(){
 
  //click on row of departments event
 $('#departmentTable').on('click', 'tr' , function (event) {
-     theDepartmentID = event['currentTarget']['id'];
+     theDepartmentID = event.currentTarget.id;
     openUpdateDeleteDepartmentModal(theDepartmentID);
     }); 
 
@@ -170,7 +170,7 @@ $('#locationAddButtonConfirmationYes').click(function() {
 });
 //click on row of locations event
   $('#locationTable').on('click', 'tr' , function (event) {
-    theLocationID = event['currentTarget']['id'];
+    theLocationID = event.currentTarget.id;
     openUpdateDeleteLocationModal(theLocationID);
 }); 
 //Delete Location////////////////////
@@ -289,7 +289,7 @@ function setUp() {
     });   
       //click on row of personnel event
         $('#tablePersonnel').on('click', 'tr' , function (event) {
-            openUpdateDeletePersonnelModal(event['currentTarget']['id'], );
+            openUpdateDeletePersonnelModal(event.currentTarget.id);
             });  
 
         $('#showAllPersonnel').click(function() {
@@ -312,15 +312,15 @@ $.ajax({
             let contacts = [];
             let row = "";
            
-            result['data'].forEach(element => {
-            row =   `<tr id="${element['id']}" class="rowClick">
+            result.data.forEach(element => {
+            row =   `<tr id="${element.id}" class="rowClick">
                        
-                        <td>${element['firstName']},<b>${element['lastName']}</b></td>
-                        <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                        <td class="d-none d-md-table-cell">${element['email']}</td>
-                        <td>${element['department']}</td>
-                        <td class="d-none d-md-table-cell">${element['location']}</td>
-                        </tr>`
+                        <td>${element.firstName},<b>${element.lastName}</b></td>
+                        <td class="d-none d-md-table-cell">${element.jobTitle}</td>
+                        <td class="d-none d-md-table-cell">${element.email}</td>
+                        <td>${element.department}</td>
+                        <td class="d-none d-md-table-cell">${element.location}</td>
+                        </tr>`;
                         contacts.push(row);          
             });
             $('#tablePersonnelTbody').html(contacts);
@@ -335,7 +335,7 @@ $.ajax({
 }
 
 //Add personnel Form/////////////////
-function getAllDepartmentsForPersonnel(modalID, defaultText)  {      
+function getAllDepartmentsForPersonnel(modalID, defaultText, departmentID)  {      
     $.ajax({
                 url: "libs/php/getAllDepartments.php",
                 type: 'POST',
@@ -343,14 +343,15 @@ function getAllDepartmentsForPersonnel(modalID, defaultText)  {
                 data: {
                 
                 },
-                success: function(result) {				
-                    let menu = [`<option value= 0}>${defaultText}</option>`];
+                success: function(result) {	
+                    console.log(departmentID)			
+                    let menu = [`<option value = ${departmentID} >${defaultText}</option>`];
                     let menuItem = '';                                            
-                    result['data'].forEach(element => {
-                        menuItem =  `<option value=${element['id']}>${element['department']}</option>`;
+                    result.data.forEach(element => {
+                        menuItem =  `<option value=${element.id}>${element.department}</option>`;
                     
                         menu.push(menuItem);
-                    })
+                    });
                     $(modalID).html(menu);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -388,14 +389,15 @@ function openUpdateDeletePersonnelModal(id) {
         },
         success: function(result) {   
             //create global variable
-            personID =   result['data'][0]['id'];
-        
-                
-            $('#inputFirstNameName').val(result['data'][0]['firstName']);
-            $('#inputLastNameName').val(result['data'][0]['lastName']);
-            $('#inputJobTitleName').val(result['data'][0]['jobTitle']);
-            $('#inputEmailName').val(result['data'][0]['email']);                  
-            getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result['data'][0]['department']);
+            personID =   result.data[0].id;
+            console.log(result)
+           // $("#dropdownUpdateDepartmentLocation").val(result.data[0].departmentID);
+            $('#inputFirstNameName').val(result.data[0].firstName);
+            $('#inputLastNameName').val(result.data[0].lastName);
+            $('#inputJobTitleName').val(result.data[0].jobTitle);
+            $('#inputEmailName').val(result.data[0].email);                  
+            getAllDepartmentsForPersonnel('#dropdownUpdatePersonnelDepartment', result.data[0].department, result.data[0].departmentID);
+
             $('#personnelUpdateOrDelete').modal('show'); 
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -436,12 +438,12 @@ function updatePersonnel(id, firstName, lastName, jobTitle, email, departmentID)
             departmentID: departmentID
 
         },
-        success: function(result) {			                  
+        success: function(result) {		                  
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('Update locations failed on load call failed ' + errorThrown);
         }
-    }); 
+    });
 };
 //PERSONNEL FUNCTION END///////////////////////////////////////////
 
@@ -462,14 +464,14 @@ function getAllDepartments(modalID)  {
                 success: function(result) {				
                     let menu = [];
                     let menuItem = '';                                             
-                    result['data'].forEach(element => {
-                        menuItem =  `<tr id=${element['id']} class="rowClick">
-                                        <td>${element['department']}</td>
-                                        <td>${element['location']}</td>
+                    result.data.forEach(element => {
+                        menuItem =  `<tr id=${element.id} class="rowClick">
+                                        <td>${element.department}</td>
+                                        <td>${element.location}</td>
                                     </tr>`;
                     
                         menu.push(menuItem);
-                    })
+                    });
                     $(modalID).html(menu);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -487,9 +489,10 @@ function openUpdateDeleteDepartmentModal(x) {
                     id: x
                     },
         success: function(result) {	         
-            $('#inputDepartment').val(result['data'][0]['name']);
-            getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result['data'][0]['location']);
-            $("#dropdownUpdateDepartmentLocation").val(result['data'][0]['locationID']);
+            $('#inputDepartment').val(result.data[0].name);
+           // $("#dropdownUpdateDepartmentLocation").val(result.data[0].locationID)
+            getAllLocationForDepartment('#dropdownUpdateDepartmentLocation', result.data[0].location, result.data[0].locationID);
+            $("#dropdownUpdateDepartmentLocation").val(result.data[0].locationID);
             $('#departmentUpdateOrDelete').modal('show');       
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -510,11 +513,11 @@ function getDepartmentDropdown(dropdownID)  {
                   		
                     let menu = [`<li><a class="dropdown-item" id="companyPageShowAllDepts" href="#">Show All</a></li>`];
                     let menuItem = '';                                             
-                    result['data'].forEach(element => {
-                        menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['department']}</a></li>`;
+                    result.data.forEach(element => {
+                        menuItem =  `<li><a class="dropdown-item" id=${element.id} href="#">${element.department}</a></li>`;
                         
                         menu.push(menuItem);
-                    })
+                    });
                     $(dropdownID).html(menu);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -536,18 +539,18 @@ function getPersonnelByDepartmentID(id) {
                 let contacts = [];
                 let row = "";
                
-                result['data'].forEach(element => {
-                row =   `<tr id="${element['id']}" class="rowClick">
+                result.data.forEach(element => {
+                row =   `<tr id="${element.id}" class="rowClick">
                            
-                            <td>${element['firstName']},${element['lastName']}</td>
-                            <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                            <td class="d-none d-md-table-cell">${element['email']}</td>
-                            <td>${element['department']}</td>
-                            <td class="d-none d-md-table-cell">${element['location']}</td>
-                            </tr>`
+                            <td>${element.firstName},<b>${element.lastName}</b></td>
+                            <td class="d-none d-md-table-cell">${element.jobTitle}</td>
+                            <td class="d-none d-md-table-cell">${element.email}</td>
+                            <td>${element.department}</td>
+                            <td class="d-none d-md-table-cell">${element.location}</td>
+                            </tr>`;
                             contacts.push(row);
                 
-                })
+                });
                 $('#tablePersonnelTbody').html(contacts);
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -583,7 +586,7 @@ function checkDepartmentID(id) {
                     id: id
                     },
         success: function(result) {	
-                if (result['data'][0]['count(id)'] == 0) {
+                if (result.data[0].count(id) == 0) {
                     $('#departmentDeleteConfirmation').modal('show');
                     $('#departmentDeleteConfirmationText').html("Are you sure you want to delete " +  $('#inputDepartment').val());             
                 }
@@ -615,14 +618,14 @@ function updateDepartment(id,department, locationID) {
             console.log('Update locations failed on load call failed ' + errorThrown);
         }
     }); 
-};
+}
 //UPDATE DEPARTMENT CLOSE///////////////////////////////////////
 
 
 //ADD DEPARTMENT/////////////////////////////////////////
 
 //get all location to add to add department form
-function getAllLocationForDepartment(modalID, defaultText)  {      
+function getAllLocationForDepartment(modalID, defaultText, locationID)  {      
     $.ajax({
                 url: "libs/php/getAllLocations.php",
                 type: 'POST',
@@ -631,13 +634,13 @@ function getAllLocationForDepartment(modalID, defaultText)  {
                 
                 },
                 success: function(result) {	
-                    let menu = [`<option value= 0}>${defaultText}</option>`];
+                    let menu = [`<option value= ${locationID}}>${defaultText}</option>`];
                     let menuItem = '';                                            
-                    result['data'].forEach(element => {
-                        menuItem =  `<option value=${element['id']}>${element['name']}</option>`;
+                    result.data.forEach(element => {
+                        menuItem =  `<option value=${element.id}>${element.name}</option>`;
                     
                         menu.push(menuItem);
-                    })
+                    });
                     $(modalID).html(menu);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -674,7 +677,8 @@ function getAllLocationForDepartment(modalID, defaultText)  {
                       name: name,
                       locationID: locationID
                       },
-          success: function(result) {	
+          success: function(result) {
+            console.log(result.data)	
                   if (result['data'][0]['count(name)'] == 0) {
                     //   addDepartment(name, locationID);
                     $(addConfirmationTextDepartment).html("Are you sure you want to add " +  $('#inputDepartmentAdd').val());
@@ -712,10 +716,10 @@ function getAllLocationForDepartment(modalID, defaultText)  {
         success: function(result) {						
             let menu = [`<li><a class="dropdown-item" id="companyPageShowAllLocations" href="#">Show All</a></li>`];
             let menuItem = '';                                             
-            result['data'].forEach(element => {
-                menuItem =  `<li><a class="dropdown-item" id=${element['id']} href="#">${element['name']}</a></li>`;
+            result.data.forEach(element => {
+                menuItem =  `<li><a class="dropdown-item" id=${element.id} href="#">${element.name}</a></li>`;
                 menu.push(menuItem);
-            })
+            });
             $(dropdownID).html(menu);
 
 
@@ -742,18 +746,18 @@ function getPersonnelByLocationID(id) {
                     let contacts = [];
                     let row = "";
                    
-                    result['data'].forEach(element => {
-                    row =   `<tr id="${element['id']}" class="rowClick">
+                    result.data.forEach(element => {
+                    row =   `<tr id="${element.id}" class="rowClick">
                             
-                                <td>${element['firstName']},${element['lastName']}</td>
-                                <td class="d-none d-md-table-cell">${element['jobTitle']}</td>
-                                <td class="d-none d-md-table-cell">${element['email']}</td>
-                                <td>${element['department']}</td>
-                                <td class="d-none d-md-table-cell">${element['location']}</td>
-                                </tr>`
+                                <td>${element.firstName},<b>${element.lastName}</b></td>
+                                <td class="d-none d-md-table-cell">${element.jobTitle}</td>
+                                <td class="d-none d-md-table-cell">${element.email}</td>
+                                <td>${element.department}</td>
+                                <td class="d-none d-md-table-cell">${element.location}</td>
+                                </tr>`;
                                 contacts.push(row);
                     
-                    })
+                    });
                     $('#tablePersonnelTbody').html(contacts);
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -779,7 +783,7 @@ function updateLocation(id,location) {
             console.log('Update locations failed on load call failed ' + errorThrown);
         }
     }); 
-};
+}
 
 function openUpdateDeleteLocationModal(x) {
     $.ajax({
@@ -790,7 +794,7 @@ function openUpdateDeleteLocationModal(x) {
                     id: x
                     },
         success: function(result) {	
-            $('#inputLocation').val(result['data'][0]['name']);      
+            $('#inputLocation').val(result.data[0].name);      
             $('#locationUpdateOrDelete').modal('show');       
         
             $('#updateOrDeleteLocation').modal('show');       
@@ -881,10 +885,10 @@ function checkLocationID(id) {
                 success: function(result) {					
                     let menu = [];
                     let menuItem = '';                                             
-                    result['data'].forEach(element => {
-                        menuItem = `<tr id=${element['id']} class="rowClick"><td>${element['name']}</td></tr>`;
+                    result.data.forEach(element => {
+                        menuItem = `<tr id=${element.id} class="rowClick"><td>${element.name}</td></tr>`;
                         menu.push(menuItem);
-                    })
+                    });
                     $(modalID).html(menu);
     
     

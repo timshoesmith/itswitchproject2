@@ -110,5 +110,7 @@ table {
   table-layout: fixed;
   max-height: 80vh;
 }
- 
+td {
+  word-break:break-word!important;
+}
  
